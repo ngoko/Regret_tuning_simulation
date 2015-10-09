@@ -1,4 +1,4 @@
-
+import random
 
 class RegretTuning:
 
@@ -68,6 +68,53 @@ class RegretTuning:
     if(conf_eval > 0):
 	results.append(opt_cost)
     return results
+
+
+  def get_runtime_Rand_1D(self, runtime):
+'''
+   Return the local runtime of configurations found by the 
+   random oracle (configurations and benchmark are shuffled randomly)
+   With n configurations, the runtime is a vector of n/conf_per_slot elements
+'''
+    m = len(runtime[0,:])
+    n = len(runtime[:,0])
+    results = []
+
+#   shuffle the algorithms keys
+    akeys = []
+    for i in range(0, m):
+      akeys.append(i)
+    akeys = random.shuffle(akeys)
+#   shuffle  the instances  keys
+    ikeys = []
+    for i in range(0, n):
+      ikeys.append(i)
+    ikeys = random.shuffle(ikeys)
+    	
+    opt_cost = 0
+    opt_conf = 0
+    for i in range(0, n)
+	opt_cost += runtime[i,akeys[0]]      
+
+    results.append(opt_cost)
+    conf_eval = 0
+
+    for j in range(1, m):
+	cur_cost = 0       
+	i = 0        
+	while cur_cost <= opt_cost:
+	   cur_cost += runtime[ikeys[i],akeys[j]]	        
+	   i += 1	
+           conf_eval += 1
+           if (conf_eval ==  self.conf_per_slot):        
+             results.append(opt_cost)
+             conf_eval = 0
+        if(cur_cost < opt_cost):
+             opt_cost = cur_cost
+    if(conf_eval > 0):
+	results.append(opt_cost)
+    return results
+
            
 
   def integrate_regret(self, local_results_dist, regret_period):
