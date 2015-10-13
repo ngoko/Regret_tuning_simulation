@@ -122,7 +122,7 @@ class RegretTuning:
   def get_runtime_Rand_HardSoft(self, runtime):
 '''
    Return the local runtime of configurations found by the 
-   random oracle (configurations are shuffled randomly, benchmark are chosen randomly but 
+   random oracle (configurations are shuffled randomly, benchmark are chosen randomly  
    with hard instances in priority)
 '''
     m = len(runtime[0,:])
@@ -183,8 +183,8 @@ class RegretTuning:
   def get_runtime_Rand_W(self, runtime, k):
 '''
    Return the local runtime of configurations found by the 
-   random oracle (configurations are shuffled randomly, benchmark are chosen randomly but 
-   with hard instances in priority)
+   random oracle (configurations are shuffled randomly, benchmark are chosen randomly 
+   with the windom of losers and hard instances in priority)
    k defines the number of partitions for the k interesection problems.
 '''
     m = len(runtime[0,:])
@@ -251,6 +251,69 @@ class RegretTuning:
 	results.append(opt_cost)
     return results
 
+
+
+  def get_runtime_Rand_W_noHard(self, runtime, k):
+'''
+   Return the local runtime of configurations found by the 
+   random oracle (configurations are shuffled randomly, benchmark are chosen with the wisdom
+   of losers)
+   k defines the number of partitions for the k interesection problems.
+'''
+    m = len(runtime[0,:])
+    n = len(runtime[:,0])
+    results = []
+    delta = []
+    delta_l = []
+
+    l_index = 0
+
+#   shuffle the algorithms keys
+    akeys = []
+    for i in range(0, m):
+      akeys.append(i)
+    akeys = random.shuffle(akeys)
+    	
+    opt_cost = 0
+    opt_conf = 0
+    for i in range(0, n):
+	opt_cost += runtime[i,akeys[0]]      
+        delta[i,0] = runtime[i,akeys[0]]      
+
+    results.append(opt_cost)
+	
+    conf_eval = 0
+
+    for j in range(1, m):
+#       separate instances in hard and softs 
+        ikeys = self.separate_wisdom(k, delta_l, n)
+
+	cur_cost = 0       
+	i = 0
+        for u in range(0,n):
+          delta[u,j] = -1         
+	while (cur_cost <= opt_cost & i < n):
+	   cur_cost += runtime[ikeys[i],akeys[j]]	        
+           delta[ikeys[i],j] = runtime[ikeys[i],akeys[j]]
+	   i += 1	
+           conf_eval += 1
+           if (conf_eval ==  self.conf_per_slot):        
+             results.append(opt_cost)
+             conf_eval = 0
+
+        if(cur_cost < opt_cost):
+             opt_cost = cur_cost
+   
+        if (i < n-1):
+          for u in range(0,n):
+            delta_l[u, l_index] = delta[u,j]
+          l_index++
+
+                   
+    if(conf_eval > 0):
+	results.append(opt_cost)
+    return results
+
            
   def separate_hard_soft(delta_w, n):
 '''
@@ -305,6 +368,32 @@ class RegretTuning:
         keys.append(e)
     return keys
 	
+
+  def separate_wisdom(k, delta_l, n):
+'''
+   Based on the runtime in delta[akeys[0]..akeys[j]]
+   separate the instances with the wisdom of the loser
+'''
+    randkeys = []
+    for i in range(0,n):
+      randkeys[i] = i
+    if(len(delta_l) == 0):
+      return random.shuffle(randkeys)
+    
+    set_delta_l = []
+    for i in range(0,n):
+      set_delta_l[i] = Set([])
+      for j in range(0, len(delta_l[i])):
+        if(delta_l[i,j] != -1):
+          set_delta_l[i].add(delta_l[i,j])
+    randkeys = random.shuffle(randkeys)
+    wisdom_loser = random.shuffle(self.k_intersection(k, set_delta_l, n))
+    keys = [e for e in wisdom_loser]
+    for (e in randkeys): 
+      if not(e in wisdom_loser): 
+        keys.append(e)
+    return keys
+
 
   def k_intersection(k, set_delta_l, n)
 '''
