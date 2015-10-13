@@ -397,39 +397,38 @@ class RegretTuning:
 
   def k_intersection(k, set_delta_l, n)
 '''
-    result of the k_intersection algorithm on delta_l
+    results of the k_intersection algorithm on delta_l
 '''
     indices = []
     card  = []
     for i in range(0, n):
-      card[i] = len(set_delta_l[i])
+      price[i] = len(set_delta_l[i])
     opt = 0
     for i in range(1,n):
-      if (card[i] > card[opt]):
+      if (price[i] > price[opt]):
         opt = i
     indices.append(opt)
-    inter = set_delta_l[opt]
+    inter = set_delta_l[opt].copy()
+    set_delta_l[opt] = Set([])
 #  select the remaining k sets
     for j in range(1,k):
       opt = 0
       while (len(set_delta_l[opt]) == 0):
         opt++
       tmp = inter.copy()
-      card[opt] = len(tmp.intersection_update(set_delta_l[opt]))
+      price[opt] = len(tmp.intersection_update(set_delta_l[opt]))
       for i in range(1,n):
         if (len(set_delta_l[i]) > 0):
           tmp = inter.copy()
-          card[i] = len(tmp.intersection_update(set_delta_l[i]))       
+          price[i] = len(tmp.intersection_update(set_delta_l[i]))       
         else:
-          card[i] = 0
-        if (card[i] > card[opt]):
+          price[i] = 0
+        if (price[i] > price[opt]):
           opt = i
-      if (card[opt] > 0):
+      if (price[opt] > 0):
         indices.append(opt)
       inter = inter.intersection_update(set_delta_l[opt])
-      for i in range(0,n):
-        if(card[i] > 0):
-          set_delta_l[i].difference_update(set_delta_ l[opt])
+      set_delta_l[opt] = Set([])
 
      return indices
 
