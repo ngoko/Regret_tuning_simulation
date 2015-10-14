@@ -17,6 +17,8 @@ class RegretTuning:
 '''
     if 'method' in kwargs:
         self.method = kwargs['method']
+    else
+       self.method = 'lex'
     if 'datafile' in kwargs:
         self.datafile = kwargs['datafile']
     else:
@@ -452,3 +454,28 @@ class RegretTuning:
         else:
            d++
         results.append(local_results_dist[l_opt]-opt)
+
+  def run_method(self, method, regret_period):
+'''
+    compute the regret vector depending on the method
+'''
+   results = []
+   local_dist = []
+   if (method == 'lex'):
+     local_dist = self.get_runtime_Lex(self.runtime)
+   else:
+     if (method == 'rand'):
+       local_dist = self.get_runtime_Rand_Rand(self.runtime)
+     else:
+       if (method == 'randh')
+         local_dist = self.get_runtime_Rand_HardSoft(self.runtime)
+       else:
+         if (method == 'randw')
+           local_dist = self.get_runtime_Rand_W(self.runtime)
+         else:
+           if (method == 'randwnoh')
+             local_dist = self.get_runtime_Rand_W_noHard(self.runtime)
+           else:
+             raise ValueError("the argument'+ method +' is unknown')
+   results = self.integrate_regret(local_dist, regret_period)
+   return results
