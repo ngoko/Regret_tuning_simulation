@@ -159,7 +159,7 @@ class RegretTuning:
     results.append(opt_cost)
     delta_w = [[0 for i in range(0,m)] for j in range(0,n)]     
     for u in range(0,n):
-      delta_w[u][0] = delta[u][0]
+      delta_w[u][l_akeys[0]] = delta[u][l_akeys[0]]
     w_index = w_index+1
 
     conf_eval = 0
@@ -172,7 +172,7 @@ class RegretTuning:
 	i = 0
 	while (cur_cost <= opt_cost and i < n):
 	   cur_cost += runtime[l_ikeys[i]][l_akeys[j]]	        
-           delta[l_ikeys[i]][j] = runtime[l_ikeys[i]][l_akeys[j]]
+           delta[l_ikeys[i]][l_akeys[j]] = runtime[l_ikeys[i]][l_akeys[j]]
 	   i = i+1
            conf_eval += 1
            if (conf_eval ==  self.conf_per_slot):        
@@ -184,7 +184,7 @@ class RegretTuning:
    
         if (i == n-1):
             for u in range(0,n):
-              delta_w[u][w_index] = delta[u][j]
+              delta_w[u][w_index] = delta[u][l_akeys[j]]
             w_index+=1
                    
     if(conf_eval > 0):
@@ -222,7 +222,7 @@ class RegretTuning:
     results.append(opt_cost)
     delta_w = [[0 for i in range(0,m)] for j in range(0,n)]     
     for u in range(0,n):
-      delta_w[u][0] = delta[u][0]
+      delta_w[u][l_akeys[0]] = delta[u][l_akeys[0]]
     w_index = w_index+1
 
     conf_eval = 0
@@ -235,7 +235,7 @@ class RegretTuning:
 	i = 0
 	while (cur_cost <= opt_cost and i < n):
 	   cur_cost += runtime[l_ikeys[i]][l_akeys[j]]	        
-           delta[l_ikeys[i]][j] = runtime[l_ikeys[i]][l_akeys[j]]
+           delta[l_ikeys[i]][l_akeys[j]] = runtime[l_ikeys[i]][l_akeys[j]]
 	   i = i+1
            conf_eval += 1
            if (conf_eval ==  self.conf_per_slot):        
@@ -247,7 +247,7 @@ class RegretTuning:
    
         if (i == n-1):
             for u in range(0,n):
-              delta_w[u][w_index] = delta[u][j]
+              delta_w[u][w_index] = delta[u][l_akeys[j]]
             w_index+=1
                    
     if(conf_eval > 0):
@@ -273,35 +273,34 @@ class RegretTuning:
     l_index = 0
 
 #   shuffle the algorithms keys
-    akeys = []
-    for i in range(0, m):
-      akeys.append(i)
-    random.shuffle(akeys)
+    l_akeys = [self.akeys[i] for i in range(0, m)]
+    random.shuffle(l_akeys)
+    l_ikeys = [self.ikeys[i] for i in range(0, n)]
+    random.shuffle(l_ikeys)
     	
     opt_cost = 0
     opt_conf = 0
     for i in range(0, n):
-	opt_cost += runtime[i][akeys[0]]      
-        delta[i,0] = runtime[i][akeys[0]]      
+	opt_cost += runtime[l_keys[i]][l_akeys[0]]      
+        delta[self.ikeys[i]][l_akeys[0]] = runtime[l_ikeys[i]][l_akeys[0]]      
 
     results.append(opt_cost)
     for u in range(0,n):
-      delta_w[u, 0] = delta[u,0]
+      delta_w[u][l_akeys[0]] = delta[u][l_akeys[0]]
     w_index +=1
 	
     conf_eval = 0
 
     for j in range(1, m):
 #       separate instances in hard and softs 
-        ikeys = self.separate_wisdom_hard_soft(k, delta_w, delta_l, n)
-
+        l_ikeys = self.separate_wisdom_hard_soft(k, delta_w, delta_l, n)
 	cur_cost = 0       
 	i = 0
         for u in range(0,n):
-          delta[u,j] = -1         
+          delta[u][l_akeys[j]] = -1         
 	while (cur_cost <= opt_cost and i < n):
-	   cur_cost += runtime[ikeys[i]][akeys[j]]	        
-           delta[ikeys[i],j] = runtime[ikeys[i]][akeys[j]]
+	   cur_cost += runtime[l_ikeys[i]][l_akeys[j]]	        
+           delta[l_ikeys[i]][l_akeys[j]] = runtime[l_ikeys[i]][l_akeys[j]]
 	   i += 1	
            conf_eval += 1
            if (conf_eval ==  self.conf_per_slot):        
@@ -313,11 +312,11 @@ class RegretTuning:
    
         if (i == n-1):
           for u in range(0,n):
-            delta_w[u, w_index] = delta[u,j]
+            delta_w[u][w_index] = delta[u][l_akeys[j]]
           w_index +=1
         else:
           for u in range(0,n):
-            delta_l[u, l_index] = delta[u,j]
+            delta_l[u][l_index] = delta[u][l_akeys[j]]
           l_index +=1
 
 
@@ -344,32 +343,28 @@ class RegretTuning:
     l_index = 0
 
 #   shuffle the algorithms keys
-    akeys = []
-    for i in range(0, m):
-      akeys.append(i)
-    random.shuffle(akeys)
+    l_akeys = [self.akeys[i] for i in range(0, m)]
+    random.shuffle(l_akeys)
+    l_ikeys = [self.ikeys[i] for i in range(0, n)]
+    random.shuffle(l_ikeys)
     	
     opt_cost = 0
     opt_conf = 0
     for i in range(0, n):
-	opt_cost += runtime[i][akeys[0]]      
-        delta[i,0] = runtime[i][akeys[0]]      
-
+	opt_cost += runtime[l_keys[i]][l_akeys[0]]      
+        delta[self.ikeys[i]][l_akeys[0]] = runtime[l_ikeys[i]][l_akeys[0]]      
     results.append(opt_cost)
-	
     conf_eval = 0
-
     for j in range(1, m):
 #       separate instances in hard and softs 
-        ikeys = self.separate_wisdom(k, delta_l, n)
-
+        l_ikeys = self.separate_wisdom(k, delta_l, n)
 	cur_cost = 0       
 	i = 0
         for u in range(0,n):
-          delta[u,j] = -1         
+          delta[u][l_akeys[j]] = -1         
 	while (cur_cost <= opt_cost and i < n):
-	   cur_cost += runtime[ikeys[i]][akeys[j]]	        
-           delta[ikeys[i],j] = runtime[ikeys[i]][akeys[j]]
+	   cur_cost += runtime[l_ikeys[i]][l_akeys[j]]	        
+           delta[l_ikeys[i]][l_akeys[j]] = runtime[l_ikeys[i]][l_akeys[j]]
 	   i += 1	
            conf_eval += 1
            if (conf_eval ==  self.conf_per_slot):        
@@ -381,7 +376,7 @@ class RegretTuning:
    
         if (i < n-1):
           for u in range(0,n):
-            delta_l[u, l_index] = delta[u,j]
+            delta_l[u][l_index] = delta[u][l_akeys[j]]
           l_index +=1
 
                    
@@ -572,7 +567,7 @@ class RegretTuning:
        results.append(regret_t)
     return results
 
-  def run_method(self, method, regret_period):
+  def run_method(self, method, regret_period, k=2):
    '''
      compute the regret vector depending on the method
    '''
@@ -585,7 +580,7 @@ class RegretTuning:
    elif (method == 'rand'):
      local_dist = self.get_runtime_Rand_HardSoft(self.runtime)
    elif (method == 'randw'):
-     local_dist = self.get_runtime_Rand_W(self.runtime)
+     local_dist = self.get_runtime_Rand_W(self.runtime, k)
    elif (method == 'randwnoh'):
      local_dist = self.get_runtime_Rand_W_noHard(self.runtime)
    elif (method == 'randsort'):
