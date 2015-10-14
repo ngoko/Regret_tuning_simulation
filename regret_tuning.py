@@ -494,7 +494,7 @@ class RegretTuning:
     for i in range(0,n):
       set_delta_l[i] = Set([])
       for j in range(0, len(delta_l[i])):
-        if(delta_l[i,j] != -1):
+        if(delta_l[i][j] != -1):
           set_delta_l[i].add(delta_l[i,j])
     random.shuffle(randkeys)
     wisdom_loser = self.k_intersection(k, set_delta_l, n)
