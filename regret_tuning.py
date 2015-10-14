@@ -192,6 +192,69 @@ class RegretTuning:
     return results
 
 
+  def get_runtime_Rand_HardSoft_sort(self, runtime):
+    '''
+     Return the local runtime of configurations found by the 
+     random oracle (configurations are shuffled randomly, benchmark are chosen randomly  
+     with hard instances in priority)
+    '''
+    n = len(runtime)
+    m = len(runtime[0])
+    results = []
+    delta = []
+    delta_w = []
+
+    w_index = 0
+
+#   shuffle the algorithms keys
+    l_akeys = [self.akeys[i] for i in range(0, m)]
+    random.shuffle(l_akeys)
+    l_ikeys = [self.ikeys[i] for i in range(0, n)]
+    random.shuffle(l_ikeys)
+    	
+    opt_cost = 0
+    opt_conf = 0
+    delta = [[0 for i in range(0,m)] for j in range(0,n)] 
+    for i in range(0, n):
+	opt_cost += runtime[self.ikeys[i]][l_akeys[0]]      
+        delta[self.ikeys[i]][0] = runtime[self.ikeys[i]][l_akeys[0]]      
+
+    results.append(opt_cost)
+    delta_w = [[0 for i in range(0,m)] for j in range(0,n)]     
+    for u in range(0,n):
+      delta_w[u][0] = delta[u][0]
+    w_index = w_index+1
+
+    conf_eval = 0
+
+    for j in range(1, m):
+#       separate instances in hard and softs 
+        l_ikeys = self.separate_hard_soft_sort(delta_w, n)
+
+	cur_cost = 0       
+	i = 0
+	while (cur_cost <= opt_cost and i < n):
+	   cur_cost += runtime[l_ikeys[i]][l_akeys[j]]	        
+           delta[l_ikeys[i]][j] = runtime[l_ikeys[i]][l_akeys[j]]
+	   i = i+1
+           conf_eval += 1
+           if (conf_eval ==  self.conf_per_slot):        
+             results.append(opt_cost)
+             conf_eval = 0
+#        print i, j, cur_cost, opt_cost
+        if(cur_cost < opt_cost):
+             opt_cost = cur_cost
+   
+        if (i == n-1):
+            for u in range(0,n):
+              delta_w[u][w_index] = delta[u][j]
+            w_index+=1
+                   
+    if(conf_eval > 0):
+	results.append(opt_cost)
+    return results
+
+
   def get_runtime_Rand_W(self, runtime, k):
     '''
      Return the local runtime of configurations found by the 
@@ -336,8 +399,8 @@ class RegretTuning:
     k_means.fit(delta_w)
     centroids = k_means.cluster_centers_
     labels = k_means.labels_
-    norm1  = numpy.linalg.norm(centroids[0,:])
-    norm2  = numpy.linalg.norm(centroids[1,:])
+    norm1  = numpy.linalg.norm(centroids[0])
+    norm2  = numpy.linalg.norm(centroids[1])
 
     hard_index = 1
     if norm1 > norm2:
@@ -361,6 +424,42 @@ class RegretTuning:
 
     return keys
    
+
+
+  def separate_hard_soft_sort(self, delta_w, n):
+    '''
+     Based on the runtime in delta[akeys[0]..akeys[j]]
+     separate the instances in hard and softs
+    '''
+    k_means = KMeans(n_clusters=2)
+    k_means.fit(delta_w)
+    centroids = k_means.cluster_centers_
+    labels = k_means.labels_
+    norm1  = numpy.linalg.norm(centroids[0])
+    norm2  = numpy.linalg.norm(centroids[1])
+
+    hard_index = 1
+    if norm1 > norm2:
+      hard_index = 0
+   
+    hard = []
+    soft = []
+  
+    for i in range(0,n):
+      w = sum(delta_w[i])
+      if labels[i] == hard_index:
+        hard.append([i,w])
+      else:
+        soft.append([i,w])
+   
+    hard = sorted(hard, key = lambda e: e[1])
+    keys = [e[0] for e in hard]
+    soft = sorted(soft, key = lambda e: e[1]);
+    for e in soft:
+      keys.append(e[0])
+   
+
+    return keys
 
   def separate_wisdom_hard_soft(self, k, delta_w, delta_l, n):
     '''
@@ -481,19 +580,17 @@ class RegretTuning:
    local_dist = []
    if (method == 'lexnoshuf'):
      local_dist = self.get_runtime_Lex(self.runtime)
+   elif (method == 'lex'):
+     local_dist = self.get_runtime_Lex(self.runtime)
+   elif (method == 'rand'):
+     local_dist = self.get_runtime_Rand_HardSoft(self.runtime)
+   elif (method == 'randw'):
+     local_dist = self.get_runtime_Rand_W(self.runtime)
+   elif (method == 'randwnoh'):
+     local_dist = self.get_runtime_Rand_W_noHard(self.runtime)
+   elif (method == 'randsort'):
+     local_dist = self.get_runtime_Rand_HardSoft_sort(self.runtime)
    else:
-     if (method == 'lex'):
-       local_dist = self.get_runtime_Lex(self.runtime)
-     else:
-       if (method == 'rand'):
-         local_dist = self.get_runtime_Rand_HardSoft(self.runtime)
-       else:
-         if (method == 'randw'):
-           local_dist = self.get_runtime_Rand_W(self.runtime)
-         else:
-           if (method == 'randwnoh'):
-             local_dist = self.get_runtime_Rand_W_noHard(self.runtime)
-           else:
-             raise ValueError('the argument'+ method +' is unknown')
+     raise ValueError('the argument'+ method +' is unknown')
    results = self.integrate_regret(local_dist, regret_period)
    return results
