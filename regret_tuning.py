@@ -120,7 +120,7 @@ class RegretTuning:
            if (conf_eval ==  self.conf_per_slot):        
              results.append(opt_cost)
              conf_eval = 0
-        print i, j, cur_cost, opt_cost
+#        print i, j, cur_cost, opt_cost
         if(cur_cost < opt_cost):
              opt_cost = cur_cost
     if(conf_eval > 0):
@@ -144,18 +144,20 @@ class RegretTuning:
     w_index = 0
 
 #   shuffle the algorithms keys
-    l_akeys = [i for i in range(0, m)]
+    l_akeys = [self.akeys[i] for i in range(0, m)]
     random.shuffle(l_akeys)
-    l_ikeys = [i for i in range(0, n)]
+    l_ikeys = [self.ikeys[i] for i in range(0, n)]
     random.shuffle(l_ikeys)
     	
     opt_cost = 0
     opt_conf = 0
+    delta = [[0 for i in range(0,m)] for j in range(0,n)] 
     for i in range(0, n):
-	opt_cost += runtime[self.ikeys[i]][l_akeys[self.akeys[0]]]      
-        delta[self.ikeys[i]][0] = runtime[self.ikeys[i]][l_akeys[self.akeys[0]]]      
+	opt_cost += runtime[self.ikeys[i]][l_akeys[0]]      
+        delta[self.ikeys[i]][0] = runtime[self.ikeys[i]][l_akeys[0]]      
 
     results.append(opt_cost)
+    delta_w = [[0 for i in range(0,m)] for j in range(0,n)]     
     for u in range(0,n):
       delta_w[u][0] = delta[u][0]
     w_index = w_index+1
@@ -164,19 +166,19 @@ class RegretTuning:
 
     for j in range(1, m):
 #       separate instances in hard and softs 
-        ikeys = self.separate_hard_soft(delta_w, n)
+        l_ikeys = self.separate_hard_soft(delta_w, n)
 
 	cur_cost = 0       
 	i = 0
 	while (cur_cost <= opt_cost and i < n):
-	   cur_cost += runtime[l_ikeys[self.ikeys[i]]][l_akeys[self.akeys[j]]]	        
-           delta[ikeys[self.ikeys[i]],j] = runtime[l_ikeys[self.ikeys[i]]][l_akeys[self.akeys[j]]]
+	   cur_cost += runtime[l_ikeys[i]][l_akeys[j]]	        
+           delta[l_ikeys[i]][j] = runtime[l_ikeys[i]][l_akeys[j]]
 	   i = i+1
            conf_eval += 1
            if (conf_eval ==  self.conf_per_slot):        
              results.append(opt_cost)
              conf_eval = 0
-
+#        print i, j, cur_cost, opt_cost
         if(cur_cost < opt_cost):
              opt_cost = cur_cost
    
@@ -325,7 +327,7 @@ class RegretTuning:
     return results
 
            
-  def separate_hard_soft(delta_w, n):
+  def separate_hard_soft(self, delta_w, n):
     '''
      Based on the runtime in delta[akeys[0]..akeys[j]]
      separate the instances in hard and softs
@@ -360,7 +362,7 @@ class RegretTuning:
     return keys
    
 
-  def separate_wisdom_hard_soft(k, delta_w, delta_l, n):
+  def separate_wisdom_hard_soft(self, k, delta_w, delta_l, n):
     '''
      Based on the runtime in delta[akeys[0]..akeys[j]]
      separate the instances in hard and softs but include the wisdom of the loser
