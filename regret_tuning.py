@@ -115,12 +115,11 @@ class RegretTuning:
            if (conf_eval ==  self.conf_per_slot):        
              results.append(opt_cost)
              conf_eval = 0
-        print i, j, cur_cost, opt_cost
+#        print i, j, cur_cost, opt_cost
         if(cur_cost < opt_cost):
              opt_cost = cur_cost
     if(conf_eval > 0):
 	results.append(opt_cost)
-    print len(results)
     return results
 
 
