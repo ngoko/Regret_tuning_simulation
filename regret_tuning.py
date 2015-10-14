@@ -73,6 +73,7 @@ class RegretTuning:
            if (conf_eval ==  self.conf_per_slot):        
              results.append(opt_cost)
              conf_eval = 0
+        print i, j, cur_cost, opt_cost
         if(cur_cost < opt_cost):
              opt_cost = cur_cost
     if(conf_eval > 0):
@@ -80,7 +81,7 @@ class RegretTuning:
     return results
 
 
-  def get_runtime_Rand_Rand(self, runtime):
+  def get_runtime_Lex_Rand(self, runtime):
     '''
      Return the local runtime of configurations found by the 
      random oracle (configurations and benchmark are shuffled randomly)
@@ -90,15 +91,11 @@ class RegretTuning:
     results = []
 
 #   shuffle the algorithms keys
-    akeys = []
-    for i in range(0, m):
-      akeys.append(i)
-    akeys = random.shuffle(akeys)
+    akeys = [i for i in range(0, m)]
+    random.shuffle(akeys)
 #   shuffle  the instances  keys
-    ikeys = []
-    for i in range(0, n):
-      ikeys.append(i)
-    ikeys = random.shuffle(ikeys)
+    ikeys = [i for i in range(0, n)]
+    random.shuffle(ikeys)
     	
     opt_cost = 0
     opt_conf = 0
@@ -118,10 +115,12 @@ class RegretTuning:
            if (conf_eval ==  self.conf_per_slot):        
              results.append(opt_cost)
              conf_eval = 0
+        print i, j, cur_cost, opt_cost
         if(cur_cost < opt_cost):
              opt_cost = cur_cost
     if(conf_eval > 0):
 	results.append(opt_cost)
+    print len(results)
     return results
 
 
@@ -144,7 +143,7 @@ class RegretTuning:
     akeys = []
     for i in range(0, m):
       akeys.append(i)
-    akeys = random.shuffle(akeys)
+    random.shuffle(akeys)
     	
     opt_cost = 0
     opt_conf = 0
@@ -208,7 +207,7 @@ class RegretTuning:
     akeys = []
     for i in range(0, m):
       akeys.append(i)
-    akeys = random.shuffle(akeys)
+    random.shuffle(akeys)
     	
     opt_cost = 0
     opt_conf = 0
@@ -279,7 +278,7 @@ class RegretTuning:
     akeys = []
     for i in range(0, m):
       akeys.append(i)
-    akeys = random.shuffle(akeys)
+    random.shuffle(akeys)
     	
     opt_cost = 0
     opt_conf = 0
@@ -347,8 +346,9 @@ class RegretTuning:
       else:
         soft.append(i)
    
-    keys = random.shuffle(hard)
-    soft = random.shuffle(soft);
+    random.shuffle(hard)
+    keys = [e for e in hard]
+    random.shuffle(soft);
     for e in soft:
       keys.append(e)
    
@@ -368,7 +368,8 @@ class RegretTuning:
       for j in range(0, len(delta_l[i])):
         if(delta_l[i,j] != -1):
           set_delta_l[i].add(delta_l[i,j])
-    wisdom_loser = random.shuffle(self.k_intersection(k, set_delta_l, n))
+    wisdom_loser = self.k_intersection(k, set_delta_l, n)
+    random.shuffle(wisdom_loser)
     keys = [e for e in wisdom_loser]
     for e in hard_soft : 
       if not (e in wisdom_loser) :
@@ -385,7 +386,8 @@ class RegretTuning:
     for i in range(0,n):
       randkeys[i] = i
     if(len(delta_l) == 0):
-      return random.shuffle(randkeys)
+      random.shuffle(randkeys)
+      return randkeys
     
     set_delta_l = []
     for i in range(0,n):
@@ -393,8 +395,9 @@ class RegretTuning:
       for j in range(0, len(delta_l[i])):
         if(delta_l[i,j] != -1):
           set_delta_l[i].add(delta_l[i,j])
-    randkeys = random.shuffle(randkeys)
-    wisdom_loser = random.shuffle(self.k_intersection(k, set_delta_l, n))
+    random.shuffle(randkeys)
+    wisdom_loser = self.k_intersection(k, set_delta_l, n)
+    random.shuffle(wisdom_loser)
     keys = [e for e in wisdom_loser]
     for e in randkeys : 
       if not(e in wisdom_loser): 
@@ -449,16 +452,19 @@ class RegretTuning:
     '''
     opt = min(local_results_dist) 
     results = []
-    results.append(local_results_dist[0]-opt)
+    regret_t = local_results_dist[0]-opt
+    dist_last_index = len(local_results_dist)-1
+    results.append(regret_t)
     d = 1
     l_opt = 0
     for i in range(1, regret_period):
-        if(d == self.request_time_slot):
-           l_opt +=1
-           d = 1
-        else:
-           d +=1
-        results.append(local_results_dist[l_opt]-opt)
+       if(d == self.request_time_slot):
+          l_opt +=1
+          d = 1
+       else:
+          d +=1
+       regret_t += local_results_dist[min(l_opt,dist_last_index)]-opt
+       results.append(regret_t)
     return results
 
   def run_method(self, method, regret_period):
@@ -470,10 +476,10 @@ class RegretTuning:
    if (method == 'lex'):
      local_dist = self.get_runtime_Lex(self.runtime)
    else:
-     if (method == 'rand'):
-       local_dist = self.get_runtime_Rand_Rand(self.runtime)
+     if (method == 'lexrand'):
+       local_dist = self.get_runtime_Lex_Rand(self.runtime)
      else:
-       if (method == 'randh'):
+       if (method == 'rand'):
          local_dist = self.get_runtime_Rand_HardSoft(self.runtime)
        else:
          if (method == 'randw'):
