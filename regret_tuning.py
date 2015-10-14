@@ -159,7 +159,7 @@ class RegretTuning:
     results.append(opt_cost)
     delta_w = [[0 for i in range(0,m)] for j in range(0,n)]     
     for u in range(0,n):
-      delta_w[u][l_akeys[0]] = delta[u][l_akeys[0]]
+      delta_w[u][0] = delta[u][0]
     w_index = w_index+1
 
     conf_eval = 0
@@ -172,7 +172,7 @@ class RegretTuning:
 	i = 0
 	while (cur_cost <= opt_cost and i < n):
 	   cur_cost += runtime[l_ikeys[i]][l_akeys[j]]	        
-           delta[l_ikeys[i]][l_akeys[j]] = runtime[l_ikeys[i]][l_akeys[j]]
+           delta[l_ikeys[i]][j] = runtime[l_ikeys[i]][l_akeys[j]]
 	   i = i+1
            conf_eval += 1
            if (conf_eval ==  self.conf_per_slot):        
@@ -184,7 +184,7 @@ class RegretTuning:
    
         if (i == n-1):
             for u in range(0,n):
-              delta_w[u][w_index] = delta[u][l_akeys[j]]
+              delta_w[u][w_index] = delta[u][j]
             w_index+=1
                    
     if(conf_eval > 0):
@@ -222,7 +222,7 @@ class RegretTuning:
     results.append(opt_cost)
     delta_w = [[0 for i in range(0,m)] for j in range(0,n)]     
     for u in range(0,n):
-      delta_w[u][l_akeys[0]] = delta[u][l_akeys[0]]
+      delta_w[u][0] = delta[u][0]
     w_index = w_index+1
 
     conf_eval = 0
@@ -235,7 +235,7 @@ class RegretTuning:
 	i = 0
 	while (cur_cost <= opt_cost and i < n):
 	   cur_cost += runtime[l_ikeys[i]][l_akeys[j]]	        
-           delta[l_ikeys[i]][l_akeys[j]] = runtime[l_ikeys[i]][l_akeys[j]]
+           delta[l_ikeys[i]][j] = runtime[l_ikeys[i]][l_akeys[j]]
 	   i = i+1
            conf_eval += 1
            if (conf_eval ==  self.conf_per_slot):        
@@ -247,7 +247,7 @@ class RegretTuning:
    
         if (i == n-1):
             for u in range(0,n):
-              delta_w[u][w_index] = delta[u][l_akeys[j]]
+              delta_w[u][w_index] = delta[u][j]
             w_index+=1
                    
     if(conf_eval > 0):
@@ -280,15 +280,16 @@ class RegretTuning:
     	
     opt_cost = 0
     opt_conf = 0
+    delta = [[0 for i in range(0,m)] for j in range(0,n)] 
     for i in range(0, n):
-	opt_cost += runtime[l_keys[i]][l_akeys[0]]      
-        delta[self.ikeys[i]][l_akeys[0]] = runtime[l_ikeys[i]][l_akeys[0]]      
+	opt_cost += runtime[self.ikeys[i]][l_akeys[0]]      
+        delta[self.ikeys[i]][0] = runtime[self.ikeys[i]][l_akeys[0]]      
 
     results.append(opt_cost)
+    delta_w = [[0 for i in range(0,m)] for j in range(0,n)]     
     for u in range(0,n):
-      delta_w[u][l_akeys[0]] = delta[u][l_akeys[0]]
+      delta_w[u][0] = delta[u][0]
     w_index +=1
-	
     conf_eval = 0
 
     for j in range(1, m):
@@ -300,7 +301,7 @@ class RegretTuning:
           delta[u][l_akeys[j]] = -1         
 	while (cur_cost <= opt_cost and i < n):
 	   cur_cost += runtime[l_ikeys[i]][l_akeys[j]]	        
-           delta[l_ikeys[i]][l_akeys[j]] = runtime[l_ikeys[i]][l_akeys[j]]
+           delta[l_ikeys[i]][j] = runtime[l_ikeys[i]][j]
 	   i += 1	
            conf_eval += 1
            if (conf_eval ==  self.conf_per_slot):        
@@ -312,11 +313,11 @@ class RegretTuning:
    
         if (i == n-1):
           for u in range(0,n):
-            delta_w[u][w_index] = delta[u][l_akeys[j]]
+            delta_w[u][w_index] = delta[u][j]
           w_index +=1
         else:
           for u in range(0,n):
-            delta_l[u][l_index] = delta[u][l_akeys[j]]
+            delta_l[u][l_index] = delta[u][j]
           l_index +=1
 
 
@@ -462,11 +463,11 @@ class RegretTuning:
      separate the instances in hard and softs but include the wisdom of the loser
     '''
     hard_soft = self.separate_hard_soft(delta_w, n)
-    set_delta_l = []
+    set_delta_l = [Set([]) for i in range(0,n)]
     for i in range(0,n):
-      set_delta_l[i] = Set([])
+
       for j in range(0, len(delta_l[i])):
-        if(delta_l[i,j] != -1):
+        if(delta_l[i][j] != -1):
           set_delta_l[i].add(delta_l[i,j])
     wisdom_loser = self.k_intersection(k, set_delta_l, n)
     random.shuffle(wisdom_loser)
