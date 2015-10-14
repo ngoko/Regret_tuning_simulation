@@ -5,5 +5,5 @@ regret_period = 600*72
 r.shuffle_data()
 #v = r.run_method('lex', regret_period)
 #print max(v)
-v = r.run_method('lex', regret_period)
+v = r.run_method('rand', regret_period)
 print max(v)
