@@ -1,0 +1,993 @@
+
+%% bare_conf.tex
+%% V1.3
+%% 2007/01/11
+%% by Michael Shell
+%% See:
+%% http://www.michaelshell.org/
+%% for current contact information.
+%%
+%% This is a skeleton file demonstrating the use of IEEEtran.cls
+%% (requires IEEEtran.cls version 1.7 or later) with an IEEE conference paper.
+%%
+%% Support sites:
+%% http://www.michaelshell.org/tex/ieeetran/
+%% http://www.ctan.org/tex-archive/macros/latex/contrib/IEEEtran/
+%% and
+%% http://www.ieee.org/
+
+%%*************************************************************************
+%% Legal Notice:
+%% This code is offered as-is without any warranty either expressed or
+%% implied; without even the implied warranty of MERCHANTABILITY or
+%% FITNESS FOR A PARTICULAR PURPOSE! 
+%% User assumes all risk.
+%% In no event shall IEEE or any contributor to this code be liable for
+%% any damages or losses, including, but not limited to, incidental,
+%% consequential, or any other damages, resulting from the use or misuse
+%% of any information contained here.
+%%
+%% All comments are the opinions of their respective authors and are not
+%% necessarily endorsed by the IEEE.
+%%
+%% This work is distributed under the LaTeX Project Public License (LPPL)
+%% ( http://www.latex-project.org/ ) version 1.3, and may be freely used,
+%% distributed and modified. A copy of the LPPL, version 1.3, is included
+%% in the base LaTeX documentation of all distributions of LaTeX released
+%% 2003/12/01 or later.
+%% Retain all contribution notices and credits.
+%% ** Modified files should be clearly indicated as such, including  **
+%% ** renaming them and changing author support contact information. **
+%%
+%% File list of work: IEEEtran.cls, IEEEtran_HOWTO.pdf, bare_adv.tex,
+%%                    bare_conf.tex, bare_jrnl.tex, bare_jrnl_compsoc.tex
+%%*************************************************************************
+
+% *** Authors should verify (and, if needed, correct) their LaTeX system  ***
+% *** with the testflow diagnostic prior to trusting their LaTeX platform ***
+% *** with production work. IEEE's font choices can trigger bugs that do  ***
+% *** not appear when using other class files.                            ***
+% The testflow support page is at:
+% http://www.michaelshell.org/tex/testflow/
+
+
+
+% Note that the a4paper option is mainly intended so that authors in
+% countries using A4 can easily print to A4 and see how their papers will
+% look in print - the typesetting of the document will not typically be
+% affected with changes in paper size (but the bottom and side margins will).
+% Use the testflow package mentioned above to verify correct handling of
+% both paper sizes by the user's LaTeX system.
+%
+% Also note that the "draftcls" or "draftclsnofoot", not "draft", option
+% should be used if it is desired that the figures are to be displayed in
+% draft mode.
+%
+\documentclass[10pt, conference, compsocconf]{IEEEtran}
+% Add the compsocconf option for Computer Society conferences.
+%
+% If IEEEtran.cls has not been installed into the LaTeX system files,
+% manually specify the path to it like:
+% \documentclass[conference]{../sty/IEEEtran}
+
+
+
+
+
+% Some very useful LaTeX packages include:
+% (uncomment the ones you want to load)
+
+
+% *** MISC UTILITY PACKAGES ***
+%
+%\usepackage{ifpdf}
+% Heiko Oberdiek's ifpdf.sty is very useful if you need conditional
+% compilation based on whether the output is pdf or dvi.
+% usage:
+% \ifpdf
+%   % pdf code
+% \else
+%   % dvi code
+% \fi
+% The latest version of ifpdf.sty can be obtained from:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/oberdiek/
+% Also, note that IEEEtran.cls V1.7 and later provides a builtin
+% \ifCLASSINFOpdf conditional that works the same way.
+% When switching from latex to pdflatex and vice-versa, the compiler may
+% have to be run twice to clear warning/error messages.
+
+
+
+
+
+
+% *** CITATION PACKAGES ***
+%
+%\usepackage{cite}
+% cite.sty was written by Donald Arseneau
+% V1.6 and later of IEEEtran pre-defines the format of the cite.sty package
+% \cite{} output to follow that of IEEE. Loading the cite package will
+% result in citation numbers being automatically sorted and properly
+% "compressed/ranged". e.g., [1], [9], [2], [7], [5], [6] without using
+% cite.sty will become [1], [2], [5]--[7], [9] using cite.sty. cite.sty's
+% \cite will automatically add leading space, if needed. Use cite.sty's
+% noadjust option (cite.sty V3.8 and later) if you want to turn this off.
+% cite.sty is already installed on most LaTeX systems. Be sure and use
+% version 4.0 (2003-05-27) and later if using hyperref.sty. cite.sty does
+% not currently provide for hyperlinked citations.
+% The latest version can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/cite/
+% The documentation is contained in the cite.sty file itself.
+
+
+
+
+
+
+% *** GRAPHICS RELATED PACKAGES ***
+%
+\ifCLASSINFOpdf
+  % \usepackage[pdftex]{graphicx}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../pdf/}{../jpeg/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  % \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+\else
+  % or other class option (dvipsone, dvipdf, if not using dvips). graphicx
+  % will default to the driver specified in the system graphics.cfg if no
+  % driver is specified.
+  % \usepackage[dvips]{graphicx}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../eps/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  % \DeclareGraphicsExtensions{.eps}
+\fi
+% graphicx was written by David Carlisle and Sebastian Rahtz. It is
+% required if you want graphics, photos, etc. graphicx.sty is already
+% installed on most LaTeX systems. The latest version and documentation can
+% be obtained at: 
+% http://www.ctan.org/tex-archive/macros/latex/required/graphics/
+% Another good source of documentation is "Using Imported Graphics in
+% LaTeX2e" by Keith Reckdahl which can be found as epslatex.ps or
+% epslatex.pdf at: http://www.ctan.org/tex-archive/info/
+%
+% latex, and pdflatex in dvi mode, support graphics in encapsulated
+% postscript (.eps) format. pdflatex in pdf mode supports graphics
+% in .pdf, .jpeg, .png and .mps (metapost) formats. Users should ensure
+% that all non-photo figures use a vector format (.eps, .pdf, .mps) and
+% not a bitmapped formats (.jpeg, .png). IEEE frowns on bitmapped formats
+% which can result in "jaggedy"/blurry rendering of lines and letters as
+% well as large increases in file sizes.
+%
+% You can find documentation about the pdfTeX application at:
+% http://www.tug.org/applications/pdftex
+
+
+
+
+
+% *** MATH PACKAGES ***
+%
+
+\usepackage[cmex10]{amsmath}
+\usepackage{tikz}
+ 
+\definecolor{bluekeywords}{rgb}{0,0,1}
+\definecolor{greencomments}{rgb}{0,0.5,0}
+\definecolor{redstrings}{rgb}{0.64,0.08,0.08}
+\definecolor{xmlcomments}{rgb}{0.5,0.5,0.5}
+\definecolor{types}{rgb}{0.17,0.57,0.68}
+
+\usepackage{listings}
+\lstset{language=[Sharp]C,
+captionpos=b,
+numbers=left, %Nummerierung
+numberstyle=\tiny, % kleine Zeilennummern
+frame=lines, % Oberhalb und unterhalb des Listings ist eine Linie
+showspaces=false,
+showtabs=false,
+breaklines=true,
+showstringspaces=false,
+breakatwhitespace=true,
+escapeinside={(*@}{@*)},
+commentstyle=\color{greencomments},
+morekeywords={partial, var, value, get, set},
+keywordstyle=\color{bluekeywords},
+stringstyle=\color{redstrings},
+basicstyle=\scriptsize,
+}
+
+\usepackage[]{algorithm}
+\usepackage{algorithmic}
+
+
+% correct bad hyphenation here
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{property}[theorem]{Property}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{assumption}[theorem]{Assumption}
+
+
+
+\begin{document}
+%
+% paper title
+% can use linebreaks \\ within to get better formatting as desired
+\title{An automatic tuning system for exponential and NP-hard algorithms in a cloud context}
+
+
+% author names and affiliations
+% use a multiple column layout for up to two different
+% affiliations
+
+\author{\IEEEauthorblockN{Yanik Ngoko}
+\IEEEauthorblockA{Qarnot Computing and University of Paris 13\\
+Paris, France\\
+yanik.ngoko@\{qarnot-computing.com, lipn.univ-paris13.fr\}}
+\and 
+\IEEEauthorblockN{Denis Trystram}
+\IEEEauthorblockA{LIG, Grenoble University\\
+Grenoble, France\\
+denis.trystram@imag.fr}
+\and 
+\IEEEauthorblockN{Christophe C\'erin}
+\IEEEauthorblockA{LIPN, University of Paris 13\\
+Paris, France\\
+christophe.cerin@lipn.univ-paris13.fr}
+
+}
+
+%\author{\IEEEauthorblockN{Yanik Ngoko}
+%\IEEEauthorblockA{Qarnot Computing and University of Paris 13\\
+%Paris, France\\
+%yanik.ngoko@\{qarnot-computing.com, lipn.univ-paris13.fr\}}
+%\and
+%\IEEEauthorblockN{Christophe C\'erin}
+%\IEEEauthorblockA{University of Paris 13\\
+%Paris, France\\
+%christophe.cerin@lipn.univ-paris13.fr}
+%}
+
+
+% conference papers do not typically use \thanks and this command
+% is locked out in conference mode. If really needed, such as for
+% the acknowledgment of grants, issue a \IEEEoverridecommandlockouts
+% after \documentclass
+
+% for over three affiliations, or if they all won't fit within the width
+% of the page, use this alternative format:
+% 
+%\author{\IEEEauthorblockN{Michael Shell\IEEEauthorrefmark{1},
+%Homer Simpson\IEEEauthorrefmark{2},
+%James Kirk\IEEEauthorrefmark{3}, 
+%Montgomery Scott\IEEEauthorrefmark{3} and
+%Eldon Tyrell\IEEEauthorrefmark{4}}
+%\IEEEauthorblockA{\IEEEauthorrefmark{1}School of Electrical and Computer Engineering\\
+%Georgia Institute of Technology,
+%Atlanta, Georgia 30332--0250\\ Email: see http://www.michaelshell.org/contact.html}
+%\IEEEauthorblockA{\IEEEauthorrefmark{2}Twentieth Century Fox, Springfield, USA\\
+%Email: homer@thesimpsons.com}
+%\IEEEauthorblockA{\IEEEauthorrefmark{3}Starfleet Academy, San Francisco, California 96678-2391\\
+%Telephone: (800) 555--1212, Fax: (888) 555--1212}
+%\IEEEauthorblockA{\IEEEauthorrefmark{4}Tyrell Inc., 123 Replicant Street, Los Angeles, California 90210--4321}}
+
+
+
+
+% use for special paper notices
+%\IEEEspecialpapernotice{(Invited Paper)}
+
+
+
+
+% make the title area
+\maketitle
+
+
+\begin{abstract}
+
+Traditional automatic tuning systems are based on an exploration-exploitation tradeoff that uses  a reference benchmark 
+from which tuning parameters are computed throughout several runs of the benchmark entries on the algorithm to tune.
+On NP-hard and exponential algorithms, this vision is criticizable because of:  the hardness of finding a reference 
+benchmark and  the potential huge runtime of the exploration phase.
+In this paper, we introduce QTuning, a new automatic tuning  system specially designed for exponential and NP-hard 
+algorithms. As traditional tuning systems, QTuning is based on benchmark runs. But this latter can always be modified. Moreover, 
+the system recovers the exploitation and exploitation phases. As a result, a cloud-service tuned with QTuning is constantly 
+evolving, because enriched by new optimal or suboptimal configurations discovered in the tuning process. 
+The realization of such a system raises several questions related to 
+exploration search, programming interface and partial results exploitation. This paper focuses 
+on these points. In particular, we describe the QTuning architecture and programming interface and formulate the challenge 
+in data exploration as a bi-dimensional random search problem that leads to an  NP-hard problem for data exploitation. 
+Finally, we discuss about an experimental 
+evaluation of the Qtuning system for the resolution of the satisfiability problem in a real cloud computing environment.
+
+
+\end{abstract}
+
+\begin{IEEEkeywords}
+Automatic tuning; Cloud Computing; Random search;  Maximum Subset Intersection.
+
+\end{IEEEkeywords}
+
+
+% For peer review papers, you can put extra information on the cover
+% page as needed:
+% \ifCLASSOPTIONpeerreview
+% \begin{center} \bfseries EDICS Category: 3-BBND \end{center}
+% \fi
+%
+% For peerreview papers, this IEEEtran command inserts a page break and
+% creates the second title. It will be ignored for other modes.
+\IEEEpeerreviewmaketitle
+
+
+
+\section{Introduction}
+
+The global objective of this study is to improve the performance of cloud-services in learning their optimal 
+configuration in an  in-situ context. We assume a  cloud-service  made of configurable 
+time-consuming algorithms like exponential algorithms or  NP-hard algorithms. We also 
+assume that the configurable algorithmic parameters are well identified and that benchmarks for their calibration exist. 
+In strickly using the cloud resources, our objective is to build an automatic tuning system that will find    
+the configurations that optimizes the cloud-service on runtime and/or energy consumption.
+
+The core problem that we address is not new. It was addressed in several past work with  
+dense and sparse linear algebra algorithms~\cite{ATLAS,Spiral}, sorting~\cite{Spiral} or Fast Fourier Transform~\cite{FFTW} 
+algorithms. Fundamental principles and techniques for automatic tuning have also been formulated in methods, 
+systems and frameworks~\cite{Rice,Tapus:2002:AHT:762761.762771,ansel:cases:2012}. Despite these contributions, our work bring 
+several novelties when considering the state-of-art of automatic tuning techniques. 
+
+Traditional automatic tuning systems use two kinds of techniques: {\it offline and runtime tuning}~\cite{Tichy:2014:APS:2636925.2636340}. 
+In both classes, the tuning is built upon an exploration-exploitation tradeoff where from an input algorithm $A(\vec{\theta})$ 
+and a reference benchmark $B$, one computes the optimal values of $\vec{\theta}$ that will minimize the runtime or energy 
+consumption induced by the processing of $A(.)$. After this exploration phase, the optimal parameter values are exploited 
+for solving any input of $A(.)$. 
+In the case of offline tuning, the exploration includes several runs of $A(.)$ on $B$ (for performance profiling) 
+and produces an optimal configuration $\vec{\theta}^{opt}$ to use for runing $A(.)$. 
+In runtime tuning, instead of an optimal configuration, the exploration generates a {\it decision function} 
+that on any input $I$ of $A(.)$ returns the optimal configuration $\vec{\theta}^{opt}(I)$ to use in its processing. 
+Offline and runtime tunings have been succesfully applied to many computational problems. However, we do believe that 
+these approaches are not suitable to exponential and NP-complete problems. 
+
+Our first disagreement comes from the fact that this exploration-exploitation tradeoff {\it requires a reference or representative 
+benchmark} that characterizes the {\it key features} of the inputs accepted by  $A(.)$. Unfortunately, on NP-hard problems, the great 
+diversity of problem instances makes it hard to reach a consensus on reference benchmark. International competitions like the annual SAT 
+competition~\footnote{http://www.satcompetition.org/} or DIMACS challenge tend to establish such references; but, one can notice 
+that their reference benchmarks change every year. 
+Our second disagreement comes from the fact that these two tuning techniques assume a profiling stage where performance of 
+algorithms are estimated on a reference benchmark. On exponential or NP-hard problem, this stage could take several days, 
+months or years. 
+
+
+In the light of these observations, we argue that the first difference between our work and prior ones is to think 
+automatic tuning in an alternative exploration-exploitation tradeoff, more suitable for NP-hard and exponential problems. 
+We formulate our alternative as the {\it infinite learning perspective for automatic tuning}. 
+In this vision, the tuning is not made of two separated phases of exploration and exploitation. Both phases co-exist 
+such that the tuned system evolve throughout the time with new optimal or sub-optimal configurations, discovered in the processing. 
+In addition, we reject the idea of a reference benchmark and prioritize the one of dynamic training sets that users 
+can configure and modify, on the fly, during the tuning. 
+ The implementatation of such a vision implies to invest specially on: 
+techniques for exploring the tuning parameters (we want to quickly find good values for parameters), massive data storage (the benchmark 
+can be {\it infinitely} large), programming interface (for connecting the algorithms to tune to new uploads of the tuning system) and partial results exploitation (we want to exploit while exploring). The system that we propose in this paper covers all these points. However, it is on the two last points that this paper focuses. 
+Let us observe that there exist work in which the perspective we described where almost envisioned. In particular, 
+there is the MATE system~\cite{DBLP:conf/para/MorajkoMCMS10} or the {\it tuned} plugin available in Linux (redhat). These systems 
+showed how to make evolve the setting of a system by collecting monitored data. However these work consider the long-term tuning more
+ as a monitoring process than a search problem.
+
+The second difference between our work and existing ones is that we consider functioning cloud-services to tune in-situ. 
+This means that the datacenter resources on which we operate is not dedicated to tuning. Therefore, the exploration process will  
+evolve in an agile setting where resources are not always available or execution faults could occur. 
+
+Summarizing, in this paper, we introduce QTuning, a new automatic tuning service that implements the infinite learning perspective for 
+tuning, in-situ, in a cloud context. The paper contribution focuses on: the general architecture of the system, the description of its 
+programming interface and algorithms for searching the best configuration. 
+On these last points, we formulate the challenge in exploration as a bi-dimensional random search problem that leads to 
+an NP-hard problem for data exploitation. Finally, we provide heuristic for data exploitation with an experimental evaluation. 
+
+The remainder of the paper is organized as follows. In Section~\ref{Motivation}, we explain the practical motivation of 
+our work. In Section~\ref{Related}, we discuss the related work. 
+In Section~\ref{Model}, we introduce the key automatic tuning concepts that are manipulated in QTuning. 
+The architecture of the system and its programming interface is presented in Section~\ref{Architecture}. 
+In Section~\ref{Exploration}, we discuss about the theoretical optimization of data exploration and exploitation in 
+QTuning. A practical validation is presented in Section~\ref{Proof-of-concept} and we conclude in 
+Section~\ref{Conclusion}.
+
+
+\section{Motivation} \label{Motivation}
+
+Our initial motivation for designing QTuning was to improve the {\it qombinatorics}~\footnote{qombinatorics.qarnot.net} 
+cloud service, available in the Qarnot Computing cloud~\footnote{http://www.qarnot-computing.com/}. Qombinatorics is a SaaS 
+developed by the Qarnot Computing Research team for the parallel resolution of NP-hard problems.
+
+The system is deployed in the Qarnot Computing cloud: a heating cloud for HPC that inovated in designing special radiators that produce heat from computations. The Qarnot cloud infrastructure consists of the network of radiators that are deployed in homes and are managed by a private resource manager (Qware) designed by the company. 
+In an economic viewpoint, the Qarnot business is based on two types of users: hosts interested in heating and HPC users interested 
+in computing. The objective is to use requirements in computations for supplying those in heating.
+However, it is obvious to notice that such a system is not always balanced. Typically, in winter, it can happen that we 
+do not have enough computations for heating. In these situations, the QTuning system is particularly interesting since it 
+can serve for pushing learning jobs that  will serve to improve the functioning of Qarnot services. 
+
+
+
+\section{Related work} \label{Related}
+
+As stated in the introduction, automatic tuning  is a well-investigated field. For a general survey on HPC systems based on 
+automatic tuning, the interested reader might take a look at the general report of the 2014 Dagstuhl seminary~\cite{benkner_et_al:DR:2014:4423}. 
+It is also important to notice that nowadays, automatic tuning, as well as  {\it parallelism} are considered by industrials as one of the 
+major strategy for the improvement of algorithmic performance. The invest on performance tuning of SQL requests made by major companies  
+like Oracle or IBM is an example~\cite{Oracle}. 
+
+Automatic tuning systems can be ranged in two classes: those that are {\it problem-specific} in the sense that the goal is to tune 
+specific algorithms or classes of parameters and those that are {\it problem-independent}. 
+
+In the first class, some convincing examples are: the ATLAS~\cite{ATLAS} library for dense linear Algebra, 
+OSKI~\cite{Vuduc:2005zi} on sparse algebra,  the SPIRAL library~\cite{Spiral} for sorting and the FFTW~\cite{FFTW}  
+for Fast Fourrier transform. These work demonstrated the efficiency of some key automatic tuning techniques as: the offline and  
+ runtime tuning or the dynamic programming approach for algorithms cascading. One general trend in these work is that 
+the tuning targets the runtime optimization by finding between different versions of a program, the one that is optimized on data 
+access. At this stage, we higlight that in comparison to these prior works, the tuning system that we propose is not restricted to 
+a specific problem or type of parameters. Instead, we consider general 
+techniques that can be used in a wide range of NP-complete and exponential algorithms.
+
+There are several sytems or frameworks that were proposed for automatic tuning. The AEOS approach~\cite{AEOS} 
+summarizes a set of general principles and a component architecture that were succesfully applied for tuning  
+serveral dense linear algebra kernel. As discussed before, we do not believe that this solution is suitable for the context we target. 
+The OpenTuner framework formulates a new language for general automatic tuning~\cite{DBLP:conf/IEEEpact/AnselKVRBOA14}. 
+The system also innovates in implementing ensemble techniques for combining several automatic search algorithms. As OpenTuner, QTuning 
+invests on search techniques for tuning exploration. However, we propose to use alternative search techniques. 
+ The Periscope framework~\cite{DBLP:conf/parco/MijakovicSUGSC13} is another general solution for automatic 
+tuning in a distributed context. This solution is particularly interesting since it also addresses the tuning for energy efficiency. 
+ As Periscope, QTuning is based on distributed search, but our objective in distribution is to diversify the quality of local solutions 
+that can be found during the search. Moreover, QTuning differs on how it makes online synthessis of the best tuning results.
+ParamILS~\cite{Hutter:2009:PAA:1734953.1734959} is an automatic tuning system especially designed for tuning hard computational 
+algorithms like SAT. The exploration algorithms used in QTuning are inspired from the random search algorithm defined in 
+ParamILS. But, we innovate in formulating this search as a combination between breadth and depth first search for optimizing 
+a regret function. In addition, to the contribution of ParamILS, we introduce a new modeling of the data exploitation challenge. 
+As mentioned in the introduction, there already exist work that envisionned the automatic tuning as a long-term process. In particular, there is the MATE system~\cite{DBLP:conf/para/MorajkoMCMS10}, the tuned plugin~\footnote{http://linux.die.net/man/8/tuned} available 
+in Linux Redhat or the Green framework~\cite{Baek:2010:GFS:1809028.1806620}. However, none of these work formulated the 
+automatic tuning problem as us; while they invested on the idea of improving a system by monitoring, we consider automatic 
+tuning as an online search problem.
+
+
+Finally, let us recall that one of the earlier general automatic tuning systems is the  Algorithm selection 
+framework of John Rice~\cite{Rice}. This work innovated in introducing the key concepts that are nowadays used in most automatic 
+tuning system. Our work is largely inspired by the Rice framework it.
+
+In the next section, we will now introduce the key modeling concepts that are manipulated in QTuning. The objective is to 
+give more details about the infinite learning vision implemented in QTuning. 
+
+
+\section{Model} \label{Model}
+
+QTuning is a system in which automatic tuning problems are formulated within the notion of tuning project.  Such  
+a project can be  constrained or unconstrained. More formally we have the following definition.
+
+\begin{definition}{\bf (Unconstrained tuning project)}
+We define an unconstrained tuning project as a tuple $ \Gamma = (\sigma, \beta, \vec{\theta}, d(\vec{\theta}))$. Here, $\sigma$ is the cloud service to tune; 
+$\vec{\theta}$ are the parameters to tune and $d(\vec{\theta})$ is the set of definition domains for each parameter 
+$\theta_i \in \vec{\theta}$; $\beta$ is the initial set of training data that will be used for the tuning.
+\end{definition}
+
+In QTuning, an unconstrainted tuning project defines a corpus of data used for exploring the parameters of a service. 
+The configuration of this basis can be changed from three {\it evolutive actions}: the addition of a new entry in $\beta$, 
+the deletion of an entry and the deletion of a parameter from $\vec{\theta}$. 
+
+Let us assume that $\vec{\theta} = (\theta_1,\dots \theta_n)$. 
+The solution of an unconstrained tuning project is a {\it configuration} $\bar{\theta}_u \in d(\theta_1) \times \dots  \times d(\theta_n)$. 
+This search space can be extremely large. In some cases however, some constraints can be used for reducing it. Typically, the 
+value of a parameter can take some values depending on the values of another parameter. 
+We characterize these dependencies between parameters as follows. 
+
+\begin{definition}{\bf (Tuning search space constraint)}
+We define a constraint of the search space of a tuning project as a tuple $C = ((\theta_i, v_i), (\theta_j, v_j),\dots (\theta_k, v_k))$. 
+The constraint state that we do not authorize the  assignments in which $\theta_i$ is assigned to $v_i$, $\theta_j$ to $v_j$ etc.
+\end{definition}
+
+With search space constraints, we can derive an constrained tuning project as $ \Gamma = (\sigma, \beta, \vec{\theta}, d(\vec{\theta}), C)$ 
+where $C$ is the set of constraints of the project. In the following, we will only consider constrained tuning project because 
+they generalize unconstrained ones. 
+
+
+For caracterizing the solution of a tuning project, let us assume that on each benchmark entry $\beta_i \in \beta$ 
+and assignment of parameters $\bar{p}_u$ we have an estimation $\Delta(\sigma, \bar{p}_u, \beta_i)$ of the 
+average runtime required for processing $\beta_i$ by $\sigma$. Then we have the following definition.
+
+\begin{definition}{\bf (Solution of a tuning project)}
+The solution of a tuning project $ \Gamma = (\sigma, \beta, \vec{\theta}, d(\vec{\theta}), C)$  is the configuration 
+$\bar{\theta}^o$ such that \[ \bar{\theta}^o = \arg \underset{\{\bar{\theta} | C \text{ are not violated }\}}{\min} \frac{1}{|\beta|}\sum_{\beta_i \in \beta} \Delta(\sigma, \bar{\theta}, \beta_i) \] 
+
+\end{definition}
+
+This definition restricts our objective to the minimization of the average runtime in the processing of instances. 
+Alternatives optimization goal as the minimization of the makespan or the energy consumption can however be considered. 
+Automatic tuning problems are also often formulated as the learning of the coefficient of a non-linear functions~\cite{icl:418} 
+that captures the runtime of thes algorithm to tune. But, we are pessimistic about the accuracy of such modeling 
+when considering NP-complete problems. 
+
+With the definition we adopted, the problem of finding a solution for a tuning project is a constraint 
+optimization problem. We will use this observation will be used further. 
+
+Let us now put some words about the online nature of the tuning problem we address. 
+In the infinite learning perspective, we do not envision to exploit the 
+the tuned system only when having the optimal configuration $\bar{\theta}^o $. Therefore, during the lifetime of the 
+system, at each date $t$ QTuning will return an  intermediary configuration $\bar{\theta}(t)$ that will be used for the processing of instances. 
+In assuming that at the date $t$, we have the benchmark $\beta(t)$ we are interested in minimizing the regret i.e the sum of: the difference 
+between the average cost for processing $\beta(t)$ with $\bar{\theta}(t)$ and the one cost for processing $\beta(t)$ with the best possible configuration. 
+We formalize the regret as: 
+
+\[
+\int \left( Cost(\bar{\theta}(t)| \beta(t)) - Cost(\bar{\theta}^o(t) | \beta(t)) \right) dt
+\]
+where, 
+\[
+Cost(\bar{\theta}(t) | \beta(t)) = \frac{1}{|\beta(t)|}\sum_{\beta(t)_i \in \beta(t)} \Delta(\sigma, \bar{\theta}, \beta(t)_i) 
+\]
+We end this modeling part in stating that we also consider special cases that we will refer to as portfolio tuning project. 
+These projects aim at capturing cases where the service $\sigma$ is made of a portfolio of parallel algorithms. 
+In such projects, there is one parameter $\theta_0 \in \vec{\theta}$ called the {\it portfolio parameter} whose values are positive 
+integers. If $\theta_0 = 1$, then the search space is $d(\theta_1) \times \dots  \times d(\theta_n)$. If $p = m$, then the search 
+space will be $(d(\theta_1) \times \dots  \times d(\theta_n))^m$. As one can remark these cases consider the tuning in 
+a parallel setting. 
+
+
+\section{The Qtuning architecture} \label{Architecture}
+
+This section discusses about the QTuning architecture. Let us recall that since QTuning was primarily designed 
+for the Qarnot Computing cloud, several architectural considerations will be specialized to its setting. However, 
+the proposed architecture can be generalized and integrated in other clouds.
+
+\subsection{Deployment architecture}
+
+	\begin{figure*}[hbtp]
+	\begin{center}
+	%\fbox{
+	\input{./Figures/QTuningArch.tex}
+	%}
+	\caption{In-situ computing with QTuning}
+	\label{fig:QTuning}
+	\end{center}
+	\end{figure*}
+
+In Figure~\ref{fig:QTuning}, we describe the typical deployment architecture for which the 
+QTuning system have been built. Qtuning is composed of an API (available as a library) and 
+a server program ({\it QTuning.d}). With the QTuning API, a cloud-service ({\it service.d}) that uses QTuning can 
+push new tuning projects and get throughout the time the analytics results. These latter can consist of 
+the best configuration found or the parameters that have the greatest impact on the runtime in the 
+current exploration stage. For finding these results, QTuning will create tuning jobs from the pushed projects 
+and submit them to the cloud resource manager for a processing on cloud resources (In the case of Qarnot, they are Q.rads). 
+Performance results about these jobs are next collected and save in a database (Mongodb~\footnote{www.mongodb.org}). This  
+database manager was chosen because it is adapted to the storage of massive data. This is expected in the infinite learning 
+perspective where the benchmark can be extremly large.
+
+As one can remark, a service connected to QTuning can process user requests while downloading new 
+configurations that improves its efficiency. The deployment of QTuning in a new cloud requires that the 
+QTuning does  support the cloud resource manager interface (for jobs submission). 
+In its current version, the service was developped for the Qware system (of Qarnot Computing);  
+but we envison to include the API of other resource managers. In what follows, we will 
+present the tuning API and explaing the functioning of {\it QTuning.d}.
+
+
+
+\subsection{QTuning API} 
+
+The QTuning API is a c\# library based on five main classes: QTuningFactory, QTuningPost, QTuningGet, QTuningDelete and QTuningResponse. 
+The QTuningFactory class is based on the factory design pattern; it serves for the creation of the other objects. 
+QTuningPost is used for pushing and modifying new projects while QTuningGet serves for retrieving Analytics data. QTuningDelete is used 
+for deleting projects, benchmarks and configurations and QTuningResponse is the main return data type for all actions.
+
+\subsubsection{Pushing a tuning project}
+In the listing~\ref{lst:push}, we illustrate a use case of the QTuning API.
+
+\begin{lstlisting}[caption=Pushing a project in QTuning, label=lst:push]
+using System;
+using System.Collections.Generic;
+using QTuning;
+
+namespace pushtuning
+{
+  class CreateQsatTuningProject{
+   public static List<QParameterBase> GetParameterList(){
+     List<QParameterBase> param = new List<QParameterBase>();
+     QParameter<string> policy = new QParameter<string>("Policy");
+     policy.AddValues("luby", "pico", "lex");
+     QParameter<int> restartFactor = new QParameter<int>("RestartFactor");
+     restartFactor.AddValues(5,10,15,20,30,40);
+     QParameter<int> teamSize = new QParameter<int> ("TeamSize");
+     teamSize.AddValues(4,5,6,7,8);
+     teamSize.IsPortfolioSize = true;
+     param.AddMany(policy, restartFactor, teamSize);
+     return param;			
+   }
+   public static List<QUndef> GetUndefList(){
+     List<QUndef> constraints = new List<QUndef>();
+     constraints.Add(new QUndef("Policy", "luby", "restartFactor", 15));
+     return constraints;		
+   }
+   public static QBenchmark GetBenchmark(){
+     QBenchmark bench = new QBenchmark("QSatTuning");
+     string basedir = "./test/distrib-shuffled/";
+     bench.AddBenchSubDir(basedir+"handmade/bevan/cnf",
+     basedir+"handmade/markstrom/SATISFIABLE");
+     return bench;
+   }
+   public static DockerProfile GetConfigureDocker(){
+     DockerProfile dp = new DockerProfile();
+     dp.InputConstFileName = "QSAT_INPUTFILE";
+     dp.OutputConstFileName = "QSAT_OUTPUTFILE";
+     dp.DockerProfileName = "qsattuning";
+     return dp;		
+   }
+   public static void Main(string[] args){
+     string IPAddress = "192.168.6.104";		
+     string port = "8065";
+     QTuningFactory factory = new QTuningFactory(IPAddress, port);	
+     QTuningPost req = factory.GetTuningProfile("QSATuning");
+
+     req.GetDocker_Constants = new GetDockerConstants(GetConfigureDocker);
+     req.Define_ParameterList = new DefineParameterList(GetParameterList);
+     req.Define_Benchmark = new DefineBenchmark(GetBenchmark);
+     req.Define_Undef = new DefineUndef(GetUndefList);
+
+     QTuningResponse resp = req.Submit();
+     if(resp.Status.Equals("OK")){
+       Console.WriteLine ("The project key: " + resp.AppKey);
+     else
+       Console.WriteLine ("Submission failed, Error: " + resp.Message);
+   }
+  }
+}
+
+\end{lstlisting}
+
+The code defines a constrained tuning project   $ \Gamma = (\sigma, \beta, \vec{\theta}, d(\vec{\theta}), C)$ and submits it 
+to the QTuning server. 
+$\beta$ is defined in the function {\it GetBenchmark()} and modeled as an object of type {\it QBenchmark}, $\vec{\theta}$ 
+is defined in {\it GetParameterList()} the constraints $C$ are defined in {\it GetUndefList()} and 
+$\sigma$ is defined in {\it GetConfigureDocker()}. Once these elements defined, the code instanciates a factory 
+object from the IP address $192.168.6.104$ and port $8065$. This call assumes that the QTuning server is deployed at this 
+IP address and is listening on this port (we will come back latter). From the factory, an empty tuning project is created 
+and returned in the  QTuning post object; the project name here is "QSATuning". The project is then configured and 
+ submitted to the server with the method {\it QTuningPost.Submit()}. If the submission is successfully completed, 
+a {\it project key} is returned. It will serve latter for gathering data about the submission.
+
+One can notice that the API includes also several objects that we did not mentioned like {\it QParameterBase}, {\it QBenchmark},
+{\it DockerProfile}  or {\it QUndef}. 
+We will not focus on their functioning here; but it is quite intutive. When defining parameters, we set the portfolio parameter 
+(see Section~\ref{Model}) with the attribute {\it QParameterBase.IsPortfolioSize} is used for stating that a parameter is the portfolio parameter.
+In the current version, there is only one such parameter per tuning prject. Constraints are defined by setting their list of parameters 
+followed by their values ({\it QUndef}). Finally for referring to a service, we must define its profile name (see the next section) 
+and the input and output files that it expects. Moreover, the profile must also be defined such as to support the input format 
+assumed in QTuning. This is discussed in the next section.
+
+\subsubsection{Input requirements}
+The usage of docker profile in QTuning comes from the fact that the Qware system uses the docker container technologies:  
+an alternative to virtual machines whose efficiency was demonstrated on HPC applications~\cite{DBLP:conf/ispass/FelterFRR15}.
+\begin{lstlisting}[caption=Json input data representation in QTuning, label=lst:rep]
+
+{
+   "source": "QTuning_random_search_1D"	
+   "date": "2015-04-23T18:25:43.511Z"						
+   "instance_file_path": "./job/bevan1.cnf"
+   "size": "110K" 	
+   "parameters":{
+       "parallel": "true"
+       "TeamSize": "2"
+       "team_configuration": [
+         {
+	    "Policy": "luby"
+	    "RestarFactor": 5
+	 }
+	 {
+	    "Policy": "pico"
+	    "RestarFactor": 10
+        }
+      ]
+   }
+}
+\end{lstlisting}
+
+ 
+The docker image of a service in QTuning is manipulated throughout a docker profile. This profile defines several information like 
+the input and output files requested by the image are important. For using the service with QTuning, this latter one must support 
+the QTuning input data format. This latter ones is represented as an XML or JSON file (used by default). 
+
+An example of a JSON input representation is given in the listing~\ref{lst:rep}. The JSON has 5 elements: "source" that indicates 
+{\it which algorithm} generated the file (we will explain latter), "date" which is the generation date, the file path or the instance to process, 
+the size of this file and the parameters to process the instance with. In the descrition of the parameters, the first field is  
+"parallel": it states whether or not the configuration is defined for a parallel execution or sequential one. 
+Then follow, the general arguments of the parallel execution and the specific configuration of each block, thread or process of 
+the parallel execution. In the case of XML inputs, QTuning considers the same structure, modeled with XML tags.  
+
+
+\subsection{Retrieving  data on pushed projects: QTuningGet}
+
+Once a project is pushed in QTuning, its tuning process can be analyzed given its key. For this purpose, the QTuning 
+API proposes to use the QTuningGet class. The class supports two types of methods: (1) those related to the state of the 
+process and (2) those related to online data that can be synthetized from the tuning. In the first type of methods, 
+we can for instance: ask for the estimated number of exploration jobs that the tuning will generate, the number of tuning 
+jobs that were executed or the energy consumption induced by these runs. In the former class, we can ask for: the average runtime 
+deviation observed on one parameter, the best local configuration, the best set of $k$ configurations. 
+We will not give a programming overview of the utilization of the QTuning Get API but the principles are close to the 
+one used when pushing jobs. 
+
+
+\subsection{QTuning server}
+
+When a project is pushed, the server starts a set of uploads operations. They include: the creation of the project working directory, 
+the registering of the project configuration in an application table, the downloading of the benchmark files required by the project, 
+the generation of a set of configurations that will be explored. This done, the tuning tasks can start on the project through the 
+server workers. Once it is free, a worker chooses a configuration for a project an run it on a benchmark file. 
+The performance data on the configuration are then save in a Mongo Db database and set available to QTuning Get Objects. 
+The choice of a configuration by a worker is determined by a {\it bi-level scheduler}: at a higher level, there is a 
+fair-sharing scheduler that ensures that we do not favor any project. The fairness is based on two notions: the {\it common 
+project activations} and the {\it common cpu time}. The first notion refers to the number of times where a worker chose a project, starting 
+from the date where they were all pushed. The second refers to the total cpu time spent by workers on a project starting from the 
+date where they were all pushed. The objective of the fair-sharing scheduler is to balance these two costs for each project. 
+At a lower level of the bi-level scheduling, there is an exploration algorithm that once a project chosen, determines the 
+combination (configuration, benchmark file) that will be explored. Here there are several explorations algorithms that QTuning 
+implements. They will be discussed in the next section. 
+
+Finally, let us notice that due to the in-situ computing, a tuning job can be interrupted anytime by the cloud resource manager. 
+The server must then support various policies for resilience. This is achived in 
+QTuning by the use of serialization: the state of the bi-level scheduler (activations, cpu time per project, configuration of 
+local exploration) is saved in files,  input JSON data that are submitted and data collected during the execution of a tuning task also.
+
+We end here the presentation of the QTuning architecture. In the next, we will deeply invest two features of its 
+algorithmic implementation: these are the data exploration algorithms used in the bi-level scheduler and the data 
+exploitation algorithm that serves for synthesis in QTuningGet. 
+
+\section{Data exploration and exploitation in QTuning} \label{Exploration}
+
+\subsection{Lexicographic search}
+
+As stated in Section~\ref{Model}, we defined automatic tuning as a constraint optimization problem. 
+A first solution for solving it is to iterarively generate configurations that are evaluated on 
+$\beta$. The best local configuration is at each time returned to the cloud service to tune. 
+We summarize this approach in Algorithm~\ref{alg1}.
+
+	\begin{algorithm}                    
+	\caption{\scriptsize Lexicographic Search } 	\label{alg1}  
+	\begin{algorithmic}[1]
+	\scriptsize
+	\STATE $\theta^o = $ next\_lexicographic\_configuration(); 
+	\STATE $c^o = $ evaluate($\theta^o$, $\beta(t)$)
+	\STATE $\theta = $ next\_lexicographic\_configuration(); 
+	\WHILE{search\_continue()}
+		\STATE $c = $ evaluate($\theta$, $\beta(t)$);
+		\IF{$c < c^o$}
+			\STATE $\theta^o = \theta$; $c^o = c$;
+		\ENDIF
+	\ENDWHILE
+	\end{algorithmic}
+	\end{algorithm}
+	\normalsize
+
+Here, {\it next\_lexicographic\_configuration()} states the next configuration of parameters to explore (according to the 
+exicographic order). For constrained tuning projects, this function must also handle incompatible assignments. 
+ {\it evaluate($\theta$, $\beta(t)$) } returns the average runtime required by the 
+service to process the data  $\beta(t)$ with the configuration $\theta$. 
+
+Algrotihm~ \ref{alg1} is a natural exploration approach used in several automatic tuning systems. It can be improved 
+in introducing a classical lower bound, 
+used in constraint optimization problems. If on a subset $s$-$\beta(t)$ and configuration $\theta$, one observes that 
+{\it evaluate($\theta$, $s$-$\beta(t)$)} already exceeds $c^o$ then it is no more interesting to explore the configuration. 
+Regarding exploitation, according to Algorithm~\ref{alg1}, $\theta^o$ is the configuration that QTuning will always 
+return to the tuned cloud-service. 
+
+The Lexicographic search (LS) is a simple approach for searching the best configuration. But, this solution is not optimized for 
+the context we target. This is because configurations or benchmarks that appear at the end of the lexicographic order 
+are only considered at the end of the search. If however they were {\it the most interesting}, the regret function  
+we want to minimize will explode.
+
+\subsection{Random search}
+
+For improving, Algorithm~\ref{alg1}, we propose to add randomization. We reconsider the Algorithm~\ref{alg1} 
+where instead of {\it next\_Lexicographic\_configuration()}, we have a random function {\it next\_random\_configuration()}
+and instead of {\it evaluate()}, we use a random evaluation function {\it random\_evaluate()}. 
+This random search (RS) is a classical algorithm, already applied to automatic tuning~\cite{Hutter:2009:PAA:1734953.1734959}. 
+In comparison to Algorithm~\ref{alg1}, it handles more the 
+diversity of the search space.  This is clearly illusrtated in Figure~\ref{fig:Search}. but, it is not enough. 
+For instance, let us assume that during the tuning process, the benchmark $\beta(t)$ is described. The process we described, 
+will not account for new submitted data on the configurations that it already explored. Moreover, even if 
+$\beta(t)$ was constant during the lifetime of the tuned system, we still remain in a setting where we completely explore 
+a configuration before starting a new one. Since the problem we consider might be NP-hard, {\it the complete 
+exploration of a unique configuration can be time consuming}.
+
+For minimizing the regret, Our conviction is that instead of a one dimensional process that mainly iterates over 
+between configurations, we must adopt a  two-dimensional search where both configurations and benchmarks can be partially 
+explored. More concretely we propose the consolidation-exploration search described in the following.
+
+\subsection{Consolidation exploration search}
+
+
+	\begin{algorithm}                    
+	\caption{\scriptsize Consolidation-Exploration Search($k, \xi, h$)} 	\label{alg3}  
+	\begin{algorithmic}[1]
+	\scriptsize
+	\STATE Choose $k$ configurations $\Theta = \{\theta_1,\dots \theta_k\}$; 
+	\STATE Compute the set $\beta_c(t) \subseteq \beta(t)$ of benchmark data that were explored on each 
+configuration in $\Theta$; 
+	\STATE Compute the set $\beta_1(t) \subseteq \beta(t)$ of benchmark data that were explored for at least one 
+configuration in $\Theta$;
+	\STATE Update $\beta_1(t) = \beta_1(t) \setminus \beta_c(t)$; $\beta_c(t) = \emptyset$;
+	\STATE Randomly pick $\theta_i \in \Theta$; 
+	\STATE Pick $b \in \beta_1(t)$ with a probability $\xi$ and $b \in \beta(t) \setminus \beta_1(t)$  with 
+a probability $1-\xi$;
+	\STATE Evaluate ($\theta_i$, $b$);
+	\STATE Update $\beta_1(t) = \beta_1(t) \cup \{ b\} $ 
+	\STATE Update $\beta_c(t) = \beta_c(t) \cup \{ b | \text{ $(\theta, b)$ was evaluated for each $\theta \in \Theta$ } \}$;
+	\STATE If $|\beta_c(t)| = h$  goto $1$ otherwise, goto $5$;
+	\end{algorithmic}
+	\end{algorithm}
+	\normalsize
+
+The consolidation Exploration Search ({\it CES}) proceeds by selecting groups of $k$ configurations that it explores. 
+In this exploration, there is a tension between two actions: the one of randomly choosing the data on which a 
+configuration is evaluated (we make grow $\beta_1(t)$ ) and the one of consolidating the evaluation on configurations and data that where visited for 
+members of the groups (this makes grow  $\beta_c(t)$ ). Depending on $\xi$, {\it CES} randomly chooses between one of these 
+two actions. When the size of the consolidated data reach a threshold ($h$), the algorithm then chooses another group of 
+random configurations and iterates over it.
+
+The interest in the consolidation (or a large $\beta_c(t)$) is to provide a basis where configurations are comparable. In contrary, 
+the discovery of new data (a large $\beta_1(t)$) challenges this basis but guarantee the diversity. 
+{\it CES} looks like a mixture between a randomized Depth First Search (DFS) and Breadth First Search (BFS). 
+Indeed, a great $k$ and a small $h$ direct the search toward the breadth (diverse configurations). In the same way, a great $\xi$ and $h$ 
+oblige to explore deeper a set of configurations. Some may also find an analogy between {\it CES} and 2D random 
+walk. But the comparison is not good:{ \it  {\it CES} keeps the state of explored points and thereby 
+avoid to revisit them.} Finally, a parallel version of  {\it CES} can easily be derived in splitting the search space on 
+configurations or benchmarks. 
+	\begin{figure}[hbtp]
+	\begin{center}
+	%\fbox{
+	\input{./Figures/Search.tex}
+	%}
+	\caption{Difference in exploration strategies with {\it LS, RS} and {\it CES}. The illustration assumes that 
+	configurations and benchmarks are ranged according to the lexicographic order. Gray zones are those that 
+	are explored. In LS and RS, we completely explore a configuration before switching to another one. In CES, 
+	the exploration is more fractal. Various 
+	regions (e.g $A, B, C$) are explored at different depth levels.}
+	\label{fig:Search}
+	\end{center}
+	\end{figure}
+
+{\it  CES} is not the first solution that exists in the litterature for combining DFS and BFS. But, to the best of 
+our knowledge, we did not see such an algorithm. 
+Differently from {\it LS} and  {\it RS}, {\it  CES} makes a bi-dimensional exploration that is more profitable 
+for diversity. In addition, the algorithm is naturally {\it evolutive} because it supports the introduction 
+of new benchmark or configurations. This feature has a main drawback: during the search, configurations are not 
+explored on the same data. It is the case in Figure~\ref{fig:Search} for the regions $A, B, C$. 
+Therefore, how can we state at a given time what is the best configuration? 
+This will be discussed in the next sections. 
+
+\subsection{Data exploitation with {\it CES}}
+
+On the question of the best configuration, the answer for {\it LS} and {\it RS} is immediate: it is the local $c^o$. For {\it CES}, 
+the situation is more tricky, we have several distinct regions of the search space from which different conclusions can be formulated. 
+An analogy can be drawn between this situation and the general problem of ensemble learning~\cite{DBLP:books/daglib/0087929}:
+we have several predictions (best configurations) that can be issued from different set of training data, what is 
+the right prediction?
+
+Majority rules are often used in ensemble learning problems. The idea behind is that the right prediction is the one decided by 
+the majority. For data exploitation in {\it CES}, we propose to define such a rule as 
+follows: (1) firstly, the best configuration must be 
+defined from a region (configurations, benchmark entries)  where the data are all comparable; (2) secondly, the region must be the largest possible one. 
+The idea in (1) is to define a set $(\Theta, \beta)$ from which we select the best configuration 
+as the one that minimizes the average runtime for processing $\beta$. The objective of the second point is to maximize 
+the quantity of information we used for making such an election.
+
+Coming back to Figure~\ref{fig:Search}, our proposition (that we will refer to as  the
+ {\it the maximal set consolidation rule}) does not consists of choosing the best configuration exclusively 
+from $A$ or $B$; since both regions have comparable data, they might serve for the definition of our largest region. 
+With these assumptions, our challenge is to state how to define the largest set  $(\Theta_l, \beta_l)$ 
+of configurations and benchmark data, that are comparable.
+
+\subsection{Data exploitation as a maximal subset intersection problem}
+
+We propose to consider the  Maximum subset intersection problem~\cite{Clifford:2011:MSI:1930546.1930773}. 
+The problem is defined as follows.
+
+
+Given $n$ sets $E_1,\dots,E_m$ with elements over a universe $\Sigma = \{ e_1,\dots,e_n  \}$, the goal is to select 
+exactly one set from each of $E_1,\dots,E_m$ in order to maximize the size of the intersection of the sets.
+As shown in~\cite{Clifford:2011:MSI:1930546.1930773}, this problem is NP-complete and cannot be approximated within 
+an $n^{1-\epsilon}$ multiplicative factor.
+
+It is easy to notice that the consolidation rule can be mapped as a maximal subset intersection problem. 
+For this, we consider each set $E_i$ as a benchmark entry $b \in \beta(t)$. The content of each set $E_i$ are 
+the configurations $\theta$ that were evaluated on the benchmark entry $b$, to which it refers. The question of 
+finding the largest consolidation set is then the one finding the subsets $E_i$ that will lead to the intersection of maximal 
+size.
+
+With this mapping, the challenge in data exploitation is clearly a set coverage problem. For these NP-hard problems, 
+a general heuristic framework exist for finding good solutions in a reasonnable runtime. The first stage in these frameworks 
+consists of ordering the sets $E_i$ according to a pricing strategy. Then, the sets with higher prices are progressively 
+chosen until we reach a subset intersection that cannot evolve. Using this idea, we propose in Algorithm~\ref{alg4} 
+a greedy solution for building the largest consolidation set.
+
+	\begin{algorithm}                    
+	\caption{\scriptsize Greedy Largest Consolidation Set} 	\label{alg4}  
+	\begin{algorithmic}[1]
+	\scriptsize
+	\FOR{$b \in \beta(t)$}
+	\STATE Build the set $E(b)$ of configurations for which the entry was evaluated.
+	\STATE $price[E(b)] = |E(b)|$
+	\ENDFOR
+	\STATE $C = \emptyset$; $Inter = \emptyset$
+	\WHILE{consolidation\_continue()}
+		\STATE Choose the set $E(b_i)$ of higher price that is not in $C$;
+		\STATE $C  = C \cup E(b_i)$ and $Inter = Inter \cap E(b_i)$
+		\FOR{each $E(b_i) | E(b_i)$ is not in $C$}
+			\STATE $E(b_i) = E(b_i) \setminus Inter$
+			\STATE $price[E(b_i)] = |E(b_i)|$
+		\ENDFOR
+	\ENDWHILE
+	\STATE remove\_unecessary\_set();
+	\STATE return $C$, $Inter$
+	\end{algorithmic}
+	\end{algorithm}
+	\normalsize
+
+The iteration in the {\it Greedy Largest Consolidation Set (GLCS)} continues depending on 
+the  {\it consolidation\_continue()} predicate. The predicate returns true if two conditions are 
+respected: (1) there exists a set $E(b_i)$ not included in $C$; (2) the size of $|Inter| \times |C|$ grew 
+between the two last iterations. If it was not the case, then the function {\it remove\_unecessary\_set();} 
+will update $C$ and $Inter$ by removing the last set. 
+
+We end here the description of the data exploitation in QTuning. In the next, we will then present an 
+experimental evaluation of our different exploration and exploitation algorithms.
+
+
+
+
+
+\section{Experimental evaluation} \label{Proof-of-concept}
+
+
+Introduce qombinatorics. 
+Discuss about its portfolio solvers. 
+Present source benchmark (race benchmark)
+
+Compare the regret on the question of the best configuration with Random Search, e-greedy bandit and consolidate-explore+Maximal 
+subset intersection. In both cases, choose a set of k initial configurations over which you iterate.
+
+
+\section{Conclusion} \label{Conclusion}
+
+
+The system currently is based on the Qarnot cloud. This implies that it deal with docker containers only and 
+use the Qarnot APi for job submission.
+Discuss about the choice of configurations and introduce variable ordering from COP.
+
+Perspective: Other RMS, refine the definition of cross parameters (you might have many typeof undefs), rest API, 
+other analytics function, evolving search.
+
+
+
+% conference papers do not normally have an appendix
+
+
+% use section* for acknowledgement
+\section*{Acknowledgment}
+
+
+The authors would like to thank...
+more thanks here
+
+
+\bibliographystyle{./IEEEtran}
+\bibliography{self_learning}
+
+
+
+
+% that's all folks
+\end{document}
+
+
