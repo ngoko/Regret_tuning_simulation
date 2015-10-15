@@ -12,10 +12,12 @@ y = 0
 z = 0
 for i in range(0, n):
   r.shuffle_data()
-#  z +=  max(r.run_method('randwnoh', regret_period))
+  y +=  max(r.run_method('randw', regret_period))
+  z +=  max(r.run_method('randwnoh', regret_period))
+  
   u +=  max(r.run_method('lex', regret_period))
   v +=  max(r.run_method('rand', regret_period))
   w +=  max(r.run_method('randsort', regret_period))
   x +=  max(r.run_method('randsortdesc', regret_period))
-#  y +=  max(r.run_method('randw', regret_period))
+
 print u/n, v/n, w/n, x/n, y/n, z/n
