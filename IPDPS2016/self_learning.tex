@@ -887,16 +887,26 @@ $B_{hard^+}$ set.
 	\end{algorithm}
 	\normalsize
 
-
-
-We end here the description of the data exploration and exploitation in QTuning. In the next, we will then present an 
-experimental evaluation of our different approaches.
-
+We end here the description of the data exploration and exploitation in QTuning. The next section is devoted to experiments.
 
 
 \section{Experimental evaluation} \label{Proof-of-concept}
 
- Evaluate Lex, Rand, RandW, Rand(Class sorting), RandW(with soft-and-hard), try different $K(t)$
+In considering the architecture in Figure~\ref{fig:QTuning}, we simulated the behavior of 
+the active learning framework in a setting where given a tuning project pushed at date $0$, the 
+{\it service.d} requests a new configuration to {\it QTunind.d} every $d$ minutes. 
+We assume that between these $d$ minutes, the active learning framework was able to launch exploration 
+jobs and get the results on $p$ configuration points. For obtaining the $p$ points, we assumed the different 
+oracles above.
+\begin{itemize}
+\item {\it lex:} it corresponds to the {\it Lex} oracle.
+\item {\it rand:} the {\it Rand} oracle;
+\item {\it rand\_sort:} the {\it Rand} oracle; but the group of hard and soft instances are each sorted in ascending order on the value of $\norm{\Delta(\beta)}$;
+\item {\it rand\_desc\_sort:} the {\it Rand} oracle; but each group of hard and soft instance is sorted in descending order on the value of $\norm{\Delta(\beta)}$;
+\item {\it rand\_w:} the {\it Randw} oracle;
+\item {\it rand\_w\_noh:} the {\it Randw} oracle; but we choose $B_{hard}$ randomly instead of using a $2$-Means clustering
+\end{itemize}
+
 
 \section{Conclusion} \label{Conclusion}
 
@@ -924,5 +934,3 @@ more thanks here
 
 % that's all folks
 \end{document}
-
-f
