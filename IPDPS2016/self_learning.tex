@@ -201,8 +201,8 @@ basicstyle=\scriptsize,
 
 \usepackage[]{algorithm}
 \usepackage{algorithmic}
-
 \usepackage{etoolbox}
+
 \newcommand{\algorithmicdoinparallel}{\textbf{do in parallel}}
 \makeatletter
 \AtBeginEnvironment{algorithmic}{%
@@ -892,28 +892,63 @@ We end here the description of the data exploration and exploitation in QTuning.
 
 \section{Experimental evaluation} \label{Proof-of-concept}
 
-In considering the architecture in Figure~\ref{fig:QTuning}, we simulated the behavior of 
-the active learning framework in a setting where given a tuning project pushed at date $0$, the 
-{\it service.d} requests a new configuration to {\it QTunind.d} every $d$ minutes. 
+\subsection{Settings}
+In considering the architecture of Figure~\ref{fig:QTuning}, we simulated the behavior of 
+the active learning framework in a setting where given a tuning project pushed at date $0$,  
+{\it service.d} requested a new configuration to {\it QTunind.d} every $d$ minutes. 
 We assume that between these $d$ minutes, the active learning framework was able to launch exploration 
-jobs and get the results on $p$ configuration points. For obtaining the $p$ points, we assumed the different 
-oracles above.
+jobs and get the results on $p$ configuration points. For obtaining the $p$ points, the framework 
+could have used the oracles above.
 \begin{itemize}
 \item {\it lex:} it corresponds to the {\it Lex} oracle.
 \item {\it rand:} the {\it Rand} oracle;
 \item {\it rand\_sort:} the {\it Rand} oracle; but the group of hard and soft instances are each sorted in ascending order on the value of $\norm{\Delta(\beta)}$;
 \item {\it rand\_desc\_sort:} the {\it Rand} oracle; but each group of hard and soft instance is sorted in descending order on the value of $\norm{\Delta(\beta)}$;
 \item {\it rand\_w:} the {\it Randw} oracle;
-\item {\it rand\_w\_noh:} the {\it Randw} oracle; but we choose $B_{hard}$ randomly instead of using a $2$-Means clustering
+\item {\it rand\_w\_noh:} the {\it Randw} oracle; but we choose $B_{hard}$ randomly instead of using the $2$-Means clustering.
 \end{itemize}
 
+For evaluating the oracles, we assumed three tuning projects based on the data of a sat 
+competition~\footnote{http://satcompetition.org/edacc/SATCompetition2013/}. The benchmark 
+instances $B$ and the configurations $\Theta$ of each tuning project are associated 
+with a sub-competition. In each competition, we fixed the values $\Delta(\sigma, \bar{\theta_i}, \beta_j)$ as the 
+runtime of a sat solver on a benchmark instance. Let us notice that all these runtime are available 
+in the competition web site. Finally, the chosen sub-competitions are: Core solvers sequential on random satisfiable+unsatisfiable instances (SAT+UNSAT), Core solvers sequential on satisfiable instances (SAT) and  Core solvers sequential on hard satisfiable+unsatisfiable instances (SAT+UNSAT|Hard). 
+
+\subsection{Experimental plan}
+
+We did $7$ series of experiments. In each serie, we computed the regret of the active learning framewok for each 
+of the oracles in a discrete windows of time $t_0,\dots ,t_n$. 
+For the first $3$ experiments, all oracles were evaluated assuming data of three distinct competitions. The 
+evaluation for each competition included $300$ sub-evaluations, were we changed the ordering of instances $B$ and 
+configurations $\Theta$.  The objective in these first experiments was to find the best oracle. In experiment $4$, we 
+compared {\it the wisdom of the losers oracles} on different values of  $K(t)$. Finally, in experiments, 
+$5$, $6$ and $7$, we compared all the oracles when the values of $p$ are changed. The experiments plan 
+are summarized in table~\ref{tab:plan}
+
+\begin{table}
+  \begin{center}
+  \begin{tabular}{ p{1cm} | p{6cm} }
+
+    {\small Exp.1} & {\small competition=SAT+UNSAT, $d=600$, $p=100$, $t_0 = 0$, $t_n = 76.d$, $K(t) = 10$} \\\hline
+    {\small Exp.2} & {\small competition=SAT, $d=600$, $p=100$, $t_0 = 0$, $t_n = 45.d$, $K(t) = 10$} \\\hline
+    {\small Exp.3} & {\small competition=SAT+UNSAT|Hard, $d=600$, $p=100$, $t_0 = 0$, $t_n = 92.d$, $K(t) = 10$} \\\hline
+    {\small Exp.4} & {\small competition=SAT+UNSAT, $d=600$, $p=100$, $t_0 = 0$, $t_n = 76.d$, $K(t) = 20, 30, 40$} \\\hline
+    {\small Exp.5} & {\small competition=SAT+UNSAT, $d=600$, $p=120$, $t_0 = 0$, $t_n = 76.d$, $K(t) = 10$} \\\hline
+    {\small Exp.6} & {\small competition=SAT+UNSAT, $d=600$, $p=140$, $t_0 = 0$, $t_n = 76.d$, $K(t) = 10$} \\\hline
+    {\small Exp.7} & {\small competition=SAT+UNSAT, $d=600$, $p=160$, $t_0 = 0$, $t_n = 76.d$, $K(t) = 10$} \\
+  \end{tabular}
+  \caption{Experimental plan}
+  \label{tab:plan}
+  \end{center} 
+\end{table}
 
 \section{Conclusion} \label{Conclusion}
 
 
 Perspective: 
 
-Combine oracles. Refine classification for filling. Learn $K(t)$
+Combine oracles. Refine classification for filling. Learn 
 
 % conference papers do not normally have an appendix
 
