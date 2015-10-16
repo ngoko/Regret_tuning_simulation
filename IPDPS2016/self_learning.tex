@@ -435,7 +435,7 @@ are considered by industrials as one of the major strategy for the improvement o
 %performance tuning of SQL requests made by major companies  like Oracle or IBM is an example~\cite{Oracle}.
 
 In order to position our study, we classify automatic tuning systems based on two criteria, namely
-their genericity and the their learning model.
+their genericity and their learning framework.
 
  %On the first criteria, there are two classes to consider:
 %{\it problem-specific} and {\it class-of-problems} ones. On the second criteria, we will consider
@@ -492,7 +492,7 @@ regret function.
 %In addition to the contribution of ParamILS, we introduce a
 %new modeling of the data exploitation challenge.
 
-\subsection{supervised/active learning and collaborative filtering}
+\subsection{From supervised/active learning to active collaborative filtering}
 
 Pre-existing work such as the MATE system~\cite{DBLP:conf/para/MorajkoMCMS10},
 the tuned plugin~\footnote{http://linux.die.net/man/8/tuned} or the Green
@@ -516,14 +516,14 @@ the use of a vector of features describing the specific problem instance.
 
 One line of research that fits more closely into our direction is Active
 Collaborative Filtering~\cite{DBLP:journals/corr/abs-1212-2442} (ACF) where a
-learning system tries to find the ratings (in our case, the runtimes) users (
-problem instances) would give to products based on similar users. In ACF,
-the learning system can ask about user's ratings. However, this work
-does not focus on producing the best rated item for a given new user, and rather
-optimizes a loss on the whole model.
+learning system tries to find the ratings (here, \textit{runtimes}) users
+(\textit{problem instances}) would give to products (\textit{parameters}) based on similar users. In ACF, the
+learning system can ask about user's ratings. However, this work does not focus
+on producing the best rated item for a given new user, and rather optimizes a
+loss on the whole model.
 
 Finally, let us recall that one of the earlier general automatic tuning systems
-is the  Algorithm selection framework of John Rice~\cite{Rice}. This work
+is the Algorithm selection framework of John Rice~\cite{Rice}. This work
 innovated in introducing the key concepts that are nowadays used in most
 automatic tuning system. Our work is largely inspired by the Rice framework.
 
@@ -728,7 +728,7 @@ classification as follows. The {\it configuration points} ($(\bar{\theta}, \beta
 which  $\Delta(\sigma, \bar{\theta}, \beta)$ are our labelled data. The points without such an estimation
 are our unlabelled data. The best configuration is the classifier we are building. The objective
 in querying the oracle $O$ is to state the {\it most important configuration point} that could serve for finding a
-configuration, close to the best one. Finally, as other active learning systems~\cite{Chu:2011:UOA:2020408.2020444},
+configuration, close to the best one. Finally, as other active learning systems~\cite{DBLP:series/synthesis/2012Settles},
 we are motivated by the potential huge training time (estimation of $\Delta(\sigma, \bar{\theta}, \beta)$) and
 data to process.
 
