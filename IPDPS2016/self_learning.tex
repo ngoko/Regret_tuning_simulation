@@ -201,8 +201,10 @@ basicstyle=\scriptsize,
 
 \usepackage[]{algorithm}
 \usepackage{algorithmic}
-
 \usepackage{etoolbox}
+\usepackage{subfig}
+
+
 \newcommand{\algorithmicdoinparallel}{\textbf{do in parallel}}
 \makeatletter
 \AtBeginEnvironment{algorithmic}{%
@@ -388,7 +390,7 @@ can configure and modify, on the fly, during the tuning.
 
 The second difference between our work and existing ones is that we consider functioning cloud-services to tune in-situ. 
 This means that the datacenter resources on which we operate is not dedicated to tuning. Therefore, the exploration process will  
-evolves in an agile setting where resources are not always available or execution faults could occur. 
+evolve in an agile setting where resources are not always available or execution faults could occur. 
 
 Summarizing, in this paper, we introduce QTuning, a new automatic tuning service that implements the active 
 learning perspective for tuning, in-situ, in a cloud context. The paper contribution focuses on the general 
@@ -411,7 +413,7 @@ Our initial motivation for designing QTuning was to improve the {\it qombinatori
 cloud service, available in the Qarnot Computing cloud~\footnote{http://www.qarnot-computing.com/}. Qombinatorics is a SaaS 
 developed by the Qarnot Computing Research team for the parallel resolution of NP-hard problems.
 
-The system is deployed in the Qarnot Computing cloud: a heating cloud for HPC that inovated in designing special radiators that produce heat from computations. The Qarnot cloud infrastructure consists of the network of radiators that are deployed in homes and are managed by a private resource manager (Qware). 
+The system is deployed in the Qarnot Computing cloud: a heating cloud for HPC that innovated in designing special radiators (Qrads) that produce heat from computations. The Qarnot cloud infrastructure consists of the network of radiators that are deployed in homes and are managed by a private resource manager (Qware). 
 In an economic viewpoint, the Qarnot business is based on two types of users: hosts interested in heating and HPC users interested 
 in computing. The objective is to use requirements in computations for supplying those in heating.
 However, it is obvious to notice that such a system is not always balanced. Typically, in winter, it can happen that we 
@@ -605,8 +607,8 @@ They will be used for computing the best local configurations that was found in 
 In this architecture, we chose the Mongodb database manager because it is adapted to the storage of massive data. 
 This is expected in our active learning perspective where the benchmark can be extremly large.
 One can also remark that the deployment of QTuning requires that it supports the cloud resource manager 
-interface (for jobs submission). In its current version, the service was developped for the Qware 
-system (of Qarnot Computing); but we envison to include the API of other resource managers. 
+interface. In its current version, the service was developped for the Qware 
+platform of Qarnot Computing; but we envison to include the API of other resource managers. 
 In what follows, we will now give a deeper presentation of the QTuning learning framework.
 
 
@@ -693,20 +695,26 @@ discuss in more details about data exploration and exploitation algorithms.
 
 \section{Data exploration and exploitation in QTuning} \label{Exploration}
 
-This section aims at developing two points of the prior framework. The first is the 
-different type of oracles that we can use in the exploration; the second one is how we compute the 
- the best configuration depending on the chosen  oracle. 
+This section aims at developing two points of the prior framework. The
+first is the different type of oracles that we can use in the
+exploration; the second one is how we compute the best configuration
+depending on the chosen oracle.
 
 \subsection{The lexicographic  oracle (Lex)}
 
-The objective of QTuning oracles is to return the most important configuration point to evaluate.
-The lexicographic  oracle works by ordering the configurations and benchmark according to the lexicographic order. 
-The order is first applied on configurations and then on benchmark. For any query, it returns the next pair 
-($(\bar{\theta}, \beta)$) in the lexicographic order that was not already evaluated. 
+The objective of QTuning oracles is to return the most important
+configuration point to evaluate.  The lexicographic oracle works by
+ordering the configurations and benchmark according to the
+lexicographic order.  The order is first applied on configurations and
+then on benchmark. For any query, it returns the next pair
+($(\bar{\theta}, \beta)$) in the lexicographic order that was not
+already evaluated.
 
-For the lexicographic  oracle, the computation of the best configuration (line 10 in the active learning framework) 
-is simple: we cumulate the estimation made on a configurations and compare with the best result already found. 
-This process is detailed in Algorithm~\ref{alg1}. 
+For the lexicographic oracle, the computation of the best
+configuration (line 10 in the active learning framework) is simple: we
+cumulate the estimation made on a configurations and compare with the
+best result already found.  This process is detailed in
+Algorithm~\ref{alg1}.
 
 	\begin{algorithm}                    
 	\caption{\scriptsize Lexicograpic Result Update } 	\label{alg1}  
@@ -726,47 +734,69 @@ This process is detailed in Algorithm~\ref{alg1}.
 	\end{algorithm}
 	\normalsize
 
-As one can remark, the active learning framework with the lexicographic order leads to lexicographic 
-exploration of the search space with the usage of a lower bound. This leads to a classical search approach that however 
-is not optimized for the context we target. Indeed, for the minimization of the regret function, we need a  oracle  
-that takes care about the {\it informativeness} of the next configuration point: we do not have 
-any element that suggests that the next lexicographic could be such a point. 
+        As one can remark, the active learning framework with the
+        lexicographic order leads to lexicographic exploration of the
+        search space with the usage of a lower bound. This leads to a
+        classical search approach that however is not optimized for
+        the context we target. Indeed, for the minimization of the
+        regret function, we need a oracle that takes care about the
+        {\it informativeness} of the next configuration point: we do
+        not have any element that suggests that the next lexicographic
+        could be such a point.
 
 \subsection{Random  oracle (Rand)}
 
-Given a tuning project $\Gamma = (\sigma, B, \vec{\theta}, d(\vec{\theta}), C)$, whose search space is $D$, 
- the lexicographic  oracle implicitely assumes that a lexicographic exploration could serve to quickly discover 
-the best configuration. But, this assumption is weak. Good configurations could be located {\it anywhere} in 
-$D$. It is the {\it potential random distribution} of such points that the {\it Rand}  oracle exploits. 
+Given a tuning project
+$\Gamma = (\sigma, B, \vec{\theta}, d(\vec{\theta}), C)$, whose search
+space is $D$, the lexicographic oracle implicitely assumes that a
+lexicographic exploration could serve to quickly discover the best
+configuration. But, this assumption is weak. Good configurations could
+be located {\it anywhere} in $D$. It is the {\it potential random
+  distribution} of such points that the {\it Rand} oracle exploits.
  
 \subsubsection{ Random configuration choice and depth first search.} 
-As the lexicographic  oracle, the random  oracle is based on ordering. In particular, it completely processes  
-points of a configuration $\theta_{i}$ before starting those of a configuration $\theta_{i'}$.  
-Differently from the lexicographic  oracle, when for the current configuration $\theta_i$ 
- we have all the $\Delta(\sigma, \bar{\theta_i}, \beta_j)$s, the next configuration $\bar{\theta_{i'}}$ from 
-which we start is chosen randomly. In Figure~\ref{fig:Search}, we graphically represent  how this feature 
-makes the random  oracle different from the lexicographic one. With random iterations over configurations, 
-we diversify the search walk. For regret minimization, we are convinced that this is better in the mean case. 
-Let us now assume that the random  oracle selected a  $\theta_i$ for the generation of the next configuration 
-points. A challenging question is to decide on the ordering of the first benchmark entries to evaluate. 
-For example, must we start by the point $(\theta_i, \beta_0)$ or by the point $(\theta_i, \beta_1)$?
 
-\subsubsection{ Hard and soft instances.} 
+As the lexicographic oracle, the random oracle is based on
+ordering. In particular, it completely processes points of a
+configuration $\theta_{i}$ before starting those of a configuration
+$\theta_{i'}$.  Differently from the lexicographic oracle, when for
+the current configuration $\theta_i$ we have all the
+$\Delta(\sigma, \bar{\theta_i}, \beta_j)$s, the next configuration
+$\bar{\theta_{i'}}$ from which we start is chosen randomly. In
+Figure~\ref{fig:Search}, we graphically represent how this feature
+makes the random oracle different from the lexicographic one. With
+random iterations over configurations, we diversify the search
+walk. For regret minimization, we are convinced that this is better in
+the mean case.  Let us now assume that the random oracle selected a
+$\theta_i$ for the generation of the next configuration points. A
+challenging question is to decide on the ordering of the first
+benchmark entries to evaluate.  For example, must we start by the
+point $(\theta_i, \beta_0)$ or by the point $(\theta_i, \beta_1)$?
 
-For deciding on the first benchmark entry to evaluate, we use an observation made on NP-hard problems. 
-The idea is that instances of NP-hard problems are often classified as being hard or soft. The soft instances are the 
-one for which we can quickly find a good solution while hard instances are the ones for which algorithms runtime explode.
-Given a new configuration $\theta_i$, we do believe that it will be better to start to evaluate firstly its 
-hard instances. Indeed, if $B_{hard}$  are those instances and $\theta_i$ a {\it weak} configuration, 
-we can quickly fall in a setting where \[ \sum_{\beta \in B_{hard}} \Delta(\sigma, \bar{\theta_i}, \beta) > \Delta(\theta^o)\]
-This means that in using the process of results update described in Algorihm~\ref{alg1}, we can quickly eliminate 
-non-optimal configurations if we know hard instances. 
+\subsubsection{Hard and soft instances.} 
 
-Thus, given a configuration $\theta_i$, we propose in the random  oracle to first classify instances in hard and 
-soft sets $B_{hard}$ and $B_{soft}$. Then, we choose  to return configuration points with $B_{hard}$ before 
-those in $B_{soft}$. Within each class, the benchmark entries are selected randomly.  
-The only remaining question in this scheme  is to be able to effectively build $B_{hard}$ and $B_{soft}$. 
-This is discussed in the next.
+For deciding on the first benchmark entry to evaluate, we use an
+observation made on NP-hard problems.  The idea is that instances of
+NP-hard problems are often classified as being hard or soft. The soft
+instances are the ones for which we can quickly find a good solution
+while hard instances are the ones for which algorithms runtime
+explode.  Given a new configuration $\theta_i$, we do believe that it
+will be better to start to evaluate firstly its hard
+instances. Indeed, if $B_{hard}$ are those instances and $\theta_i$ a
+{\it weak} configuration, we can quickly fall in a setting where
+\[ \sum_{\beta \in B_{hard}} \Delta(\sigma, \bar{\theta_i}, \beta) >
+\Delta(\theta^o)\].
+This means that in using the process of results updating described in
+Algorihm~\ref{alg1}, we can quickly eliminate non-optimal
+configurations if we know hard instances.
+
+Thus, given a configuration $\theta_i$, we propose, in the random
+oracle, to first classify instances in hard and soft sets $B_{hard}$
+and $B_{soft}$. Then, we choose to return configuration points with
+$B_{hard}$ before those in $B_{soft}$. Within each class, the
+benchmark entries are selected randomly.  The only remaining question
+in this scheme is to be able to effectively build $B_{hard}$ and
+$B_{soft}$.  This is discussed in the next subsection.
 
 
 	\begin{figure}[hbtp]
@@ -785,89 +815,122 @@ This is discussed in the next.
 
 \subsubsection{A similarity approach for finding hard instances.}  
 
-The main assumption we made for detecting hard instances is that their {\it runtime will look similar on the configurations 
-we processed}.
-Let us assume at the date $t$ that we processed the set of configurations $\Theta(t)$. Let us also assume that 
-there is a subset $\Theta_1(t) \subseteq \Theta(t)$ for which the evaluations were performed on all $B$~\footnote{due 
-to lower bound elimination we could stricly have $\Theta(t) \setminus \Theta_1(t) \neq \emptyset$}. 
-We propose to characterize the runtime of each instance $\beta \in B$ as a vector \[ \Delta(\beta) = [\Delta(\sigma, \bar{\theta^{'}_0}, \beta), \dots \Delta(\sigma, \bar{\theta^{'}_{n_1}}, \beta) ]^T \] where $n_1 = |\Theta_1(t)|$. Here, $\theta^{'}_{i}$ are configurations in $\Theta_1(t)$ 
-that we ordered randomly.
+The main assumption we made for detecting hard instances is that their
+{\it runtime will look similar on the configurations we processed}.
+Let us assume at the date $t$ that we processed the set of
+configurations $\Theta(t)$. Let us also assume that there is a subset
+$\Theta_1(t) \subseteq \Theta(t)$ for which the evaluations were
+performed on all $B$~\footnote{due to lower bound elimination we could
+  stricly have $\Theta(t) \setminus \Theta_1(t) \neq \emptyset$}.  We
+propose to characterize the runtime of each instance $\beta \in B$ as
+a vector
+\[ \Delta(\beta) = [\Delta(\sigma, \bar{\theta^{'}_0}, \beta), \dots
+\Delta(\sigma, \bar{\theta^{'}_{n_1}}, \beta) ]^T \]
+where $n_1 = |\Theta_1(t)|$. Here, $\theta^{'}_{i}$ are configurations
+in $\Theta_1(t)$ that we ordered randomly.
 
-In other words, the runtime vector of a benchmark entry is the collection of runtimes we observed on $\Theta_1(t)$. 
-Given these data, we propose to apply a $2-$Means clustering algorithm on the data $B$ with the runtime 
-vector and the euclidian distance. Finally, we conclude that hard instances are those, in the class, for 
-which the mean value $\norm{\Delta(\beta)}$ is the greatest. Indeed, it is normal to expect that on hard instances, 
-most configurations take a huge runtime before finding the optimal solution. 
+In other words, the runtime vector of a benchmark entry is the
+collection of runtimes we observed on $\Theta_1(t)$.  Given these
+data, we propose to apply a $2-$Means clustering algorithm on the data
+$B$ with the runtime vector and the euclidian distance. Finally, we
+conclude that hard instances are those, in the class, for which the
+mean value $\norm{\Delta(\beta)}$ is the greatest. Indeed, it is
+intuitive to expect that on hard instances, most configurations take a
+huge runtime before finding the optimal solution.
 
-Let us mention that the idea of distinguishing hard instances of NP-hard problem with a machine learning approach was also 
-investigated in another paper~\cite{WZZReport}. But our approach completely differs from this proposition on the modeling 
-of features. 
-The {\it Rand} oracle uses the result update process of {\it Lex}. However, it is based on a deeper exploitation 
-of the potential random distribution of best configurations. In addition, it exploits more past information generated in 
-the exploration to take further decisions. But, this point could be improved as we will see in the sequel.
+Let us mention that the idea of distinguishing hard instances of
+NP-hard problem with a machine learning approach was also investigated
+in another paper~\cite{WZZReport}. But our approach completely differs
+from this proposition on the modeling of features.  The {\it Rand}
+oracle uses the result update process of {\it Lex}. However, it is
+based on a deeper exploitation of the potential random distribution of
+best configurations. In addition, it exploits more past information
+generated in the exploration to take further decisions. But, this
+point could be improved as we will see in the sequel.
 
+\subsection{Random oracle with the wisdom of the loosers (RandW)}
 
+With {\it Rand}, estimations made on $\bar{\theta^{'}_0}$ could serve
+to guide the exploration of $\bar{\theta^{'}_{1}}$,
+$\bar{\theta^{'}_{2}}$ etc. This extraction of information is
+interesting, but there still remains a wastage. Indeed, data related
+to the {\it losing configurations}
+$\Theta_2(t) = \Theta(t) \setminus \Theta_1(t)$ are not exploited by
+the oracle~\footnote{Losing configurations are those on which we did
+  not entirely evaluated $B$ because we detected before a lower bound
+  violation.}.  This can be seen as a loss if we consider the
+processing cost that these evaluations required. The question then is:
+how could we exploit {\it this effort} for taking better decisions?
 
-\subsection{Random  oracle with the wisdom of the loosers (RandW)}
-
-With {\it Rand}, estimations made on  $\bar{\theta^{'}_0}$ could serve 
-to guide the exploration of $\bar{\theta^{'}_{1}}$, $\bar{\theta^{'}_{2}}$ etc. This extraction of information is 
-interesting, but there still remains a wastage. Indeed, data related to the {\it losing configurations} 
-$\Theta_2(t) = \Theta(t) \setminus \Theta_1(t)$ are not exploited by the oracle~\footnote{Losing configurations 
-are those on which we did not entirely evaluated $B$ because we detected before a lower bound violation.}. 
-This can be seen as a loss if we consider the processing cost that these evaluations required. The question then 
-is: how could we exploit {\it this effort} for taking better decision? 
-
-For this purpose, let us come back to the random  oracle. At the begining of the exploration of any 
-configuration $\theta_i$, the algorithm separates instances in hard and softs. Then, it randomly chooses  
-instances in the hard class and then the ones of the soft class. This random choice could be improved 
-in considering data of losing configurations. For example, beeing given the set hard instance $B_{hard}$,  
-we could observe from data of the loosers that a small subset $B_{hard^+}$ of these data was generally 
-enough to reach a lower bound violation. Then, instead of a random exploration of $B_{hard}$, 
-it will be more efficient to randomly start by instances in $B_{hard^+}$. 
-Globally, we can then reformulate the exploration of a configuration points as follows. We first start with the benchmark 
-entries in  $B_{hard^+} \cap B_{hard}$, then by the one in $B_{hard^+} \cap B_{soft}$ and finally the remaining 
-instances in considering hard instances before soft ones. The question is: how to build $B_{hard^+}$? 
+For this purpose, let us come back to the random oracle. At the
+begining of the exploration of any configuration $\theta_i$, the
+algorithm separates instances in hard and softs. Then, it randomly
+chooses instances in the hard class and then the ones of the soft
+class. This random choice could be improved in considering data of
+losing configurations. For example, beeing given the set hard instance
+$B_{hard}$, we could observe from data of the loosers that a small
+subset $B_{hard^+}$ of these data was generally enough to reach a
+lower bound violation. Then, instead of a random exploration of
+$B_{hard}$, it will be more efficient to randomly start by instances
+in $B_{hard^+}$.  Globally, we can then reformulate the exploration of
+a configuration points as follows. We first start with the benchmark
+entries in $B_{hard^+} \cap B_{hard}$, then by the one in
+$B_{hard^+} \cap B_{soft}$ and finally the remaining instances in
+considering hard instances before soft ones. The question is: how to
+build $B_{hard^+}$?
 
 
 \subsubsection{Computation of hard instances as a subset intersection problem.} 
 
-We propose to consider $B_{hard^+}$  as the set of benchmark entries for which there is 
-a maximal number of losing configurations that were evaluated. The idea behind is that 
-the more a same benchmark entry was evaluated in losing configurations, the more, we 
-could believe that this benchmark entry causes lower bound violations. 
+We propose to consider $B_{hard^+}$ as the set of benchmark entries
+for which there is a maximal number of losing configurations that were
+evaluated. The idea behind is that the more a same benchmark entry was
+evaluated in losing configurations, the more, we could believe that
+this benchmark entry causes lower bound violations.
 
-More practically, at each date $t$, we assume that we know the size $K(t)$ of $B_{hard^+}$ (this will be discussed latter). 
-For computing $B_{hard^+}$, we firstly associate each benchmark entry $\beta$ with a 
-configuration set $S(\beta)$ whose elements are all configurations  $\bar{\theta} \in \Theta_2(t)$ for which 
-there exists a computed estimation $\Delta(\sigma, \bar{\theta}, \beta)$. We then choose 
-$B_{hard^+}$ as the set of benchmark entries $\{ \beta^+_1, \dots, \beta^+_k \}$ such that 
-$|\{ \beta^+_1, \dots, \beta^+_k \}| = K(t)$ and 
- $|S(\beta^+_1) \cap \dots \cap S(\beta^+_k)|$ is maximal. 
+More practically, at each date $t$, we assume that we know the size
+$K(t)$ of $B_{hard^+}$ (this will be discussed latter).  For computing
+$B_{hard^+}$, we firstly associate each benchmark entry $\beta$ with a
+configuration set $S(\beta)$ whose elements are all configurations
+$\bar{\theta} \in \Theta_2(t)$ for which there exists a computed
+estimation $\Delta(\sigma, \bar{\theta}, \beta)$. We then choose
+$B_{hard^+}$ as the set of benchmark entries
+$\{ \beta^+_1, \dots, \beta^+_k \}$ such that
+$|\{ \beta^+_1, \dots, \beta^+_k \}| = K(t)$ and
+$|S(\beta^+_1) \cap \dots \cap S(\beta^+_k)|$ is maximal.
 
 
-With this formulation, we will decide on the construction of $B_{hard^+}$ based on 
- $|S(\beta^+_1) \cap \dots \cap S(\beta^+_k)|.K(t)$  additional data. In the best case, 
-when comparing with {\it Rand}, we will have  $|\Theta_2(t)|.K(t)$ additional data that {\it we will transform in information}.
-This formulation has two challenges. The first one is that we need to tune $K(t)$. In our implementation, we propose 
-to randomly chose these values. The second challenge is the resolution of the intersection problem we introduced. 
-
+With this formulation, we will decide on the construction of
+$B_{hard^+}$ based on
+$|S(\beta^+_1) \cap \dots \cap S(\beta^+_k)|.K(t)$ additional data. In
+the best case, when comparing with {\it Rand}, we will have
+$|\Theta_2(t)|.K(t)$ additional data that {\it we will transform in
+  information}.  This formulation has two challenges. The first one is
+that we need to tune $K(t)$. In our implementation, we propose to
+randomly chose these values. The second challenge is the resolution of
+the intersection problem we introduced.
 
 \subsubsection{ Greedy algorithm for computing $B_{hard^+}$.}
 
-One can easily notice that the computation of $B_{hard^+}$ as formulated correspond to the 
-resolution of the  Maximum K-intersection problem~\cite{DBLP:journals/ipl/ShiehTY12}. 
-Indeed, this latter problem is defined as follows.
+One can easily notice that the computation of $B_{hard^+}$, as
+formulated, corresponds to the resolution of the Maximum $K$-intersection
+problem~\cite{DBLP:journals/ipl/ShiehTY12}.  Indeed, this latter
+problem is defined as follows.
 
-Given $n$ sets $E_1,\dots,E_m$ with elements over a universe $\Sigma = \{ e_1,\dots,e_n  \}$, the goal is to select 
-$K$ subsets of $E_1,\dots,E_m$ in order to maximize the size of the intersection of the sets.
-As shown in~\cite{DBLP:journals/ipl/ShiehTY12}, this problem is NP-complete and cannot be approximated within 
-an absolute error of $\frac{1}{2}n^{1-2\epsilon} + \frac{3}{8}n^{1-3\epsilon} - 1$ unless {\bf P = NP}.
-However this intersection problem is close to coverage problems for which there exists  
-a general heuristic framework. The first stage in this framework consists of ordering the sets $S(\beta)$ according 
-to a pricing strategy. Then, the sets with higher prices are progressively chosen until we reach a subset intersection 
-that cannot evolve. Using this idea, we propose in Algorithm~\ref{alg4} a greedy solution for building the 
-$B_{hard^+}$ set.
+Given $n$ sets $E_1,\dots,E_m$ with elements over a universe
+$\Sigma = \{ e_1,\dots,e_n  \}$, the goal is to select $K$ subsets of
+$E_1,\dots,E_m$ in order to maximize the size of the intersection of
+the sets.  As shown in~\cite{DBLP:journals/ipl/ShiehTY12}, this
+problem is NP-complete and cannot be approximated within an absolute
+error of $\frac{1}{2}n^{1-2\epsilon} + \frac{3}{8}n^{1-3\epsilon} - 1$
+unless {\bf P = NP}.  However this intersection problem is close to
+coverage problems for which there exists a general heuristic
+framework. The first stage in this framework consists in ordering the
+sets $S(\beta)$ according to a pricing strategy. Then, the sets with
+higher prices are progressively chosen until we reach a subset
+intersection that cannot evolve. Using this idea, we propose in
+Algorithm~\ref{alg4} a greedy solution for building the $B_{hard^+}$
+set.
 
 	\begin{algorithm}                    
 	\caption{\scriptsize RandW Hard instance selection (RandW-HIS)} 	\label{alg4}  
@@ -887,34 +950,140 @@ $B_{hard^+}$ set.
 	\end{algorithm}
 	\normalsize
 
-
-
-We end here the description of the data exploration and exploitation in QTuning. In the next, we will then present an 
-experimental evaluation of our different approaches.
-
+        We end here the description of the data exploration and
+        exploitation in QTuning. The next section is devoted to
+        experiments.
 
 
 \section{Experimental evaluation} \label{Proof-of-concept}
 
- Evaluate Lex, Rand, RandW, Rand(Class sorting), RandW(with soft-and-hard), try different $K(t)$
+\subsection{Settings}
+In considering the architecture of Figure~\ref{fig:QTuning}, we simulated the behavior of 
+the active learning framework in a setting where given a tuning project pushed at date $0$,  
+{\it service.d} requested a new configuration to {\it QTunind.d} every $d$ seconds. 
+We assume that between these $d$ seconds, the active learning framework was able to launch exploration 
+jobs and get the results on $p$ configuration points. For obtaining the $p$ points, the framework 
+could have used the oracles above.
+\begin{itemize}
+\item {\it lex:} it corresponds to the {\it Lex} oracle.
+\item {\it rand:} the {\it Rand} oracle;
+\item {\it rand\_sort:} the {\it Rand} oracle; but the group of hard and soft instances are each sorted in ascending order on the value of $\norm{\Delta(\beta)}$;
+\item {\it rand\_desc\_sort:} the {\it Rand} oracle; but each group of hard and soft instance is sorted in descending order on the value of $\norm{\Delta(\beta)}$;
+\item {\it rand\_w:} the {\it RandW} oracle;
+\item {\it rand\_w\_noh:} the {\it RandW} oracle; but we choose $B_{hard}$ randomly instead of using the $2$-Means clustering.
+\end{itemize}
+
+For evaluating the oracles, we assumed three tuning projects based on the data of an international SAT 
+competition~\footnote{http://satcompetition.org/edacc/SATCompetition2013/}. In this competition, various 
+solvers are evaluated on instances of the NP-hard problem SAT. The benchmark 
+instances $B$ and the configurations $\Theta$ of each tuning project are associated 
+with a sub-competition. In each sub-competition, we fixed the values $\Delta(\sigma, \bar{\theta_i}, \beta_j)$ as the 
+runtime of a SAT solver on a benchmark instance. Let us notice that all these runtime are available 
+in the competition web site. Finally, the chosen sub-competitions are: Core solvers sequential on random satisfiable+unsatisfiable instances (c-SAT+UNSAT), Core solvers sequential on satisfiable instances (c-SAT) and  Core solvers sequential on hard satisfiable+unsatisfiable instances (c-SAT+UNSAT|Hard). 
+
+\subsection{Experimental plan}
+
+We did $7$ series of experiments. In each, we computed the regret of the active learning framewok for each 
+of the oracles in a discrete windows of time $t_0,\dots ,t_n$. 
+For the first $3$ experiments, all oracles were evaluated assuming data of three sub-competitions. The 
+evaluation for each competition included $300$ sub-evaluations, were we changed the ordering of instances $B$ and 
+configurations $\Theta$.  The objective in these first experiments was to find the best oracle. In experiment $4$, we 
+compared variants of the {\it Randw} with different values of  $K(t)$. Finally, in experiments, 
+$5$, $6$ and $7$, we compared all the oracles when the values of $p$ are changed. The experiments plan 
+are summarized in Table~\ref{tab:plan}
+
+\begin{table}
+  \begin{center}
+  \begin{tabular}{ p{1cm} | p{6cm} }
+
+    {\small Exp.1} & {\small competition=c-SAT+UNSAT ($|B| = 300$, $|\Theta| = 28$), $d=600$, $p=100$, $t_0 = 0$, $t_n = 76.d$, $K(t) = 10$} \\\hline
+    {\small Exp.2} & {\small competition=c-SAT ($|B| = 300$, $|\Theta| = 31$), $d=600$, $p=100$, $t_0 = 0$, $t_n = 45.d$, $K(t) = 10$} \\\hline
+    {\small Exp.3} & {\small competition=c-SAT+UNSAT|Hard ($|B| = 300$, $|\Theta| = 31$), $d=600$, $p=100$, $t_0 = 0$, $t_n = 92.d$, $K(t) = 10$} \\\hline
+    {\small Exp.4} & {\small competition=c-SAT+UNSAT, $d=600$, $p=100$, $t_0 = 0$, $t_n = 76.d$, $K(t) = 10, 20, 30, 40$} \\\hline
+    {\small Exp.5} & {\small competition=c-SAT+UNSAT, $d=600$, $p=120$, $t_0 = 0$, $t_n = 76.d$, $K(t) = 10$} \\\hline
+    {\small Exp.6} & {\small competition=c-SAT+UNSAT, $d=600$, $p=140$, $t_0 = 0$, $t_n = 76.d$, $K(t) = 10$} \\\hline
+    {\small Exp.7} & {\small competition=c-SAT+UNSAT, $d=600$, $p=160$, $t_0 = 0$, $t_n = 76.d$, $K(t) = 10$} \\
+  \end{tabular}
+  \caption{Experimental plan}
+  \label{tab:plan}
+  \end{center} 
+\end{table}
+
+
+
+
+\subsection{Experimental results and analysis}
+
+In Figure~\ref{fig:regret}, we present the mean regret we obtained. The first lesson we learn is that 
+on {\small Exp.1, Exp.2, Exp.3}, the best oracle is {\it rand\_desc\_sort}  and the worst is {\it lex}. 
+Indeed, this oracle leads to the minimal regret within the time. In the plots in Figure~\ref{fig:regret}, 
+one can notice that the regret starts to grow quiclky and then stabilizes. This is normal since within 
+the time, we are approaching the optimal solution. 
+These first experiments confirm two noticeable points: the interest of randomization 
+for regret minimization ({\it lex} is the worst oracle) and the interest in processing instances with hard ones 
+before soft ones instances. 
+
+The oracle {\it rand\_desc\_sort} was either followed by {\it rand}, or by {\it rand\_w} and its variant. 
+This means that there is an interest in using the wisdom of the loser. Since in the first experiments, 
+we set $K(t)$ to $10$, a question was then to see whether or not we could obtain better 
+results for {\it wisdom of loser oracles} in changing the $K(t)$.  The answer for this question is yes. 
+As shown in {\small Exp.4} there is an effective 
+performance variation when $K(t)$ is changed. Consequently, for further work it is interesting to invest on how to 
+decide the best value of $K(t)$. Finally, in the figures~\ref{fig:regret}(e-f), we present what we obtained in changing 
+the number of configuration points that we processed between the $d$ seconds. The results confirm the trend we observed 
+in the three first experiments. 
+
+
+\begin{figure*}[ht]
+\centering
+\subfloat[{\scriptsize Exp.1}]{
+\includegraphics[scale=0.6]{./Figures/exp1.eps}
+}
+\subfloat[{\scriptsize Exp.2}]{
+\includegraphics[scale=0.6]{./Figures/exp2.eps}
+}
+\\
+\subfloat[{\scriptsize Exp.3}]{
+\includegraphics[scale=0.6]{./Figures/exp3.eps}
+}
+\subfloat[{\scriptsize Exp.4}]{
+\includegraphics[scale=0.6]{./Figures/exp4.eps}
+}
+\\
+\subfloat[{\scriptsize Exp.5}]{
+\includegraphics[scale=0.6]{./Figures/exp5.eps}
+}
+\subfloat[{\scriptsize Exp.6}]{
+\includegraphics[scale=0.6]{./Figures/exp6.eps}
+}
+\\
+\subfloat[{\scriptsize Exp.7}]{
+\includegraphics[scale=0.6]{./Figures/exp7.eps}
+}
+
+\caption{Mean regret obtained from the experiments whose settings are in Table~\ref{tab:plan}}
+\label{fig:regret}
+\end{figure*}
 
 \section{Conclusion} \label{Conclusion}
 
+In this paper, we introduced a new automatic tuning system for NP-hard algorithms in a cloud 
+context. The proposed system is based on an active learning framework where we continuously 
+learn the best configuration while servicing cloud requests with the best local results found. 
+We proposed a naive oracle for the learning process and several  
+ improvements based on randomization, k-means clustering and the resolution of a set intersection problem. 
+We then simulate the performance of our oracles based on runtime of algorithms solving the satisfiability 
+problem. The experiments clearly demonstrated that our improved oracles are better in the practice. 
+They also reveal the dominance of some oracles. 
 
-Perspective: 
-
-Combine oracles. Refine classification for filling. Learn $K(t)$
-
-% conference papers do not normally have an appendix
-
-
-% use section* for acknowledgement
-\section*{Acknowledgment}
-
-
-The authors would like to thank...
-more thanks here
-
+For continuing this work, we envision three main perspectives. The first one is to combine the different 
+oracles in a general active learning framework. Here, we could 
+use for example multi-armed bandit models. Our second perspective is to refine the classification of hard 
+instances such as to define better techniques for ordering configuration points. Indeed, the experiments showed  
+that the usage of sorting or the wisdom of the losers can improve the {\it Rand} oracle. Finally, we intend 
+to define {\it filling techniques} such as to predict the value of configuration points with few processing. 
+We do believe that given an instance, from the trace execution of a set of configurations on it,  we can estimate the runtime 
+it will have on new configuration.
 
 \bibliographystyle{./IEEEtran}
 \bibliography{self_learning}
@@ -925,4 +1094,3 @@ more thanks here
 % that's all folks
 \end{document}
 
-f
