@@ -429,63 +429,118 @@ The conclusion of the learning are next used to improve the functioning of the c
 As stated in the introduction, automatic tuning  is a well-investigated field. For a general survey on HPC systems based on 
 automatic tuning, the interested reader might take a look at the general report of the 2014 Dagstuhl seminary~\cite{benkner_et_al:DR:2014:4423}. 
 It is also important to notice that nowadays, automatic tuning, as well as  {\it parallelism}, more than in the past 
-are considered by industrials as one of the major strategy for the improvement of algorithmic performance. The invest on 
-performance tuning of SQL requests made by major companies  like Oracle or IBM is an example~\cite{Oracle}. 
+are considered by industrials as one of the major strategy for the improvement of algorithmic performance~\cite{Oracle}.
 
-For positioning our study, we propose to classify automatic tuning systems based on two criteria: 
-their generecity and the characteristic of their learning process. On the first criteria, there are two classes to consider: 
-{\it problem-specific} and {\it class-of-problems} ones. On the second criteria, we will consider 
-{\it passive learning} and {\it active  learning} approaches.
+%The invest on 
+%performance tuning of SQL requests made by major companies  like Oracle or IBM is an example~\cite{Oracle}. 
+
+In order to position our study, we classify automatic tuning systems based on two criteria, namely 
+their genericity and the their learning model.
+
+ %On the first criteria, there are two classes to consider: 
+%{\it problem-specific} and {\it class-of-problems} ones. On the second criteria, we will consider 
+%{\it passive learning} and {\it active  learning} approaches.
 
 \subsection{Problem-specific vs class-of-problems tuning}
 
-By problem-specific, we refer to an automatic tuning approach that was developed for specific problems. 
-In the class of problem specific classes class, some convincing examples are the ATLAS~\cite{ATLAS} library for matrix multiplication, 
-OSKI~\cite{Vuduc:2005zi} on sparse matrix vector multiplication,  the SPIRAL library~\cite{Spiral} for sorting and the FFTW~\cite{FFTW}  
-for Fast Fourrier transform. These work demonstrated the efficiency of some key automatic tuning techniques as the offline and  
- runtime tuning or the dynamic programming approach for algorithms cascading. One general trend in these work is that 
-the tuning targets the runtime optimization by finding between different versions of a program, the one that is optimized on data 
-access. At this stage, we highlight that in comparison to these prior works, the tuning system that we propose is not restricted to 
-a specific problem or type of parameters. Instead, we consider general 
-techniques that can be used in a wide range of NP-complete and exponential algorithms.
+By problem-specific, we refer to an automatic tuning approach that was
+developed for specific problems.  In the class of problem specific classes
+class, some convincing examples are the ATLAS~\cite{ATLAS} library for matrix
+multiplication, OSKI~\cite{Vuduc:2005zi} on sparse matrix vector
+multiplication,  the SPIRAL library~\cite{Spiral} for sorting and the
+FFTW~\cite{FFTW}  for Fast Fourrier transform. These work demonstrated the
+efficiency of key automatic tuning techniques such as offline and runtime
+tuning or the dynamic programming approach for algorithms cascading.
 
-There are several sytems or frameworks that were proposed for automatic tuning. The AEOS approach~\cite{AEOS} 
-summarizes a set of general principles and a component architecture that were succesfully applied for tuning  
-serveral dense linear algebra kernel. As discussed before, we do not believe that this solution is suitable for the context we target. 
-The OpenTuner framework formulates a new language for general automatic tuning~\cite{DBLP:conf/IEEEpact/AnselKVRBOA14}. 
-The system also innovates in implementing ensemble techniques for combining several automatic search algorithms. As OpenTuner, QTuning 
-invests on search techniques for tuning exploration. However, we propose to use alternative search techniques. 
- The Periscope framework~\cite{DBLP:conf/parco/MijakovicSUGSC13} is another general solution for automatic 
-tuning in a distributed context. This solution is particularly interesting since it also addresses the tuning for energy efficiency. 
- As Periscope, QTuning is based on distributed search, but our objective in distribution is to diversify the quality of local solutions 
-that can be found during the search. Moreover, QTuning differs on how it makes online synthesis of the best tuning results.
-ParamILS~\cite{Hutter:2009:PAA:1734953.1734959} is an automatic tuning system especially designed for tuning hard computational 
-algorithms like SAT. The exploration algorithms used in QTuning are inspired from the random search algorithm defined in 
-ParamILS. But, we innovate in formulating this search as a combination between breadth and depth first searches for optimizing 
-a regret function. In addition, to the contribution of ParamILS, we introduce a new modeling of the data exploitation challenge. 
+%One general trend in these work is that the tuning targets the runtime
+%optimization by finding between different versions of a program, the one that
+%is optimized on data access.
 
-***!!! problem-specific can in some cases be generalized ******
-\subsection{Passive learning vs active learning}
+At this stage, we highlight that in comparison to these prior
+works, the tuning system that we propose is not restricted to a specific
+problem or type of parameters. Instead, we consider general techniques that can
+be used in a wide range of NP-complete and exponential algorithms.
 
+There are several sytems or frameworks that were proposed for automatic tuning.
+The AEOS approach~\cite{AEOS} summarizes a set of general principles and a
+component architecture that were succesfully applied for tuning  serveral dense
+linear algebra kernel.
 
-As mentioned in the introduction, there already exist work that envisionned the automatic tuning as a long-term process. In particular, there is the MATE system~\cite{DBLP:conf/para/MorajkoMCMS10}, the tuned plugin~\footnote{http://linux.die.net/man/8/tuned} available 
-in Linux Redhat or the Green framework~\cite{Baek:2010:GFS:1809028.1806620}. However, none of these work formulated the 
-automatic tuning problem as us; while they invested on the idea of improving a system by monitoring, we consider automatic 
-tuning as an online search problem.
+ %As discussed before, we do not believe that this
+%solution is suitable for the context we target. 
 
+The OpenTuner framework formulates a new language for general automatic
+tuning~\cite{DBLP:conf/IEEEpact/AnselKVRBOA14}.  The system also innovates in
+implementing ensemble techniques for combining several automatic search
+algorithms. As OpenTuner, QTuning invests on search techniques for tuning
+exploration. The Periscope framework~\cite{DBLP:conf/parco/MijakovicSUGSC13} is
+another general solution for automatic tuning in a distributed context. 
 
+%This
+%solution is particularly interesting since it also addresses the tuning for
+%energy efficiency.
 
-**** MIX WITH ACTIVE LEARNING STATE of ART*** E.G: Let us observe that there exists work that studied active learning for automatic tuning~\cite{DBLP:conf/cluster/BalaprakashGW13}. 
-We differ from them on the type of algorithms we intend to tune and on the exploration and exploitation algorithms we propose
+As Periscope, QTuning is based on distributed search, but
+our objective in distribution is to diversify the quality of local solutions
+that can be found during the search. Moreover, QTuning differs on how it makes
+an online synthesis of the best tuning results.
 
+ParamILS~\cite{Hutter:2009:PAA:1734953.1734959} is an automatic tuning system
+especially designed for tuning hard computational algorithms like SAT. The
+exploration algorithms used in QTuning are inspired from the random search
+algorithm defined in ParamILS. However, we innovate in formulating this search
+as a combination between breadth and depth first searches for optimizing a
+regret function. In addition to the contribution of ParamILS, we introduce a
+new modeling of the data exploitation challenge.
 
-Finally, let us recall that one of the earlier general automatic tuning systems is the  Algorithm selection 
-framework of John Rice~\cite{Rice}. This work innovated in introducing the key concepts that are nowadays used in most automatic 
-tuning system. Our work is largely inspired by the Rice framework.
+\subsection{supervised/active learning and collaborative filtering}
 
-In the next section, we will now introduce the key modeling concepts that are manipulated in QTuning. The objective is to 
-give more details about the active learning vision implemented in QTuning. 
+As mentioned in the introduction, pre-existing work already envisions automatic
+tuning as a long-term process. In particular, there is the MATE
+system~\cite{DBLP:conf/para/MorajkoMCMS10}, the tuned
+plugin~\footnote{http://linux.die.net/man/8/tuned} available in Linux Redhat or
+the Green framework~\cite{Baek:2010:GFS:1809028.1806620}. However, none of
+these work formulated the automatic tuning problem as an online search
+problem; while they invested on the idea of improving a system by monitoring,
+we consider that we can leverage some extra computing power to find the best
+parameters. As a consequence, our problem implies that one must choose a
+search strategy to evaluate the performance on unseen parameters.
 
+When a model is available, choosing which data to explore is adressed by the
+active learning~\cite{DBLP:series/synthesis/2012Settles} litterature.
+There exists work that studied automatic tuning under the lens of active learning
+~\cite{DBLP:conf/cluster/BalaprakashGW13}. In this work, the authors build a
+surrogate model that can predict the runtime and power consumption of various
+software conditioned by parameter values.
+
+However, this work does not cover the question of selecting the best parameters
+for a given problem instance. In particular, when tuning the parameters of a
+heuristic solver for a NP-Hard problem, the best values may vary from one
+problem instance to another. This realization has lead to the design of a
+portfolio-based algorithm selection system ~\cite{xu2008satzilla} that uses a
+supervised learning approach to learn the best parameters for a given problem
+instance.  One limitation of this work is that it requires the use of a vector
+of features describing the specific problem instance. In practice, this might
+not be easy to obtain, and an approach that learns the best parameters for a
+problem class as a whole would be preferable.
+
+One line of research that fits closely into our direction is Active
+Collaborative Filtering~\cite{DBLP:journals/corr/abs-1212-2442} (ACF) , where a
+learning system tries to find the ratings (here, the runtimes) users(here,
+problem instances) would give to products based on other users ratings. In ACF,
+the learning system is allowed to ask about user's ratings. However, this work
+does not focus on producing the best possible rating for a given new user
+(producing the best parameters for a given problem instance), but rather
+optimizes a loss on the whole model.
+
+Finally, let us recall that one of the earlier general automatic tuning systems
+is the  Algorithm selection framework of John Rice~\cite{Rice}. This work
+innovated in introducing the key concepts that are nowadays used in most
+automatic tuning system. Our work is largely inspired by the Rice framework.
+
+In the next section, we will now introduce the key modeling concepts that are
+manipulated in QTuning. The objective is to give more details about the active
+learning vision implemented in QTuning.
 
 \section{Model} \label{Model}
 
