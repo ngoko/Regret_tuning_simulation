@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2015.9.3)  16 OCT 2015 13:46
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2015.9.3)  16 OCT 2015 18:02
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -669,16 +669,13 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 
 ] [2]
-Underfull \hbox (badness 1584) in paragraph at lines 478--480
-[]\OT1/ptm/m/n/10 **** MIX WITH AC-TIVE LEARN-ING STATE of
- []
-
 Missing character: There is no Â in font ptmr7t!
 Missing character: There is no   in font ptmr7t!
-[3] (./Figures/QTuningArch.tex
+ [3]
+(./Figures/QTuningArch.tex
 \du=\skip54
 ) [4] [5] (./Figures/Search.tex)
-Overfull \hbox (11.3012pt too wide) in paragraph at lines 257--810
+Overfull \hbox (11.3012pt too wide) in paragraph at lines 257--841
  [] 
  []
 
@@ -686,18 +683,40 @@ Overfull \hbox (11.3012pt too wide) in paragraph at lines 257--810
 Missing character: There is no Â in font cmr10!
 Missing character: There is no   in font cmr10!
  [7]
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <9> on input line 999.
+Overfull \hbox (1.33214pt too wide) in paragraph at lines 1036--1036
+[]\OT1/ptm/m/n/9 Exp.1| 
+ []
 
-Underfull \hbox (badness 2269) in paragraph at lines 999--999
-[]\OT1/ptm/m/n/9 competition=c-SAT+UNSAT ($\OMS/cmsy/m/n/9 j\OML/cmm/m/it/9 B\O
-MS/cmsy/m/n/9 j \OT1/cmr/m/n/9 = 300$\OT1/ptm/m/n/9 ,
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <9> on input line 1036.
+
+Overfull \hbox (1.33214pt too wide) in paragraph at lines 1037--1037
+[]\OT1/ptm/m/n/9 Exp.2| 
  []
 
 
-Underfull \hbox (badness 1701) in paragraph at lines 1001--1001
-[]\OT1/ptm/m/n/9 competition=c-SAT+UNSAT|Hard ($\OMS/cmsy/m/n/9 j\OML/cmm/m/it/
-9 B\OMS/cmsy/m/n/9 j \OT1/cmr/m/n/9 =
+Overfull \hbox (1.33214pt too wide) in paragraph at lines 1038--1038
+[]\OT1/ptm/m/n/9 Exp.3| 
+ []
+
+
+Overfull \hbox (1.33214pt too wide) in paragraph at lines 1039--1039
+[]\OT1/ptm/m/n/9 Exp.4| 
+ []
+
+
+Overfull \hbox (1.33214pt too wide) in paragraph at lines 1040--1040
+[]\OT1/ptm/m/n/9 Exp.5| 
+ []
+
+
+Overfull \hbox (1.33214pt too wide) in paragraph at lines 1041--1041
+[]\OT1/ptm/m/n/9 Exp.6| 
+ []
+
+
+Overfull \hbox (1.33214pt too wide) in paragraph at lines 1042--1042
+[]\OT1/ptm/m/n/9 Exp.7| 
  []
 
 Package epstopdf Info: Source file: <./Figures/exp1.eps>
@@ -708,15 +727,15 @@ Package epstopdf Info: Source file: <./Figures/exp1.eps>
 (epstopdf)                    size: 82275 bytes
 (epstopdf)             Command: <repstopdf --outfile=./Figures/exp1-eps-convert
 ed-to.pdf ./Figures/exp1.eps>
-(epstopdf)             \includegraphics on input line 1041.
+(epstopdf)             \includegraphics on input line 1078.
 Package epstopdf Info: Output file is already uptodate.
 <./Figures/exp1-eps-converted-to.pdf, id=46, 361.35pt x 252.945pt>
 File: ./Figures/exp1-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./Figures/exp1-eps-converted-to.pdf>
 Package pdftex.def Info: ./Figures/exp1-eps-converted-to.pdf used on input line
- 1041.
-(pdftex.def)             Requested size: 216.81168pt x 151.76816pt.
+ 1078.
+(pdftex.def)             Requested size: 180.67456pt x 126.47218pt.
 Package epstopdf Info: Source file: <./Figures/exp2.eps>
 (epstopdf)                    date: 2015-10-16 12:01:34
 (epstopdf)                    size: 325794 bytes
@@ -725,7 +744,7 @@ Package epstopdf Info: Source file: <./Figures/exp2.eps>
 (epstopdf)                    size: 84709 bytes
 (epstopdf)             Command: <repstopdf --outfile=./Figures/exp2-eps-convert
 ed-to.pdf ./Figures/exp2.eps>
-(epstopdf)             \includegraphics on input line 1044.
+(epstopdf)             \includegraphics on input line 1081.
 Package epstopdf Info: Output file is already uptodate.
 
 <./Figures/exp2-eps-converted-to.pdf, id=47, 361.35pt x 252.945pt>
@@ -733,8 +752,8 @@ File: ./Figures/exp2-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./Figures/exp2-eps-converted-to.pdf>
 Package pdftex.def Info: ./Figures/exp2-eps-converted-to.pdf used on input line
- 1044.
-(pdftex.def)             Requested size: 216.81168pt x 151.76816pt.
+ 1081.
+(pdftex.def)             Requested size: 180.67456pt x 126.47218pt.
 Package epstopdf Info: Source file: <./Figures/exp3.eps>
 (epstopdf)                    date: 2015-10-16 12:34:30
 (epstopdf)                    size: 348525 bytes
@@ -743,7 +762,7 @@ Package epstopdf Info: Source file: <./Figures/exp3.eps>
 (epstopdf)                    size: 65854 bytes
 (epstopdf)             Command: <repstopdf --outfile=./Figures/exp3-eps-convert
 ed-to.pdf ./Figures/exp3.eps>
-(epstopdf)             \includegraphics on input line 1048.
+(epstopdf)             \includegraphics on input line 1085.
 Package epstopdf Info: Output file is already uptodate.
 
 <./Figures/exp3-eps-converted-to.pdf, id=48, 361.35pt x 252.945pt>
@@ -751,8 +770,8 @@ File: ./Figures/exp3-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./Figures/exp3-eps-converted-to.pdf>
 Package pdftex.def Info: ./Figures/exp3-eps-converted-to.pdf used on input line
- 1048.
-(pdftex.def)             Requested size: 216.81168pt x 151.76816pt.
+ 1085.
+(pdftex.def)             Requested size: 180.67456pt x 126.47218pt.
 Package epstopdf Info: Source file: <./Figures/exp4.eps>
 (epstopdf)                    date: 2015-10-16 12:02:11
 (epstopdf)                    size: 231288 bytes
@@ -761,7 +780,7 @@ Package epstopdf Info: Source file: <./Figures/exp4.eps>
 (epstopdf)                    size: 55566 bytes
 (epstopdf)             Command: <repstopdf --outfile=./Figures/exp4-eps-convert
 ed-to.pdf ./Figures/exp4.eps>
-(epstopdf)             \includegraphics on input line 1051.
+(epstopdf)             \includegraphics on input line 1088.
 Package epstopdf Info: Output file is already uptodate.
 
 <./Figures/exp4-eps-converted-to.pdf, id=49, 361.35pt x 252.945pt>
@@ -769,8 +788,8 @@ File: ./Figures/exp4-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./Figures/exp4-eps-converted-to.pdf>
 Package pdftex.def Info: ./Figures/exp4-eps-converted-to.pdf used on input line
- 1051.
-(pdftex.def)             Requested size: 216.81168pt x 151.76816pt.
+ 1088.
+(pdftex.def)             Requested size: 180.67456pt x 126.47218pt.
 Package epstopdf Info: Source file: <./Figures/exp5.eps>
 (epstopdf)                    date: 2015-10-16 12:02:24
 (epstopdf)                    size: 336315 bytes
@@ -779,7 +798,7 @@ Package epstopdf Info: Source file: <./Figures/exp5.eps>
 (epstopdf)                    size: 76638 bytes
 (epstopdf)             Command: <repstopdf --outfile=./Figures/exp5-eps-convert
 ed-to.pdf ./Figures/exp5.eps>
-(epstopdf)             \includegraphics on input line 1055.
+(epstopdf)             \includegraphics on input line 1092.
 Package epstopdf Info: Output file is already uptodate.
 
 <./Figures/exp5-eps-converted-to.pdf, id=50, 361.35pt x 252.945pt>
@@ -787,8 +806,8 @@ File: ./Figures/exp5-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./Figures/exp5-eps-converted-to.pdf>
 Package pdftex.def Info: ./Figures/exp5-eps-converted-to.pdf used on input line
- 1055.
-(pdftex.def)             Requested size: 216.81168pt x 151.76816pt.
+ 1092.
+(pdftex.def)             Requested size: 180.67456pt x 126.47218pt.
 Package epstopdf Info: Source file: <./Figures/exp6.eps>
 (epstopdf)                    date: 2015-10-16 12:02:37
 (epstopdf)                    size: 350675 bytes
@@ -797,7 +816,7 @@ Package epstopdf Info: Source file: <./Figures/exp6.eps>
 (epstopdf)                    size: 74442 bytes
 (epstopdf)             Command: <repstopdf --outfile=./Figures/exp6-eps-convert
 ed-to.pdf ./Figures/exp6.eps>
-(epstopdf)             \includegraphics on input line 1058.
+(epstopdf)             \includegraphics on input line 1095.
 Package epstopdf Info: Output file is already uptodate.
 
 <./Figures/exp6-eps-converted-to.pdf, id=51, 361.35pt x 252.945pt>
@@ -805,8 +824,8 @@ File: ./Figures/exp6-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./Figures/exp6-eps-converted-to.pdf>
 Package pdftex.def Info: ./Figures/exp6-eps-converted-to.pdf used on input line
- 1058.
-(pdftex.def)             Requested size: 216.81168pt x 151.76816pt.
+ 1095.
+(pdftex.def)             Requested size: 180.67456pt x 126.47218pt.
 Package epstopdf Info: Source file: <./Figures/exp7.eps>
 (epstopdf)                    date: 2015-10-16 12:02:38
 (epstopdf)                    size: 358670 bytes
@@ -815,7 +834,7 @@ Package epstopdf Info: Source file: <./Figures/exp7.eps>
 (epstopdf)                    size: 73118 bytes
 (epstopdf)             Command: <repstopdf --outfile=./Figures/exp7-eps-convert
 ed-to.pdf ./Figures/exp7.eps>
-(epstopdf)             \includegraphics on input line 1062.
+(epstopdf)             \includegraphics on input line 1099.
 Package epstopdf Info: Output file is already uptodate.
 
 <./Figures/exp7-eps-converted-to.pdf, id=52, 361.35pt x 252.945pt>
@@ -823,39 +842,35 @@ File: ./Figures/exp7-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./Figures/exp7-eps-converted-to.pdf>
 Package pdftex.def Info: ./Figures/exp7-eps-converted-to.pdf used on input line
- 1062.
-(pdftex.def)             Requested size: 216.81168pt x 151.76816pt.
-
-
-LaTeX Warning: Float too large for page by 67.87262pt on input line 1066.
-
-[8] (./self_learning.bbl
-Underfull \hbox (badness 2799) in paragraph at lines 64--67
+ 1099.
+(pdftex.def)             Requested size: 180.67456pt x 126.47218pt.
+ [8] (./self_learning.bbl
+Underfull \hbox (badness 2799) in paragraph at lines 65--68
 []\OT1/ptm/m/n/9 S. Benkner, F. Franchetti, H. M. Gerndt, and J. K.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 69--71
+Underfull \hbox (badness 10000) in paragraph at lines 70--72
 []\OT1/ptm/m/n/9 Oracle-Database, ``Per-for-mance tun-ing guide,''
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 69--71
+Underfull \hbox (badness 10000) in paragraph at lines 70--72
 \OT1/ptm/m/n/9 http://docs.oracle.com/cd/B28359[]01/server.111/b28274.pdf,
  []
 
 
-Underfull \hbox (badness 2205) in paragraph at lines 129--133
+Underfull \hbox (badness 2205) in paragraph at lines 143--147
 []\OT1/ptm/m/n/9 T. Z. Zhe Wang and Y. Zhang, ``Dis-tin-guish-ing hard
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 129--133
+Underfull \hbox (badness 10000) in paragraph at lines 143--147
 \OT1/ptm/m/n/9 http://cs229.stanford.edu/proj2013/WangZhangZhang-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 129--133
+Underfull \hbox (badness 10000) in paragraph at lines 143--147
 \OT1/ptm/m/n/9 DistinguishHardInstancesOfAnNPHardProblem.pdf, 2013,
  []
 
@@ -876,10 +891,10 @@ pdf> <./Figures/exp3-eps-converted-to.pdf> <./Figures/exp4-eps-converted-to.pdf
 > <./Figures/exp5-eps-converted-to.pdf> <./Figures/exp6-eps-converted-to.pdf> <
 ./Figures/exp7-eps-converted-to.pdf>] (./self_learning.aux) ) 
 Here is how much of TeX's memory you used:
- 15781 strings out of 493105
- 300655 string characters out of 6137073
- 784009 words of memory out of 5000000
- 18949 multiletter control sequences out of 15000+600000
+ 15783 strings out of 493105
+ 300700 string characters out of 6137073
+ 780403 words of memory out of 5000000
+ 18951 multiletter control sequences out of 15000+600000
  42303 words of font info for 78 fonts, out of 8000000 for 9000
  1144 hyphenation exceptions out of 8191
  55i,13n,54p,797b,5989s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -905,7 +920,7 @@ are/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/tex
 mf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/texmf-dist/fonts/
 type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times
 /utmri8a.pfb>
-Output written on self_learning.pdf (10 pages, 810120 bytes).
+Output written on self_learning.pdf (10 pages, 810428 bytes).
 PDF statistics:
  172 PDF objects out of 1000 (max. 8388607)
  122 compressed objects within 2 object streams

@@ -22,18 +22,19 @@
 \BIBdecl
 
 \bibitem{ATLAS}
-A.~P. R.~Clint~Whaley and J.~Dongarra, ``Automated empirical optimization of
-  software and the {ATLAS} project,'' \emph{Parallel Computing}, vol.~27, no.
-  1-2, pp. 3--35, 2001.
+R.~C. Whaley, A.~Petitet, and J.~Dongarra, ``Automated empirical optimization
+  of software and the {ATLAS} project,'' \emph{Parallel Computing}, vol.~27,
+  no. 1-2, pp. 3--35, 2001.
 
 \bibitem{Spiral}
-M.~J.~G. Xiaoming~Li and D.~A. Padua, ``A dynamically tuned sorting library,''
-  in \emph{proceedings of the 2004 IEEE/ACM International Symposium on Code
-  Generation and Optimization (CGO)}.\hskip 1em plus 0.5em minus 0.4em\relax
-  San Jose, California: IEEE Computer Society, June 2004, pp. 111--124.
+X.~Li, M.~J. Garzar\'an, and D.~A. Padua, ``A dynamically tuned sorting
+  library,'' in \emph{proceedings of the 2004 IEEE/ACM International Symposium
+  on Code Generation and Optimization (CGO)}.\hskip 1em plus 0.5em minus
+  0.4em\relax San Jose, California: IEEE Computer Society, June 2004, pp.
+  111--124.
 
 \bibitem{FFTW}
-S.~G.~J. Matteo~Frigo, ``{FFTW}: An adaptive software architecture for the
+M.~Frigo and S.~G. Johnson, ``{FFTW}: An adaptive software architecture for the
   {FFT},'' in \emph{proceedings of the International Conference on Acoustics,
   Speech and Signal Processing}.\hskip 1em plus 0.5em minus 0.4em\relax
   Seattle, Washington: ACM SIGARC, May 1998.
@@ -112,18 +113,31 @@ W.~Baek and T.~M. Chilimbi, ``Green: A framework for supporting
   energy-conscious programming using controlled approximation,'' \emph{SIGPLAN
   Not.}, vol.~45, no.~6, pp. 198--209, Jun. 2010.
 
+\bibitem{DBLP:series/synthesis/2012Settles}
+\BIBentryALTinterwordspacing
+B.~Settles, \emph{Active Learning}, ser. Synthesis Lectures on Artificial
+  Intelligence and Machine Learning.\hskip 1em plus 0.5em minus 0.4em\relax
+  Morgan {\&} Claypool Publishers, 2012. [Online]. Available:
+  \url{http://dx.doi.org/10.2200/S00429ED1V01Y201207AIM018}
+\BIBentrySTDinterwordspacing
+
 \bibitem{DBLP:conf/cluster/BalaprakashGW13}
 P.~Balaprakash, R.~B. Gramacy, and S.~M. Wild, ``Active-learning-based
   surrogate models for empirical performance tuning,'' in \emph{2013 {IEEE}
   International Conference on Cluster Computing, {CLUSTER} 2013, Indianapolis,
   IN, USA, September 23-27, 2013}, 2013, pp. 1--8.
 
-\bibitem{Chu:2011:UOA:2020408.2020444}
-W.~Chu, M.~Zinkevich, L.~Li, A.~Thomas, and B.~Tseng, ``Unbiased online active
-  learning in data streams,'' in \emph{Proceedings of the 17th ACM SIGKDD
-  International Conference on Knowledge Discovery and Data Mining}, ser. KDD
-  '11.\hskip 1em plus 0.5em minus 0.4em\relax New York, NY, USA: ACM, 2011, pp.
-  195--203.
+\bibitem{xu2008satzilla}
+L.~Xu, F.~Hutter, H.~H. Hoos, and K.~Leyton-Brown, ``Satzilla: portfolio-based
+  algorithm selection for sat,'' \emph{Journal of Artificial Intelligence
+  Research}, pp. 565--606, 2008.
+
+\bibitem{DBLP:journals/corr/abs-1212-2442}
+\BIBentryALTinterwordspacing
+C.~Boutilier, R.~S. Zemel, and B.~M. Marlin, ``Active collaborative
+  filtering,'' \emph{CoRR}, vol. abs/1212.2442, 2012. [Online]. Available:
+  \url{http://arxiv.org/abs/1212.2442}
+\BIBentrySTDinterwordspacing
 
 \bibitem{WZZReport}
 T.~Z. Zhe~Wang and Y.~Zhang, ``Distinguishing hard instances of an np-hard

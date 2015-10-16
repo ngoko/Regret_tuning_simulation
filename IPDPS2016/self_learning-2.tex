@@ -347,7 +347,7 @@ The global objective of this study is to improve the performance of cloud-servic
 configuration in an  in-situ context. We assume a  cloud-service  made of configurable
 time-consuming algorithms like exponential algorithms or  NP-hard algorithms. We also
 assume that the configurable algorithmic parameters are well identified and that there exists benchmarks for their calibration.
-In strictly using the cloud resources, our objective is to build an automatic tuning system that will find
+In strickly using the cloud resources, our objective is to build an automatic tuning system that will find
 the configurations that optimize the cloud-service on runtime and/or energy consumption.
 
 The core problem that we address is not new. It was addressed in several past work with
@@ -357,18 +357,18 @@ systems and frameworks~\cite{Rice,Tapus:2002:AHT:762761.762771,ansel:cases:2012}
 several novelties when considering the state-of-art of automatic tuning techniques.
 
 Traditional automatic tuning systems are of two kinds: {\it offline and runtime tuning}~\cite{Tichy:2014:APS:2636925.2636340}.
-In both classes, the tuning is built upon an exploration-exploitation trade-off where from a parametrizable algorithm $A(.)$
+In both classes, the tuning is built upon an exploration-exploitation tradeoff where from a parametrizable algorithm $A(.)$
 and a reference benchmark $B$ (set of problem instances), one {\it learns} the optimal parameters values to use in $A(.)$
 such as minimizing the runtime or energy consumption induced by its processing.
 After this exploration phase, the optimal parameter values are used for solving other input instances of $A(.)$ (exploitation phase).
 In the case of offline tuning, the exploration includes several runs of $A(.)$ on entries of $B$ (for performance profiling)
-and produces an optimal configuration $\vec{\theta}^{opt}$ that is used for running $A(.)$.
+and produces an optimal configuration $\vec{\theta}^{opt}$ that is used for runing $A(.)$.
 In runtime tuning, instead of an optimal configuration, the exploration generates a {\it decision function} $f$
 that on any input $I$ of $A(.)$ returns the optimal configuration ($\vec{\theta}^{opt} = f(I)$) to use in its processing.
-Offline and runtime tunings have been successfully applied to many computational problems. However, we do believe that
+Offline and runtime tunings have been succesfully applied to many computational problems. However, we do believe that
 these approaches are not suitable to NP-complete problems.
 
-Our first disagreement comes from the fact that such an exploration-exploitation trade-off {\it requires a reference or representative
+Our first disagreement comes from the fact that such an exploration-exploitation tradeoff {\it requires a reference or representative
 benchmark} that characterizes the {\it key features} of the inputs accepted by  $A(.)$. Unfortunately, on NP-hard problems, the great
 diversity of problem instances makes it hard to reach a consensus on reference benchmark. International competitions like the annual SAT
 competition~\footnote{http://www.satcompetition.org/} or DIMACS challenge tend to establish such references; but, one can notice
@@ -379,7 +379,7 @@ months or years.
 
 
 In the light of these observations, we argue that the first difference between our work and prior ones is to think
-automatic tuning in an alternative exploration-exploitation trade-off, more suitable for NP-hard problems.
+automatic tuning in an alternative exploration-exploitation tradeoff, more suitable for NP-hard problems.
 We formulate our alternative approach as the {\it active learning perspective for automatic tuning}.
 In this vision, the tuning is not made of two separated phases of exploration and exploitation. Both phases co-exist
 such that the tuned system evolves throughout the time with new optimal or sub-optimal configurations, discovered in the processing.
@@ -429,7 +429,7 @@ The conclusion of the learning are next used to improve the functioning of the c
 As stated in the introduction, automatic tuning  is a well-investigated field. For a general survey on HPC systems based on
 automatic tuning, the interested reader might take a look at the general report of the 2014 Dagstuhl seminary~\cite{benkner_et_al:DR:2014:4423}.
 It is also important to notice that nowadays, automatic tuning, as well as  {\it parallelism}, more than in the past
-are considered by industries as one of the major strategy for the improvement of algorithmic performance~\cite{Oracle}.
+are considered by industrials as one of the major strategy for the improvement of algorithmic performance~\cite{Oracle}.
 
 %The invest on
 %performance tuning of SQL requests made by major companies  like Oracle or IBM is an example~\cite{Oracle}.
@@ -461,26 +461,37 @@ works, the tuning system that we propose is not restricted to a specific
 problem or type of parameters. Instead, we consider general techniques that can
 be used in a wide range of NP-complete algorithms.
 
-There are several systems or frameworks that were proposed for automatic tuning.
+There are several sytems or frameworks that were proposed for automatic tuning.
 The AEOS approach~\cite{AEOS} summarizes a set of general principles and a
-component architecture that were successfully applied for tuning  several dense
+component architecture that were succesfully applied for tuning  serveral dense
 linear algebra kernel.
+
+ %As discussed before, we do not believe that this
+%solution is suitable for the context we target.
+
 The OpenTuner framework formulates a new language for general automatic
 tuning~\cite{DBLP:conf/IEEEpact/AnselKVRBOA14}.  The system also innovates in
 implementing ensemble techniques for combining several automatic search
 algorithms. As OpenTuner, QTuning invests on search techniques for tuning
 exploration.
+
 The Periscope framework~\cite{DBLP:conf/parco/MijakovicSUGSC13} is another
 general solution for automatic tuning in a distributed context.
+%This solution is particularly interesting since it also addresses the tuning
+%for energy efficiency.
 Similarly, QTuning is based on distributed search. However, our objective lies in
 diversifying the quality of local solutions that can be found
 during the search, in an online manner.
+
 ParamILS~\cite{Hutter:2009:PAA:1734953.1734959} is an automatic tuning system
 especially designed for tuning hard computational algorithms. Our
 exploration algorithms used in QTuning are inspired from the random search
 algorithm defined in ParamILS. We innovate in formulating this search
 as a combination between breadth and depth first searches for optimizing a
 regret function.
+%In addition to the contribution of ParamILS, we introduce a
+%new modeling of the data exploitation challenge.
+
 \subsection{From supervised/active learning to active collaborative filtering}
 
 Pre-existing work such as the MATE system~\cite{DBLP:conf/para/MorajkoMCMS10},
@@ -491,7 +502,7 @@ improving a system via monitoring and/or supervised learning, we consider
 that we can leverage some additional computing power to search for the best 
 parameters.
 
-Search strategies for building models are addressed by the active
+Search strategies for building models are adressed by the active
 learning~\cite{DBLP:series/synthesis/2012Settles} literature.  Previous
 work~\cite{DBLP:conf/cluster/BalaprakashGW13} uses active learning to build a
 surrogate model for runtime and power consumption prediction conditioned on
@@ -534,7 +545,7 @@ $\vec{\theta}$ are the parameters to tune and $d(\vec{\theta})$ is the set of de
 $\theta_i \in \vec{\theta}$; $B$ is the initial set of training data that will be used for the tuning.
 \end{definition}
 
-An unconstrained tuning project defines a corpus of data to use for learning the behavior of a cloud-service.
+An unconstrainted tuning project defines a corpus of data to use for learning the behavior of a cloud-service.
 Once such a project is submitted, the system will start a learning process for finding the {\it best parameters} for
 running $\sigma$. Any submitted project can be modified, on the fly during the learning process. Such a modification can consist of
 the addition of a new entry in $B$, the deletion of an entry and the deletion of a parameter from $\vec{\theta}$.
@@ -557,7 +568,7 @@ Constraints can be defined in any tuning project. This leads to a constrained tu
 In the following, we will only consider constrained tuning project because they generalize unconstrained ones.
 
 
-For characterizing the solution of a tuning project, let us assume that on each benchmark entry $\beta_i \in B$
+For caracterizing the solution of a tuning project, let us assume that on each benchmark entry $\beta_i \in B$
 and assignment of parameters $\bar{p}_u$ we have an estimation $\Delta(\sigma, \bar{p}_u, \beta_i)$ of the
 average runtime required for processing $\beta_i$ by $\sigma$. Then we have the following definition.
 
@@ -581,7 +592,7 @@ date $t_0$, the cloud-service $\sigma$ can at anytime $t$ request the best local
 system produced. This configuration will be used for processing $\sigma$ in parallel to the  learning stage.
 Moreover, the project submitted at the date $t_0$ could be changed at any date according to the actions we define
 in the prior section. Therefore, in searching for the best configuration, the QTuning system must try at anytime
-to return a solution that is not too far from the optimal one, according to the knowledge it has on tuning projects.
+to return a solution that is not too far from the optimal one, according to the knwoledge it has on tuning projects.
 
 Given a project $\Gamma$, let us assume that at the date $t$, its setting is defined as $\Gamma(t)$.
 Let us also assume that the optimal solution of $\Gamma(t)$ is $\bar{\theta}^o(t)$.
@@ -603,7 +614,7 @@ the notion of evolving tuning projects and the regret minimization.
 We end here the modeling of the automatic tuning problem. In the next section, we will describe how
 QTuning addresses the min-regret problem in a system and algorithmic viewpoint.
 
-\section{The QTuning architecture} \label{Architecture}
+\section{The Qtuning architecture} \label{Architecture}
 
 \subsection{General view}
 
@@ -622,7 +633,7 @@ In Figure~\ref{fig:QTuning}, we describe the typical deployment architecture for
 QTuning system have been built. QTuning is composed of an API ({\it QTuning.dll}) and
 a server program ({\it QTuning.d}). The QTuning API includes a set of functions that
 launch remote executions on the servers. The functions can request: the loading of a new tuning project (submission of
-$\Gamma(t)$), the modification of an existing one or the downloading of analytic results about a tuning project
+$\Gamma(t)$), the modification of an existing one or the downloading of analytics results about a tuning project
 (typically, the downloading of $\theta(t)$). The interest in implementing these functions in an API is
 to allow any cloud-service to adapt its behaviour on the fly. In Figure~\ref{fig:QTuning} for instance,
 the cloud {\it service.d} could decide to request the best local configuration before processing any user request.
@@ -637,10 +648,10 @@ Performance results about these jobs are next collected and save in a Mongodb da
 They will be used for computing the best local configurations that was found in the learning process.
 
 In this architecture, we chose the Mongodb database manager because it is adapted to the storage of massive data.
-This is expected in our active learning perspective where the benchmark can be extremely large.
+This is expected in our active learning perspective where the benchmark can be extremly large.
 One can also remark that the deployment of QTuning requires that it supports the cloud resource manager
-interface. In its current version, the service was developed for the Qware
-platform of Qarnot Computing; but we envision to include the API of other resource managers.
+interface. In its current version, the service was developped for the Qware
+platform of Qarnot Computing; but we envison to include the API of other resource managers.
 In what follows, we will now give a deeper presentation of the QTuning learning framework.
 
 
@@ -662,7 +673,7 @@ $\Delta(\sigma, \bar{\theta_1}, \beta_0), \dots \Delta(\sigma, \bar{\theta_k}, \
 
 In the above scenario, we presented exploration and exploitation notifications as being caused by a project submission or a cloud-service
 request. In QTuning, there are other situations where these notifications are launched; but, this is not discussed in this paper.
-Data exploration algorithms are naturally embarrassingly parallel. It suffices to concurrently evaluate
+Data exploration algorithms are naturally embarassingly parallel. It suffices to concurrently evaluate
 the $\Delta(\sigma, \bar{\theta_u}, \beta_i)$. The challenging question that this observation leads to is the
 one of deciding on the resource set to assign to  exploration. Indeed, the more we have resources for exploration
 the more we can expect to minimize the regret. Nonetheless, we must not forget that $\sigma$ must also service
@@ -682,7 +693,7 @@ In Algorithm~\ref{alg0}, we summarize the functioning of the active learning fra
         \STATE get the maximal number $max_J$ of resources available for exploration
         \STATE get the maximal number $cur_J$ of resources used by exploration jobs
         \FORALLP{ $j$ in $\{1,\dots,max_J-cur_J\}$ }
-	\STATE Query an Oracle $O$ on the next configuration point $(\bar{\theta}, \beta)$ to evaluate
+	\STATE Query an Oracle $O$ on the next configuration point $(\bar{\theta}, B)$ to evaluate
 	\STATE Submit an exploration job for $(\bar{\theta}, \beta)$ to the RMS
         \STATE Wait for result
         \STATE Process and save the performance $\Delta(\sigma, \bar{\theta}, \beta)$ in the database
@@ -749,7 +760,7 @@ best result already found.  This process is detailed in
 Algorithm~\ref{alg1}.
 
 	\begin{algorithm}
-	\caption{\scriptsize Lexicographic Result Update } 	\label{alg1}
+	\caption{\scriptsize Lexicograpic Result Update } 	\label{alg1}
 	\begin{algorithmic}[1]
 	\scriptsize
         \STATE {\bf INPUT:} A new result  $\Delta(\sigma, \bar{\theta_i}, \beta_j)$,
@@ -768,7 +779,7 @@ Algorithm~\ref{alg1}.
 
         As one can remark, the active learning framework with the
         lexicographic order leads to lexicographic exploration of the
-        search space with the usage of a lower bound. This is a
+        search space with the usage of a lower bound. This leads to a
         classical search approach that however is not optimized for
         the context we target. Indeed, for the minimization of the
         regret function, we need a oracle that takes care about the
@@ -778,11 +789,16 @@ Algorithm~\ref{alg1}.
 
 \subsection{Random  oracle (Rand)}
 
-\subsubsection{ Random configuration choice and depth first search}
 Given a tuning project
 $\Gamma = (\sigma, B, \vec{\theta}, d(\vec{\theta}), C)$, whose search
-space is $D$, the random oracle considers that good configurations could
-be located {\it anywhere} in $D$. 
+space is $D$, the lexicographic oracle implicitely assumes that a
+lexicographic exploration could serve to quickly discover the best
+configuration. But, this assumption is weak. Good configurations could
+be located {\it anywhere} in $D$. It is the {\it potential random
+  distribution} of such points that the {\it Rand} oracle exploits.
+
+\subsubsection{ Random configuration choice and depth first search.}
+
 As the lexicographic oracle, the random oracle is based on
 ordering. In particular, it completely processes points of a
 configuration $\theta_{i}$ before starting those of a configuration
@@ -800,7 +816,7 @@ challenging question is to decide on the ordering of the first
 benchmark entries to evaluate.  For example, must we start by the
 point $(\theta_i, \beta_0)$ or by the point $(\theta_i, \beta_1)$?
 
-\subsubsection{Hard and soft instances}
+\subsubsection{Hard and soft instances.}
 
 For deciding on the first benchmark entry to evaluate, we use an
 observation made on NP-hard problems.  The idea is that instances of
@@ -814,18 +830,14 @@ instances. Indeed, if $B_{hard}$ are those instances and $\theta_i$ a
 \[ \sum_{\beta \in B_{hard}} \Delta(\sigma, \bar{\theta_i}, \beta) >
 \Delta(\theta^o)\]
 This means that in using the process of results updating described in
-Algorithm~\ref{alg1}, we can quickly eliminate non-optimal
+Algorihm~\ref{alg1}, we can quickly eliminate non-optimal
 configurations if we know hard instances.
 
-Thus, given a configuration $\theta_i$,  the random starts by classifying 
-the instances in hard and soft sets $B_{hard}$
-and $B_{soft}$. Then, it returns the configuration points with
+Thus, given a configuration $\theta_i$, we propose, in the random
+oracle, to first classify instances in hard and soft sets $B_{hard}$
+and $B_{soft}$. Then, we choose to return configuration points with
 $B_{hard}$ before those in $B_{soft}$. Within each class, the
-benchmark entries are selected randomly. This means that if $\beta_1, \beta_2 \in B_{hard}$ and 
-$\beta_3 \in B_{soft}$, the oracle can return either  $(\theta_i, \beta_1)$,  $(\theta_i, \beta_2)$ 
- $(\theta_i, \beta_3)$ or $(\theta_i, \beta_2)$,  $(\theta_i, \beta_1)$ 
- $(\theta_i, \beta_3)$. But we cannot have  $(\theta_i, \beta_3)$,  $(\theta_i, \beta_1)$ 
- $(\theta_i, \beta_2)$.  The only remaining question
+benchmark entries are selected randomly.  The only remaining question
 in this scheme is to be able to effectively build $B_{hard}$ and
 $B_{soft}$.  This is discussed in the next subsection.
 
@@ -835,7 +847,7 @@ $B_{soft}$.  This is discussed in the next subsection.
 	%\fbox{
 	\input{./Figures/Search.tex}
 	%}
-	\caption{\small Lexicographic, random and random oracle with wisdom.
+	\caption{Lexicographic, random and random oracle with wisdom.
         {\it Lex} explores the search space in the lexicographic order. {\it Rand}  and {\it RandW}
         randomly choose the next configuration. {\it RandW} differs from {\it Rand} on the fact that
         it extracts information from configurations that were partially explored.}
@@ -844,7 +856,7 @@ $B_{soft}$.  This is discussed in the next subsection.
 	\end{figure}
 
 
-\subsubsection{A similarity approach for finding hard instances}
+\subsubsection{A similarity approach for finding hard instances.}
 
 The main assumption we made for detecting hard instances is that their
 {\it runtime will look similar on the configurations we processed}.
@@ -852,7 +864,7 @@ Let us assume at the date $t$ that we processed the set of
 configurations $\Theta(t)$. Let us also assume that there is a subset
 $\Theta_1(t) \subseteq \Theta(t)$ for which the evaluations were
 performed on all $B$~\footnote{due to lower bound elimination we could
-  strictly have $\Theta(t) \setminus \Theta_1(t) \neq \emptyset$}.  We
+  stricly have $\Theta(t) \setminus \Theta_1(t) \neq \emptyset$}.  We
 propose to characterize the runtime of each instance $\beta \in B$ as
 a vector
 \[ \Delta(\beta) = [\Delta(\sigma, \bar{\theta^{'}_0}, \beta), \dots
@@ -861,9 +873,9 @@ where $n_1 = |\Theta_1(t)|$. Here, $\theta^{'}_{i}$ are configurations
 in $\Theta_1(t)$ that we ordered randomly.
 
 In other words, the runtime vector of a benchmark entry is the
-collection of runtime observed on $\Theta_1(t)$.  Given these
+collection of runtimes we observed on $\Theta_1(t)$.  Given these
 data, we propose to apply a $2-$Means clustering algorithm on the data
-$B$ with the runtime vector and the euclidean distance. Finally, we
+$B$ with the runtime vector and the euclidian distance. Finally, we
 conclude that hard instances are those, in the class, for which the
 mean value $\norm{\Delta(\beta)}$ is the greatest. Indeed, it is
 intuitive to expect that on hard instances, most configurations take a
@@ -879,7 +891,7 @@ best configurations. In addition, it exploits more past information
 generated in the exploration to take further decisions. But, this
 point could be improved as we will see in the sequel.
 
-\subsection{Random oracle with the wisdom of the losers (RandW)}
+\subsection{Random oracle with the wisdom of the loosers (RandW)}
 
 With {\it Rand}, estimations made on $\bar{\theta^{'}_0}$ could serve
 to guide the exploration of $\bar{\theta^{'}_{1}}$,
@@ -894,12 +906,12 @@ processing cost that these evaluations required. The question then is:
 how could we exploit {\it this effort} for taking better decisions?
 
 For this purpose, let us come back to the random oracle. At the
-beginning of the exploration of any configuration $\theta_i$, the
+begining of the exploration of any configuration $\theta_i$, the
 algorithm separates instances in hard and softs. Then, it randomly
 chooses instances in the hard class and then the ones of the soft
 class. This random choice could be improved in considering data of
-losing configurations. For example, being given the set hard instance
-$B_{hard}$, we could observe from data of the losers that a small
+losing configurations. For example, beeing given the set hard instance
+$B_{hard}$, we could observe from data of the loosers that a small
 subset $B_{hard^+}$ of these data was generally enough to reach a
 lower bound violation. Then, instead of a random exploration of
 $B_{hard}$, it will be more efficient to randomly start by instances
@@ -911,7 +923,7 @@ considering hard instances before soft ones. The question is: how to
 build $B_{hard^+}$?
 
 
-\subsubsection{Computation of hard instances as a subset intersection problem}
+\subsubsection{Computation of hard instances as a subset intersection problem.}
 
 We propose to consider $B_{hard^+}$ as the set of benchmark entries
 for which there is a maximal number of losing configurations that were
@@ -920,7 +932,7 @@ evaluated in losing configurations, the more, we could believe that
 this benchmark entry causes lower bound violations.
 
 More practically, at each date $t$, we assume that we know the size
-$K(t)$ of $B_{hard^+}$.  For computing
+$K(t)$ of $B_{hard^+}$ (this will be discussed latter).  For computing
 $B_{hard^+}$, we firstly associate each benchmark entry $\beta$ with a
 configuration set $S(\beta)$ whose elements are all configurations
 $\bar{\theta} \in \Theta_2(t)$ for which there exists a computed
@@ -937,11 +949,11 @@ $|S(\beta^+_1) \cap \dots \cap S(\beta^+_k)|.K(t)$ additional data. In
 the best case, when comparing with {\it Rand}, we will have
 $|\Theta_2(t)|.K(t)$ additional data that {\it we will transform in
   information}.  This formulation has two challenges. The first one is
-that we need to tune $K(t)$. This is not discussed in this paper. 
-The second challenge is the resolution of the intersection problem.
-We propose below a greedy approach.
+that we need to tune $K(t)$. In our implementation, we propose to
+randomly chose these values. The second challenge is the resolution of
+the intersection problem we introduced.
 
-\subsubsection{ Greedy algorithm for computing $B_{hard^+}$}
+\subsubsection{ Greedy algorithm for computing $B_{hard^+}$.}
 
 One can easily notice that the computation of $B_{hard^+}$, as
 formulated, corresponds to the resolution of the Maximum $K$-intersection
@@ -972,9 +984,9 @@ set.
 	\ENDFOR
 	\STATE $C = \emptyset$; $Inter = \Theta_2(t)$
 	\WHILE{$|C| < K(t)$}
-		\STATE Choose the set $S(\beta^+)$ s.t. $S(\beta^+)$ is not in $C$ and $|S(\beta^+) \cap Inter|$ is maximal;
-		\STATE $C  = C \cup S(\beta^+)$
-                \STATE $Inter = Inter \cap S(\beta^+)$
+		\STATE Choose the set $S(\beta)$ s.t. $S(\beta)$ is not in $C$ and $|S(\beta) \cap Inter|$ is maximal;
+		\STATE $C  = C \cup S(\beta)$
+                \STATE $Inter = Inter \cap S(\beta)$
 	\ENDWHILE
 	\STATE return $C$
 	\end{algorithmic}
@@ -982,13 +994,7 @@ set.
 	\normalsize
 
         We end here the description of the data exploration and
-        exploitation in QTuning. 
-        An important point that we did not 
-        discuss is how we manage evolvability. For instance, what happens when between two dates $t$ and $t+1$, 
-        we have $B(t) \neq B(t+1)$. We will not cover this point in this text. But, we can retain that in these cases, 
-        each oracle reconsiders the project $\Gamma(t+1)$ as a new project for which, we 
-        already have the estimates $\Delta(\sigma, \bar{\theta}, \beta)$ computed in $\Gamma(t)$
-        The next section is devoted to
+        exploitation in QTuning. The next section is devoted to
         experiments.
 
 
@@ -997,7 +1003,7 @@ set.
 \subsection{Settings}
 In considering the architecture of Figure~\ref{fig:QTuning}, we simulated the behavior of
 the active learning framework in a setting where given a tuning project pushed at date $0$,
-{\it service.d} requests a new configuration to {\it QTuning.d} every $d$ seconds.
+{\it service.d} request a new configuration to {\it QTunind.d} every $d$ seconds.
 We assume that between these $d$ seconds, the active learning framework was able to launch exploration
 jobs and get the results on $p$ configuration points. For obtaining the $p$ points, the framework
 could have used the oracles above.
@@ -1020,18 +1026,18 @@ in the competition web site. Finally, the chosen sub-competitions are: Core solv
 
 \subsection{Experimental plan}
 
-We did $7$ series of experiments. In each, we computed the regret of the active learning framework for each
+We did $7$ series of experiments. In each, we computed the regret of the active learning framewok for each
 of the oracles in a discrete windows of time $t_0,\dots ,t_n$.
 For the first $3$ experiments, all oracles were evaluated assuming data of three sub-competitions. The
 evaluation for each competition included $300$ sub-evaluations, were we changed the ordering of instances $B$ and
 configurations $\Theta$.  The objective in these first experiments was to find the best oracle. In experiment $4$, we
-compared variants of the {\it RandW} with different values of  $K(t)$. Finally, in experiments,
+compared variants of the {\it Randw} with different values of  $K(t)$. Finally, in experiments,
 $5$, $6$ and $7$, we compared all the oracles when the values of $p$ are changed. The experiments plan
 are summarized in Table~\ref{tab:plan}
 
 \begin{table}
   \begin{center}
-  \begin{tabular}{ p{0.7cm} | p{6.5cm} }
+  \begin{tabular}{ p{1cm} | p{6cm} }
 
     {\small Exp.1} & {\small competition=c-SAT+UNSAT ($|B| = 300$, $|\Theta| = 28$), $d=600$, $p=100$, $t_0 = 0$, $t_n = 76.d$, $K(t) = 10$} \\\hline
     {\small Exp.2} & {\small competition=c-SAT ($|B| = 300$, $|\Theta| = 31$), $d=600$, $p=100$, $t_0 = 0$, $t_n = 45.d$, $K(t) = 10$} \\\hline
@@ -1054,7 +1060,7 @@ are summarized in Table~\ref{tab:plan}
 In Figure~\ref{fig:regret}, we present the mean regret we obtained. The first lesson we learn is that
 on {\small Exp.1, Exp.2, Exp.3}, the best oracle is {\it rand\_desc\_sort}  and the worst is {\it lex}.
 Indeed, this oracle leads to the minimal regret within the time. In the plots in Figure~\ref{fig:regret},
-one can notice that the regret starts to grow quickly and then stabilizes. This is normal since within
+one can notice that the regret starts to grow quiclky and then stabilizes. This is normal since within
 the time, we are approaching the optimal solution.
 These first experiments confirm two noticeable points: the interest of randomization
 for regret minimization ({\it lex} is the worst oracle) and the interest in processing instances with hard ones
@@ -1074,28 +1080,28 @@ in the three first experiments.
 \begin{figure*}[ht]
 \centering
 \subfloat[{\scriptsize Exp.1}]{
-\includegraphics[scale=0.5]{./Figures/exp1.eps}
+\includegraphics[scale=0.6]{./Figures/exp1.eps}
 }
 \subfloat[{\scriptsize Exp.2}]{
-\includegraphics[scale=0.5]{./Figures/exp2.eps}
+\includegraphics[scale=0.6]{./Figures/exp2.eps}
 }
 \\
 \subfloat[{\scriptsize Exp.3}]{
-\includegraphics[scale=0.5]{./Figures/exp3.eps}
+\includegraphics[scale=0.6]{./Figures/exp3.eps}
 }
 \subfloat[{\scriptsize Exp.4}]{
-\includegraphics[scale=0.5]{./Figures/exp4.eps}
+\includegraphics[scale=0.6]{./Figures/exp4.eps}
 }
 \\
 \subfloat[{\scriptsize Exp.5}]{
-\includegraphics[scale=0.5]{./Figures/exp5.eps}
+\includegraphics[scale=0.6]{./Figures/exp5.eps}
 }
 \subfloat[{\scriptsize Exp.6}]{
-\includegraphics[scale=0.5]{./Figures/exp6.eps}
+\includegraphics[scale=0.6]{./Figures/exp6.eps}
 }
 \\
 \subfloat[{\scriptsize Exp.7}]{
-\includegraphics[scale=0.5]{./Figures/exp7.eps}
+\includegraphics[scale=0.6]{./Figures/exp7.eps}
 }
 
 \caption{Mean regret obtained from the experiments whose settings are in Table~\ref{tab:plan}}
