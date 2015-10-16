@@ -20,7 +20,7 @@
 %% Legal Notice:
 %% This code is offered as-is without any warranty either expressed or
 %% implied; without even the implied warranty of MERCHANTABILITY or
-%% FITNESS FOR A PARTICULAR PURPOSE! 
+%% FITNESS FOR A PARTICULAR PURPOSE!
 %% User assumes all risk.
 %% In no event shall IEEE or any contributor to this code be liable for
 %% any damages or losses, including, but not limited to, incidental,
@@ -147,7 +147,7 @@
 % graphicx was written by David Carlisle and Sebastian Rahtz. It is
 % required if you want graphics, photos, etc. graphicx.sty is already
 % installed on most LaTeX systems. The latest version and documentation can
-% be obtained at: 
+% be obtained at:
 % http://www.ctan.org/tex-archive/macros/latex/required/graphics/
 % Another good source of documentation is "Using Imported Graphics in
 % LaTeX2e" by Keith Reckdahl which can be found as epslatex.ps or
@@ -173,7 +173,7 @@
 
 \usepackage[cmex10]{amsmath}
 \usepackage{tikz}
- 
+
 \definecolor{bluekeywords}{rgb}{0,0,1}
 \definecolor{greencomments}{rgb}{0,0.5,0}
 \definecolor{redstrings}{rgb}{0.64,0.08,0.08}
@@ -244,12 +244,12 @@ basicstyle=\scriptsize,
 \IEEEauthorblockA{Qarnot Computing and LIPN, University of Paris 13\\
 Paris, France\\
 yanik.ngoko@qarnot-computing.com}
-\and 
+\and
 \IEEEauthorblockN{Denis Trystram, Valentin Reis}
 \IEEEauthorblockA{LIG, Grenoble University\\
 Grenoble, France\\
 denis.trystram@imag.fr}
-\and 
+\and
 \IEEEauthorblockN{Christophe C\'erin}
 \IEEEauthorblockA{LIPN, University of Paris 13\\
 Paris, France\\
@@ -276,10 +276,10 @@ christophe.cerin@lipn.univ-paris13.fr}
 
 % for over three affiliations, or if they all won't fit within the width
 % of the page, use this alternative format:
-% 
+%
 %\author{\IEEEauthorblockN{Michael Shell\IEEEauthorrefmark{1},
 %Homer Simpson\IEEEauthorrefmark{2},
-%James Kirk\IEEEauthorrefmark{3}, 
+%James Kirk\IEEEauthorrefmark{3},
 %Montgomery Scott\IEEEauthorrefmark{3} and
 %Eldon Tyrell\IEEEauthorrefmark{4}}
 %\IEEEauthorblockA{\IEEEauthorrefmark{1}School of Electrical and Computer Engineering\\
@@ -306,18 +306,18 @@ christophe.cerin@lipn.univ-paris13.fr}
 
 \begin{abstract}
 
-Traditional automatic tuning systems are based on an exploration-exploitation tradeoff that consists of: 
-learning the behavior of the algorithm to tune on several benchmark (exploration) and then using the learned  
+Traditional automatic tuning systems are based on an exploration-exploitation tradeoff that consists of:
+learning the behavior of the algorithm to tune on several benchmark (exploration) and then using the learned
 behavior for solving new problem instances.
-On NP-hard  algorithms, this vision is criticizable because of:  the hardness of finding a reference 
+On NP-hard  algorithms, this vision is criticizable because of:  the hardness of finding a reference
 benchmark and  the potential huge runtime of the exploration phase.
-In this paper, we introduce QTuning, a new automatic tuning  system specially designed for NP-hard 
-algorithms. Like traditional tuning systems, QTuning is based on benchmark runs. But, during the learning process, new benchmark 
-data can always be introduced or existing ones removed. Moreover, the system mixes the exploitation and exploitation phases.  
-The main contribution of this paper is to formulate the learning process in QTuning within an active 
-learning framework. The framework is based on a classical observation made 
-in optimization: namely, the efficiency of random search in regret minimization.  We improve our random search 
-algorithm in including a machine learning classification approach and a set intersection problem. 
+In this paper, we introduce QTuning, a new automatic tuning  system specially designed for NP-hard
+algorithms. Like traditional tuning systems, QTuning is based on benchmark runs. But, during the learning process, new benchmark
+data can always be introduced or existing ones removed. Moreover, the system mixes the exploitation and exploitation phases.
+The main contribution of this paper is to formulate the learning process in QTuning within an active
+learning framework. The framework is based on a classical observation made
+in optimization: namely, the efficiency of random search in regret minimization.  We improve our random search
+algorithm in including a machine learning classification approach and a set intersection problem.
 Finally, we discuss about the experimental evaluation of the framework for the resolution of the satisfiability problem.
 
 
@@ -343,82 +343,82 @@ Automatic tuning; Random search; Active learning;  Maximum Subset Intersection P
 
 \section{Introduction}
 
-The global objective of this study is to improve the performance of cloud-services in learning their optimal 
-configuration in an  in-situ context. We assume a  cloud-service  made of configurable 
-time-consuming algorithms like exponential algorithms or  NP-hard algorithms. We also 
-assume that the configurable algorithmic parameters are well identified and that benchmarks for their calibration exist. 
-In strickly using the cloud resources, our objective is to build an automatic tuning system that will find    
+The global objective of this study is to improve the performance of cloud-services in learning their optimal
+configuration in an  in-situ context. We assume a  cloud-service  made of configurable
+time-consuming algorithms like exponential algorithms or  NP-hard algorithms. We also
+assume that the configurable algorithmic parameters are well identified and that benchmarks for their calibration exist.
+In strickly using the cloud resources, our objective is to build an automatic tuning system that will find
 the configurations that optimize the cloud-service on runtime and/or energy consumption.
 
-The core problem that we address is not new. It was addressed in several past work with  
-dense and sparse linear algebra algorithms~\cite{ATLAS,Spiral}, sorting~\cite{Spiral} or Fast Fourier Transform~\cite{FFTW} 
-algorithms. Fundamental principles and techniques for automatic tuning have also been formulated in methods, 
-systems and frameworks~\cite{Rice,Tapus:2002:AHT:762761.762771,ansel:cases:2012}. Despite these contributions, our work bring 
-several novelties when considering the state-of-art of automatic tuning techniques. 
+The core problem that we address is not new. It was addressed in several past work with
+dense and sparse linear algebra algorithms~\cite{ATLAS,Spiral}, sorting~\cite{Spiral} or Fast Fourier Transform~\cite{FFTW}
+algorithms. Fundamental principles and techniques for automatic tuning have also been formulated in methods,
+systems and frameworks~\cite{Rice,Tapus:2002:AHT:762761.762771,ansel:cases:2012}. Despite these contributions, our work bring
+several novelties when considering the state-of-art of automatic tuning techniques.
 
-Traditional automatic tuning systems are of two kinds: {\it offline and runtime tuning}~\cite{Tichy:2014:APS:2636925.2636340}. 
-In both classes, the tuning is built upon an exploration-exploitation tradeoff where from a parametrizable algorithm $A(.)$ 
-and a reference benchmark $B$ (set of problem instances), one {\it learns} the optimal parameters values to use in $A(.)$ 
-such as to  minimize the runtime or energy consumption induced by its processing. 
-After this exploration phase, the optimal parameter values are used for solving other input instances of $A(.)$ (exploitation phase). 
-In the case of offline tuning, the exploration includes several runs of $A(.)$ on entries of $B$ (for performance profiling) 
-and produces an optimal configuration $\vec{\theta}^{opt}$ that is used for runing $A(.)$. 
-In runtime tuning, instead of an optimal configuration, the exploration generates a {\it decision function} $f$ 
-that on any input $I$ of $A(.)$ returns the optimal configuration ($\vec{\theta}^{opt} = f(I)$) to use in its processing. 
-Offline and runtime tunings have been succesfully applied to many computational problems. However, we do believe that 
-these approaches are not suitable to exponential and NP-complete problems. 
+Traditional automatic tuning systems are of two kinds: {\it offline and runtime tuning}~\cite{Tichy:2014:APS:2636925.2636340}.
+In both classes, the tuning is built upon an exploration-exploitation tradeoff where from a parametrizable algorithm $A(.)$
+and a reference benchmark $B$ (set of problem instances), one {\it learns} the optimal parameters values to use in $A(.)$
+such as to  minimize the runtime or energy consumption induced by its processing.
+After this exploration phase, the optimal parameter values are used for solving other input instances of $A(.)$ (exploitation phase).
+In the case of offline tuning, the exploration includes several runs of $A(.)$ on entries of $B$ (for performance profiling)
+and produces an optimal configuration $\vec{\theta}^{opt}$ that is used for runing $A(.)$.
+In runtime tuning, instead of an optimal configuration, the exploration generates a {\it decision function} $f$
+that on any input $I$ of $A(.)$ returns the optimal configuration ($\vec{\theta}^{opt} = f(I)$) to use in its processing.
+Offline and runtime tunings have been succesfully applied to many computational problems. However, we do believe that
+these approaches are not suitable to exponential and NP-complete problems.
 
-Our first disagreement comes from the fact that this exploration-exploitation tradeoff {\it requires a reference or representative 
-benchmark} that characterizes the {\it key features} of the inputs accepted by  $A(.)$. Unfortunately, on NP-hard problems, the great 
-diversity of problem instances makes it hard to reach a consensus on reference benchmark. International competitions like the annual SAT 
-competition~\footnote{http://www.satcompetition.org/} or DIMACS challenge tend to establish such references; but, one can notice 
-that their reference benchmarks change every year. 
-Our second disagreement comes from the fact that these two tuning techniques assume a profiling stage where performance of 
-algorithms are estimated on a reference benchmark. On exponential or NP-hard problem, this stage could take several days, 
-months or years. 
+Our first disagreement comes from the fact that this exploration-exploitation tradeoff {\it requires a reference or representative
+benchmark} that characterizes the {\it key features} of the inputs accepted by  $A(.)$. Unfortunately, on NP-hard problems, the great
+diversity of problem instances makes it hard to reach a consensus on reference benchmark. International competitions like the annual SAT
+competition~\footnote{http://www.satcompetition.org/} or DIMACS challenge tend to establish such references; but, one can notice
+that their reference benchmarks change every year.
+Our second disagreement comes from the fact that these two tuning techniques assume a profiling stage where performance of
+algorithms are estimated on a reference benchmark. On exponential or NP-hard problem, this stage could take several days,
+months or years.
 
 
-In the light of these observations, we argue that the first difference between our work and prior ones is to think 
-automatic tuning in an alternative exploration-exploitation tradeoff, more suitable for NP-hard and exponential problems. 
-We formulate our alternative approach as the {\it active learning perspective for automatic tuning}. 
-In this vision, the tuning is not made of two separated phases of exploration and exploitation. Both phases co-exist 
-such that the tuned system evolve throughout the time with new optimal or sub-optimal configurations, discovered in the processing. 
-In addition, we reject the idea of a reference benchmark and prioritize the one of dynamic training sets that users 
-can configure and modify, on the fly, during the tuning. 
-%Let us observe that there exists work that studied active learning for automatic tuning~\cite{DBLP:conf/cluster/BalaprakashGW13}. 
+In the light of these observations, we argue that the first difference between our work and prior ones is to think
+automatic tuning in an alternative exploration-exploitation tradeoff, more suitable for NP-hard and exponential problems.
+We formulate our alternative approach as the {\it active learning perspective for automatic tuning}.
+In this vision, the tuning is not made of two separated phases of exploration and exploitation. Both phases co-exist
+such that the tuned system evolve throughout the time with new optimal or sub-optimal configurations, discovered in the processing.
+In addition, we reject the idea of a reference benchmark and prioritize the one of dynamic training sets that users
+can configure and modify, on the fly, during the tuning.
+%Let us observe that there exists work that studied active learning for automatic tuning~\cite{DBLP:conf/cluster/BalaprakashGW13}.
 %We differ from them on the type of algorithms we intend to tune and on the exploration and exploitation algorithms we propose.
 
-The second difference between our work and existing ones is that we consider functioning cloud-services to tune in-situ. 
-This means that the datacenter resources on which we operate is not dedicated to tuning. Therefore, the exploration process will  
-evolve in an agile setting where resources are not always available or execution faults could occur. 
+The second difference between our work and existing ones is that we consider functioning cloud-services to tune in-situ.
+This means that the datacenter resources on which we operate is not dedicated to tuning. Therefore, the exploration process will
+evolve in an agile setting where resources are not always available or execution faults could occur.
 
-Summarizing, in this paper, we introduce QTuning, a new automatic tuning service that implements the active 
-learning perspective for tuning, in-situ, in a cloud context. The paper contribution focuses on the general 
-architecture of the system and its active learning framework. On this last point, we formulate the challenge in 
-exploration as a bi-dimensional random search problem that we address in solving a classification problem and 
+Summarizing, in this paper, we introduce QTuning, a new automatic tuning service that implements the active
+learning perspective for tuning, in-situ, in a cloud context. The paper contribution focuses on the general
+architecture of the system and its active learning framework. On this last point, we formulate the challenge in
+exploration as a bi-dimensional random search problem that we address in solving a classification problem and
 an NP-hard set intersection problem.  Finally, we provide an experimental evaluation of our framework.
 
-The remainder of the paper is organized as follows. In Section~\ref{Motivation}, we explain the practical motivation of 
-our work. In Section~\ref{Related}, we discuss the related work. 
-In Section~\ref{Model}, we introduce the key automatic tuning concepts that are manipulated in QTuning. 
-The architecture of the system and its active learning framework is presented in Section~\ref{Architecture}. 
-In Section~\ref{Exploration}, we discuss about optimization algorithms implemented in the framework. 
-A practical validation is presented in Section~\ref{Proof-of-concept} and we conclude in 
+The remainder of the paper is organized as follows. In Section~\ref{Motivation}, we explain the practical motivation of
+our work. In Section~\ref{Related}, we discuss the related work.
+In Section~\ref{Model}, we introduce the key automatic tuning concepts that are manipulated in QTuning.
+The architecture of the system and its active learning framework is presented in Section~\ref{Architecture}.
+In Section~\ref{Exploration}, we discuss about optimization algorithms implemented in the framework.
+A practical validation is presented in Section~\ref{Proof-of-concept} and we conclude in
 Section~\ref{Conclusion}.
 
 
 \section{Motivation} \label{Motivation}
 
-Our initial motivation for designing QTuning was to improve the {\it qombinatorics} 
-cloud service, available in the Qarnot Computing cloud~\footnote{http://www.qarnot-computing.com/}. Qombinatorics is a SaaS 
+Our initial motivation for designing QTuning was to improve the {\it qombinatorics}
+cloud service, available in the Qarnot Computing cloud~\footnote{http://www.qarnot-computing.com/}. Qombinatorics is a SaaS
 developed by the Qarnot Computing Research team for the parallel resolution of NP-hard problems.
 
-The system is deployed in the Qarnot Computing cloud: a heating cloud for HPC that innovated in designing special radiators (Qrads) that produce heat from computations. The Qarnot cloud infrastructure consists of the network of radiators that are deployed in homes and are managed by a private resource manager (Qware). 
-In an economic viewpoint, the Qarnot business is based on two types of users: hosts interested in heating and HPC users interested 
+The system is deployed in the Qarnot Computing cloud: a heating cloud for HPC that innovated in designing special radiators (Qrads) that produce heat from computations. The Qarnot cloud infrastructure consists of the network of radiators that are deployed in homes and are managed by a private resource manager (Qware).
+In an economic viewpoint, the Qarnot business is based on two types of users: hosts interested in heating and HPC users interested
 in computing. The objective is to use requirements in computations for supplying those in heating.
-However, it is obvious to notice that such a system is not always balanced. Typically, in winter, it can happen that we 
-do not have enough computations for heating. For these situations, the QTuning system is particularly interesting. 
-The idea is to push profiling jobs for learning the behavior of services implemented in the cloud when radiators are idle. 
+However, it is obvious to notice that such a system is not always balanced. Typically, in winter, it can happen that we
+do not have enough computations for heating. For these situations, the QTuning system is particularly interesting.
+The idea is to push profiling jobs for learning the behavior of services implemented in the cloud when radiators are idle.
 The conclusion of the learning are next used to improve the functioning of the cloud-services on user requests.
 
 
@@ -426,19 +426,19 @@ The conclusion of the learning are next used to improve the functioning of the c
 
 \section{Related work} \label{Related}
 
-As stated in the introduction, automatic tuning  is a well-investigated field. For a general survey on HPC systems based on 
-automatic tuning, the interested reader might take a look at the general report of the 2014 Dagstuhl seminary~\cite{benkner_et_al:DR:2014:4423}. 
-It is also important to notice that nowadays, automatic tuning, as well as  {\it parallelism}, more than in the past 
+As stated in the introduction, automatic tuning  is a well-investigated field. For a general survey on HPC systems based on
+automatic tuning, the interested reader might take a look at the general report of the 2014 Dagstuhl seminary~\cite{benkner_et_al:DR:2014:4423}.
+It is also important to notice that nowadays, automatic tuning, as well as  {\it parallelism}, more than in the past
 are considered by industrials as one of the major strategy for the improvement of algorithmic performance~\cite{Oracle}.
 
-%The invest on 
-%performance tuning of SQL requests made by major companies  like Oracle or IBM is an example~\cite{Oracle}. 
+%The invest on
+%performance tuning of SQL requests made by major companies  like Oracle or IBM is an example~\cite{Oracle}.
 
-In order to position our study, we classify automatic tuning systems based on two criteria, namely 
+In order to position our study, we classify automatic tuning systems based on two criteria, namely
 their genericity and the their learning model.
 
- %On the first criteria, there are two classes to consider: 
-%{\it problem-specific} and {\it class-of-problems} ones. On the second criteria, we will consider 
+ %On the first criteria, there are two classes to consider:
+%{\it problem-specific} and {\it class-of-problems} ones. On the second criteria, we will consider
 %{\it passive learning} and {\it active  learning} approaches.
 
 \subsection{Problem-specific vs class-of-problems tuning}
@@ -467,67 +467,60 @@ component architecture that were succesfully applied for tuning  serveral dense
 linear algebra kernel.
 
  %As discussed before, we do not believe that this
-%solution is suitable for the context we target. 
+%solution is suitable for the context we target.
 
 The OpenTuner framework formulates a new language for general automatic
 tuning~\cite{DBLP:conf/IEEEpact/AnselKVRBOA14}.  The system also innovates in
 implementing ensemble techniques for combining several automatic search
 algorithms. As OpenTuner, QTuning invests on search techniques for tuning
-exploration. The Periscope framework~\cite{DBLP:conf/parco/MijakovicSUGSC13} is
-another general solution for automatic tuning in a distributed context. 
+exploration.
 
-%This
-%solution is particularly interesting since it also addresses the tuning for
-%energy efficiency.
-
-As Periscope, QTuning is based on distributed search, but
-our objective in distribution is to diversify the quality of local solutions
-that can be found during the search. Moreover, QTuning differs on how it makes
-an online synthesis of the best tuning results.
+The Periscope framework~\cite{DBLP:conf/parco/MijakovicSUGSC13} is another
+general solution for automatic tuning in a distributed context.
+%This solution is particularly interesting since it also addresses the tuning
+%for energy efficiency.
+Similarly, QTuning is based on distributed search. However, our objective lies in
+diversifying the quality of local solutions that can be found
+during the search, in an online manner.
 
 ParamILS~\cite{Hutter:2009:PAA:1734953.1734959} is an automatic tuning system
-especially designed for tuning hard computational algorithms like SAT. The
+especially designed for tuning hard computational algorithms. Our
 exploration algorithms used in QTuning are inspired from the random search
-algorithm defined in ParamILS. However, we innovate in formulating this search
+algorithm defined in ParamILS. We innovate in formulating this search
 as a combination between breadth and depth first searches for optimizing a
-regret function. In addition to the contribution of ParamILS, we introduce a
-new modeling of the data exploitation challenge.
+regret function.
+%In addition to the contribution of ParamILS, we introduce a
+%new modeling of the data exploitation challenge.
 
 \subsection{supervised/active learning and collaborative filtering}
 
-As mentioned in the introduction, pre-existing work already envisions automatic
-tuning as a long-term process. In particular, there is the MATE
-system~\cite{DBLP:conf/para/MorajkoMCMS10}, the tuned
-plugin~\footnote{http://linux.die.net/man/8/tuned} available in Linux Redhat or
-the Green framework~\cite{Baek:2010:GFS:1809028.1806620}. However, none of
-these work formulated the automatic tuning problem as an online search
-problem; while they invested on the idea of improving a system by monitoring,
-we consider that we can leverage some extra computing power to find the best
-parameters. As a consequence, our problem implies that one must choose a
-search strategy to evaluate the performance on unseen parameters.
+Pre-existing work such as the MATE system~\cite{DBLP:conf/para/MorajkoMCMS10},
+the tuned plugin~\footnote{http://linux.die.net/man/8/tuned} or the Green
+framework~\cite{Baek:2010:GFS:1809028.1806620} already envision automatic
+tuning as a long-term process. While these work invest on the idea of
+improving a system via monitoring and/or supervised learning, we consider
+that we can leverage some additional computing power to search for the best 
+parameters.
 
-When a model is available, choosing which data to explore is adressed by the
+Search strategies for building models are adressed by the
 active learning~\cite{DBLP:series/synthesis/2012Settles} litterature.
-There exists work that studied automatic tuning under the lens of active learning
+Previous work studies automatic tuning under the lens of active learning
 ~\cite{DBLP:conf/cluster/BalaprakashGW13}. In this work, the authors build a
 surrogate model that can predict the runtime and power consumption of various
 software conditioned by parameter values.
 
-However, this work does not cover the question of selecting the best parameters
-for a given problem instance. In particular, when tuning the parameters of a
-heuristic solver for a NP-Hard problem, the best values may vary from one
-problem instance to another. This realization has lead to the design of a
-portfolio-based algorithm selection system ~\cite{xu2008satzilla} that uses a
-supervised learning approach to learn the best parameters for a given problem
-instance.  One limitation of this work is that it requires the use of a vector
-of features describing the specific problem instance. In practice, this might
-not be easy to obtain, and an approach that learns the best parameters for a
-problem class as a whole would be preferable.
+However, this work does not adress the question of selecting the best
+parameters for a given problem instance. In particular, when tuning the
+parameters of a heuristic solver for a NP-Hard problem, the best values may
+vary from one problem instance to another, as illustrated by the powerful SAT
+solving systems SATZilla~\cite{xu2008satzilla}. One limitation of this system
+is that it is problem specific, as it requires the use of a vector of features
+describing the specific problem instance.
 
-One line of research that fits closely into our direction is Active
-Collaborative Filtering~\cite{DBLP:journals/corr/abs-1212-2442} (ACF) , where a
-learning system tries to find the ratings (in our case, the runtimes) users(
-problem instances) would give to products based on other users ratings. In ACF,
+One line of research that fits more closely into our direction is Active
+Collaborative Filtering~\cite{DBLP:journals/corr/abs-1212-2442} (ACF) where a
+learning system tries to find the ratings (in our case, the runtimes) users (
+problem instances) would give to products based on similar users. In ACF,
 the learning system can ask about user's ratings. However, this work
 does not focus on producing the best rated item for a given new user, and rather
 optimizes a loss on the whole model.
@@ -543,86 +536,86 @@ learning vision implemented in QTuning.
 
 \section{Model} \label{Model}
 
-In this part, we formally describe the automatic tuning problem addressed in QTuning. We first describe 
+In this part, we formally describe the automatic tuning problem addressed in QTuning. We first describe
 the general concepts and then the problem formulation according to the active learning framework.
  \subsection{Basic concepts}
 
-In QTuning, automatic tuning problems are formulated within the notion of tuning project.  Such  
+In QTuning, automatic tuning problems are formulated within the notion of tuning project.  Such
 a project can be  constrained or unconstrained. We explain these notions below.
 
 \begin{definition}{\bf (Unconstrained tuning project)}
-We define an unconstrained tuning project as a tuple $ \Gamma = (\sigma, B, \vec{\theta}, d(\vec{\theta}))$. Here, $\sigma$ is the cloud service to tune; 
-$\vec{\theta}$ are the parameters to tune and $d(\vec{\theta})$ is the set of definition domains for each parameter 
+We define an unconstrained tuning project as a tuple $ \Gamma = (\sigma, B, \vec{\theta}, d(\vec{\theta}))$. Here, $\sigma$ is the cloud service to tune;
+$\vec{\theta}$ are the parameters to tune and $d(\vec{\theta})$ is the set of definition domains for each parameter
 $\theta_i \in \vec{\theta}$; $B$ is the initial set of training data that will be used for the tuning.
 \end{definition}
 
-An unconstrainted tuning project defines a corpus of data to use for learning the behavior of a cloud-service. 
-Once such a project is submitted, the system will start a learning process for finding the {\it best parameters} for 
-running $\sigma$. Any submitted project can be modified, on the fly during the learning process. Such a modification can consist of  
-the addition of a new entry in $B$, the deletion of an entry and the deletion of a parameter from $\vec{\theta}$. 
+An unconstrainted tuning project defines a corpus of data to use for learning the behavior of a cloud-service.
+Once such a project is submitted, the system will start a learning process for finding the {\it best parameters} for
+running $\sigma$. Any submitted project can be modified, on the fly during the learning process. Such a modification can consist of
+the addition of a new entry in $B$, the deletion of an entry and the deletion of a parameter from $\vec{\theta}$.
 
-Let us assume that $\vec{\theta} = (\theta_1,\dots \theta_n)$. In QTuning, an unconstrained tuning project defines 
-a tuning problem whose solution is a {\it configuration} $\bar{\theta}_u \in D$ where $D = d(\theta_1) \times \dots  \times d(\theta_n)$. 
-In order to be suitable to a large class of cloud-service, QTuning makes few assumptions on the structure of $D$. 
-Consequently, the search space can be extremely large. 
-In some cases however, users might want to introduce {\it particular knowledge} that could reduce the size of the search space. 
+Let us assume that $\vec{\theta} = (\theta_1,\dots \theta_n)$. In QTuning, an unconstrained tuning project defines
+a tuning problem whose solution is a {\it configuration} $\bar{\theta}_u \in D$ where $D = d(\theta_1) \times \dots  \times d(\theta_n)$.
+In order to be suitable to a large class of cloud-service, QTuning makes few assumptions on the structure of $D$.
+Consequently, the search space can be extremely large.
+In some cases however, users might want to introduce {\it particular knowledge} that could reduce the size of the search space.
 For this purpose, QTuning supports the concept of {\it tuning constraint} defined as follows.
 
 \begin{definition}{\bf (Tuning search space constraint)}
-We define a constraint of the search space of a tuning project as a tuple $C = ((\theta_i, v_i), (\theta_j, v_j),\dots (\theta_k, v_k))$. 
+We define a constraint of the search space of a tuning project as a tuple $C = ((\theta_i, v_i), (\theta_j, v_j),\dots (\theta_k, v_k))$.
 The constraint states that we do not authorize the assignments in which $\theta_i$ is assigned to $v_i$, $\theta_j$ to $v_j$ etc.
 \end{definition}
 
 
-Constraints can be defined in any tuning project. This leads to a constrained tuning project that we define 
- as a tuple $ \Gamma = (\sigma, B, \vec{\theta}, d(\vec{\theta}), C)$ where $C$ is the set of constraints of the project. 
-In the following, we will only consider constrained tuning project because they generalize unconstrained ones. 
+Constraints can be defined in any tuning project. This leads to a constrained tuning project that we define
+ as a tuple $ \Gamma = (\sigma, B, \vec{\theta}, d(\vec{\theta}), C)$ where $C$ is the set of constraints of the project.
+In the following, we will only consider constrained tuning project because they generalize unconstrained ones.
 
 
-For caracterizing the solution of a tuning project, let us assume that on each benchmark entry $\beta_i \in B$ 
-and assignment of parameters $\bar{p}_u$ we have an estimation $\Delta(\sigma, \bar{p}_u, \beta_i)$ of the 
+For caracterizing the solution of a tuning project, let us assume that on each benchmark entry $\beta_i \in B$
+and assignment of parameters $\bar{p}_u$ we have an estimation $\Delta(\sigma, \bar{p}_u, \beta_i)$ of the
 average runtime required for processing $\beta_i$ by $\sigma$. Then we have the following definition.
 
 \begin{definition}{\bf (Solution of a tuning project)}
-The solution of a tuning project $ \Gamma = (\sigma, B, \vec{\theta}, d(\vec{\theta}), C)$  is the configuration 
-$\bar{\theta}^o$ such that \[ \bar{\theta}^o = \arg \underset{\{\bar{\theta} | C \text{ are not violated }\}}{\min} \frac{1}{|B|}\sum_{\beta_i \in B} \Delta(\sigma, \bar{\theta}, \beta_i) \] 
+The solution of a tuning project $ \Gamma = (\sigma, B, \vec{\theta}, d(\vec{\theta}), C)$  is the configuration
+$\bar{\theta}^o$ such that \[ \bar{\theta}^o = \arg \underset{\{\bar{\theta} | C \text{ are not violated }\}}{\min} \frac{1}{|B|}\sum_{\beta_i \in B} \Delta(\sigma, \bar{\theta}, \beta_i) \]
 \end{definition}
 
-In other words, the solution of a tuning project is the vector of parameters that leads to the best average 
-cost in the processing of the benchmark instances. This definition restricts our objective to the tuning for average runtime 
-optimization. But, the conclusion of our work can be generalized to alternatives optimization like makespan or energy 
-consumption minimization.  
+In other words, the solution of a tuning project is the vector of parameters that leads to the best average
+cost in the processing of the benchmark instances. This definition restricts our objective to the tuning for average runtime
+optimization. But, the conclusion of our work can be generalized to alternatives optimization like makespan or energy
+consumption minimization.
 
-The basic concepts we introduced formalize the automatic tuning problem as encountered in several studies. 
-QTuning extend these traditional notions in assuming a particular formulation of the tuning problem. 
+The basic concepts we introduced formalize the automatic tuning problem as encountered in several studies.
+QTuning extend these traditional notions in assuming a particular formulation of the tuning problem.
 
 \subsection{The min-regret tuning problem}
 
-Once a project $ \Gamma = (\sigma, B, \vec{\theta}, d(\vec{\theta}), C)$ is submitted in QTuning at an initial 
-date $t_0$, the cloud-service $\sigma$ can at anytime $t$ request the best local configuration that the 
-system produced. This configuration will be used for processing $\sigma$ in parallel to the  learning stage. 
-Moreover, the project submitted at the date $t_0$ could be changed at any date according to the actions we define 
-in the prior section. Therefore, in searching for the best configuration, the QTuning system must try at anytime 
-to return a solution that is not too far from the optimal one, according to the knwoledge it has on tuning projects. 
+Once a project $ \Gamma = (\sigma, B, \vec{\theta}, d(\vec{\theta}), C)$ is submitted in QTuning at an initial
+date $t_0$, the cloud-service $\sigma$ can at anytime $t$ request the best local configuration that the
+system produced. This configuration will be used for processing $\sigma$ in parallel to the  learning stage.
+Moreover, the project submitted at the date $t_0$ could be changed at any date according to the actions we define
+in the prior section. Therefore, in searching for the best configuration, the QTuning system must try at anytime
+to return a solution that is not too far from the optimal one, according to the knwoledge it has on tuning projects.
 
-Given a project $\Gamma$, let us assume that at the date $t$, its setting is defined as $\Gamma(t)$. 
-Let us also assume that the optimal solution of $\Gamma(t)$ is $\bar{\theta}^o(t)$. 
-In the min-regret tuning problem, we are interested in minimizing the regret, defined as the 
-difference between the average cost for processing $B(t)$ with $\bar{\theta}(t)$ and the one cost for 
-processing $B(t)$ with the best possible configuration. We formalize the regret at the date $t_n$ as: 
+Given a project $\Gamma$, let us assume that at the date $t$, its setting is defined as $\Gamma(t)$.
+Let us also assume that the optimal solution of $\Gamma(t)$ is $\bar{\theta}^o(t)$.
+In the min-regret tuning problem, we are interested in minimizing the regret, defined as the
+difference between the average cost for processing $B(t)$ with $\bar{\theta}(t)$ and the one cost for
+processing $B(t)$ with the best possible configuration. We formalize the regret at the date $t_n$ as:
 
 \[
 \int_{t_0}^{t_n} \left( Cost(\bar{\theta}(t)| \Gamma(t)) - Cost(\bar{\theta}^o(t) | \Gamma(t)) \right) dt
 \]
-where, 
+where,
 \[
-Cost(\bar{\theta}(t) | \Gamma(t)) = \frac{1}{|B(t)|}\sum_{\beta_i \in B(t)} \Delta(\sigma, \bar{\theta}, \beta_i) 
+Cost(\bar{\theta}(t) | \Gamma(t)) = \frac{1}{|B(t)|}\sum_{\beta_i \in B(t)} \Delta(\sigma, \bar{\theta}, \beta_i)
 \]
 
 
-In comparison to classical automatic tuning problems, the min-regret problem brings two novelties: 
-the notion of evolving tuning projects and the regret minimization. 
-We end here the modeling of the automatic tuning problem. In the next section, we will describe how 
+In comparison to classical automatic tuning problems, the min-regret problem brings two novelties:
+the notion of evolving tuning projects and the regret minimization.
+We end here the modeling of the automatic tuning problem. In the next section, we will describe how
 QTuning addresses the min-regret problem in a system and algorithmic viewpoint.
 
 \section{The Qtuning architecture} \label{Architecture}
@@ -640,62 +633,62 @@ QTuning addresses the min-regret problem in a system and algorithmic viewpoint.
 	\end{figure*}
 
 
-In Figure~\ref{fig:QTuning}, we describe the typical deployment architecture for which the 
-QTuning system have been built. QTuning is composed of an API ({\it QTuning.dll}) and 
-a server program ({\it QTuning.d}). The QTuning API includes a set of functions that 
-launch remote executions on the servers. The functions can request: the loading of a new tuning project (submission of 
-$\Gamma(t)$), the modification of an existing one or the downloading of analytics results about a tuning project 
-(typically, the downloading of $\theta(t)$). The interest in implementing these functions in an API is 
-to allow any cloud-service to adapt its behaviour on the fly. In Figure~\ref{fig:QTuning} for instance,  
-the cloud {\it service.d} could decide to request the best local configuration before processing any user request. 
+In Figure~\ref{fig:QTuning}, we describe the typical deployment architecture for which the
+QTuning system have been built. QTuning is composed of an API ({\it QTuning.dll}) and
+a server program ({\it QTuning.d}). The QTuning API includes a set of functions that
+launch remote executions on the servers. The functions can request: the loading of a new tuning project (submission of
+$\Gamma(t)$), the modification of an existing one or the downloading of analytics results about a tuning project
+(typically, the downloading of $\theta(t)$). The interest in implementing these functions in an API is
+to allow any cloud-service to adapt its behaviour on the fly. In Figure~\ref{fig:QTuning} for instance,
+the cloud {\it service.d} could decide to request the best local configuration before processing any user request.
 It can also make these requests according to a specific statistic law.
 
-Let us now assume that {\it service.d} pushed a tuning project $\Gamma$ in  {\it QTuning.d}. Then, 
-{\it QTuning.d} will start its  learning process for finding the configurations that minimize the regret. 
-For this purpose, {\it QTuning.d} will frequently create {\it exploration jobs} whose objectives are to run 
- {\it service.d} on distinct configurations. Created jobs are submitted to the cloud resource manager (RMS in 
-Figure~\ref{fig:QTuning}) for a processing on cloud resources (In the case of Qarnot, they are Q.rads). 
-Performance results about these jobs are next collected and save in a Mongodb database~\footnote{www.mongodb.org}. 
+Let us now assume that {\it service.d} pushed a tuning project $\Gamma$ in  {\it QTuning.d}. Then,
+{\it QTuning.d} will start its  learning process for finding the configurations that minimize the regret.
+For this purpose, {\it QTuning.d} will frequently create {\it exploration jobs} whose objectives are to run
+ {\it service.d} on distinct configurations. Created jobs are submitted to the cloud resource manager (RMS in
+Figure~\ref{fig:QTuning}) for a processing on cloud resources (In the case of Qarnot, they are Q.rads).
+Performance results about these jobs are next collected and save in a Mongodb database~\footnote{www.mongodb.org}.
 They will be used for computing the best local configurations that was found in the learning process.
 
-In this architecture, we chose the Mongodb database manager because it is adapted to the storage of massive data. 
+In this architecture, we chose the Mongodb database manager because it is adapted to the storage of massive data.
 This is expected in our active learning perspective where the benchmark can be extremly large.
-One can also remark that the deployment of QTuning requires that it supports the cloud resource manager 
-interface. In its current version, the service was developped for the Qware 
-platform of Qarnot Computing; but we envison to include the API of other resource managers. 
+One can also remark that the deployment of QTuning requires that it supports the cloud resource manager
+interface. In its current version, the service was developped for the Qware
+platform of Qarnot Computing; but we envison to include the API of other resource managers.
 In what follows, we will now give a deeper presentation of the QTuning learning framework.
 
 
 
-\subsection{QTuning active learning framework} 
+\subsection{QTuning active learning framework}
 
-The QTuning addresses the min-regret tuning problem with an {\it active learning framework} 
-based on four concepts: data exploration algorithms, data exploitation algorithms, 
-exploration notifications and exploitation notifications. These concepts fit together as follows. Let us consider 
-a tuning project  $\Gamma = (\sigma, B, \vec{\theta}, d(\vec{\theta}), C)$. The submission of such a project 
-in the QTuning system will automatically cause an exploration notification. This notification implies 
-to start a data exploration algorithm. The goal of a data exploration algorithm is to  
-compute the costs $\Delta(\sigma, \bar{\theta}, \beta_i)$  induced by the run of  $\sigma(\bar{\theta})$ on the benchmark 
-entry $\beta_i$.  At a moment in the system, we could then have a set of evaluations 
-$\Delta(\sigma, \bar{\theta_1}, \beta_0), \dots \Delta(\sigma, \bar{\theta_k}, \beta_n)$. If the service $\sigma$ 
- requests for the best local configuration, this will cause an exploitation notification. Such a notification will 
-start a data exploitation algorithms that will return the best local configuration that could be derived from 
+The QTuning addresses the min-regret tuning problem with an {\it active learning framework}
+based on four concepts: data exploration algorithms, data exploitation algorithms,
+exploration notifications and exploitation notifications. These concepts fit together as follows. Let us consider
+a tuning project  $\Gamma = (\sigma, B, \vec{\theta}, d(\vec{\theta}), C)$. The submission of such a project
+in the QTuning system will automatically cause an exploration notification. This notification implies
+to start a data exploration algorithm. The goal of a data exploration algorithm is to
+compute the costs $\Delta(\sigma, \bar{\theta}, \beta_i)$  induced by the run of  $\sigma(\bar{\theta})$ on the benchmark
+entry $\beta_i$.  At a moment in the system, we could then have a set of evaluations
+$\Delta(\sigma, \bar{\theta_1}, \beta_0), \dots \Delta(\sigma, \bar{\theta_k}, \beta_n)$. If the service $\sigma$
+ requests for the best local configuration, this will cause an exploitation notification. Such a notification will
+start a data exploitation algorithms that will return the best local configuration that could be derived from
 $\Delta(\sigma, \bar{\theta_1}, \beta_0), \dots \Delta(\sigma, \bar{\theta_k}, \beta_n)$.
 
-In the above scenario, we presented exploration and exploitation notifications as being caused by a project submission or a cloud-service 
+In the above scenario, we presented exploration and exploitation notifications as being caused by a project submission or a cloud-service
 request. In QTuning, there are other situations where these notifications are launched; but, this is not discussed in this paper.
-Data exploration algorithms are naturally embarassingly parallel. It suffices to concurrently evaluate 
-the $\Delta(\sigma, \bar{\theta_u}, \beta_i)$. The challenging question that this observation leads to is the 
-one of deciding on the resource set to assign to  exploration. Indeed, the more we have resources for exploration 
-the more we can expect to minimize the regret. Nonetheless, we must not forget that $\sigma$ must also service 
-user requests and for this, will need computing resources. In its current implementation, QTuning only uses 
-idle resources for exploration. In addition, the exploration could be interrupted at anytime if a user 
-request is to be processed. Finally, a subset of resource is permanently allocated for data exploitation algorithms. 
+Data exploration algorithms are naturally embarassingly parallel. It suffices to concurrently evaluate
+the $\Delta(\sigma, \bar{\theta_u}, \beta_i)$. The challenging question that this observation leads to is the
+one of deciding on the resource set to assign to  exploration. Indeed, the more we have resources for exploration
+the more we can expect to minimize the regret. Nonetheless, we must not forget that $\sigma$ must also service
+user requests and for this, will need computing resources. In its current implementation, QTuning only uses
+idle resources for exploration. In addition, the exploration could be interrupted at anytime if a user
+request is to be processed. Finally, a subset of resource is permanently allocated for data exploitation algorithms.
 
 In Algorithm~\ref{alg0}, we summarize the functioning of the active learning framework.
 
-	\begin{algorithm}                    
-	\caption{\scriptsize Active Learning framework} 	\label{alg0}  
+	\begin{algorithm}
+	\caption{\scriptsize Active Learning framework} 	\label{alg0}
 	\begin{algorithmic}[1]
 	\scriptsize
         \WHILE{ true}
@@ -706,13 +699,13 @@ In Algorithm~\ref{alg0}, we summarize the functioning of the active learning fra
         \FORALLP{ $j$ in $\{1,\dots,max_J-cur_J\}$ }
 	\STATE Query an Oracle $O$ on the next configuration point $(\bar{\theta}, B)$ to evaluate
 	\STATE Submit an exploration job for $(\bar{\theta}, \beta)$ to the RMS
-        \STATE Wait for result 
+        \STATE Wait for result
         \STATE Process and save the performance $\Delta(\sigma, \bar{\theta}, \beta)$ in the database
         \ENDFOR
 	\ENDWHILE
 	\STATE {\bf ON\_EXPLOITATION\_NOTIFICATION (e):}
         \STATE Retrieve the identifier $pid$ of the corresponding tuning project from $e$
-	\STATE Load the performance data $\Delta(\sigma, \bar{\theta_1}, \beta_0), \dots 
+	\STATE Load the performance data $\Delta(\sigma, \bar{\theta_1}, \beta_0), \dots
 \Delta(\sigma, \bar{\theta_k}, \beta_n)$ of $pid$ from the database
 	\STATE Process the analytic request formulated in $e$.
         \STATE return the result
@@ -721,28 +714,28 @@ In Algorithm~\ref{alg0}, we summarize the functioning of the active learning fra
 	\end{algorithm}
 	\normalsize
 
-Algorithm~\ref{alg0} gives a simplified view of what is actually implemented. For instance,  
+Algorithm~\ref{alg0} gives a simplified view of what is actually implemented. For instance,
 in the exploration phase, it does not handle the fact that QTuning actually manages several distinct tuning projects.
-Another limitation is that the execution of an exploration job could fail and this is supported in QTuning. 
-However the presented view is enough for understanding the main principle of data exploration. 
-On data exploitation, let us notice that until now, we mainly focused on a vision where exploitation 
-consisted in retrieving the best local configuration. However, QTuning has a larger view. The idea is to process 
-analytic requests that can consist in computing the standard deviation observed in a configuration or the 
-percentage of the search space that was explored on a configuration. As for exploration, the exploitation 
-scheme gives a simplified view of what is implemented. For example, QTuning generally anticipates requests 
-on analytic results in computing them before (at line 10). 
+Another limitation is that the execution of an exploration job could fail and this is supported in QTuning.
+However the presented view is enough for understanding the main principle of data exploration.
+On data exploitation, let us notice that until now, we mainly focused on a vision where exploitation
+consisted in retrieving the best local configuration. However, QTuning has a larger view. The idea is to process
+analytic requests that can consist in computing the standard deviation observed in a configuration or the
+percentage of the search space that was explored on a configuration. As for exploration, the exploitation
+scheme gives a simplified view of what is implemented. For example, QTuning generally anticipates requests
+on analytic results in computing them before (at line 10).
 
-It might not be clear why we used the term active learning when considering the literature on the concept. 
-Indeed, we can relate our framework to active learning algorithms studied in 
-classification as follows. The {\it configuration points} ($(\bar{\theta}, \beta)$) for 
-which  $\Delta(\sigma, \bar{\theta}, \beta)$ are our labelled data. The points without such an estimation 
-are our unlabelled data. The best configuration is the classifier we are building. The objective  
-in querying the oracle $O$ is to state the {\it most important configuration point} that could serve for finding a 
-configuration, close to the best one. Finally, as other active learning systems~\cite{Chu:2011:UOA:2020408.2020444}, 
-we are motivated by the potential huge training time (estimation of $\Delta(\sigma, \bar{\theta}, \beta)$) and  
-data to process. 
+It might not be clear why we used the term active learning when considering the literature on the concept.
+Indeed, we can relate our framework to active learning algorithms studied in
+classification as follows. The {\it configuration points} ($(\bar{\theta}, \beta)$) for
+which  $\Delta(\sigma, \bar{\theta}, \beta)$ are our labelled data. The points without such an estimation
+are our unlabelled data. The best configuration is the classifier we are building. The objective
+in querying the oracle $O$ is to state the {\it most important configuration point} that could serve for finding a
+configuration, close to the best one. Finally, as other active learning systems~\cite{Chu:2011:UOA:2020408.2020444},
+we are motivated by the potential huge training time (estimation of $\Delta(\sigma, \bar{\theta}, \beta)$) and
+data to process.
 
-We end here the general presentation of the QTuning framework. In the next sections, we will 
+We end here the general presentation of the QTuning framework. In the next sections, we will
 discuss in more details about data exploration and exploitation algorithms.
 
 
@@ -770,11 +763,11 @@ cumulate the estimation made on a configurations and compare with the
 best result already found.  This process is detailed in
 Algorithm~\ref{alg1}.
 
-	\begin{algorithm}                    
-	\caption{\scriptsize Lexicograpic Result Update } 	\label{alg1}  
+	\begin{algorithm}
+	\caption{\scriptsize Lexicograpic Result Update } 	\label{alg1}
 	\begin{algorithmic}[1]
 	\scriptsize
-        \STATE {\bf INPUT:} A new result  $\Delta(\sigma, \bar{\theta_i}, \beta_j)$, 
+        \STATE {\bf INPUT:} A new result  $\Delta(\sigma, \bar{\theta_i}, \beta_j)$,
          $\theta^o$ is the best local configuration and $\Delta(\theta^o)$ is its runtime on $B$.
         \STATE Add $\Delta(\sigma, \bar{\theta_i}, \beta_j)$ to $\Delta(\theta_i)$
 	\IF{$\Delta(\theta_i) > \Delta(\theta^o)$ }
@@ -807,8 +800,8 @@ lexicographic exploration could serve to quickly discover the best
 configuration. But, this assumption is weak. Good configurations could
 be located {\it anywhere} in $D$. It is the {\it potential random
   distribution} of such points that the {\it Rand} oracle exploits.
- 
-\subsubsection{ Random configuration choice and depth first search.} 
+
+\subsubsection{ Random configuration choice and depth first search.}
 
 As the lexicographic oracle, the random oracle is based on
 ordering. In particular, it completely processes points of a
@@ -827,7 +820,7 @@ challenging question is to decide on the ordering of the first
 benchmark entries to evaluate.  For example, must we start by the
 point $(\theta_i, \beta_0)$ or by the point $(\theta_i, \beta_1)$?
 
-\subsubsection{Hard and soft instances.} 
+\subsubsection{Hard and soft instances.}
 
 For deciding on the first benchmark entry to evaluate, we use an
 observation made on NP-hard problems.  The idea is that instances of
@@ -859,15 +852,15 @@ $B_{soft}$.  This is discussed in the next subsection.
 	\input{./Figures/Search.tex}
 	%}
 	\caption{Lexicographic, random and random oracle with wisdom.
-        {\it Lex} explores the search space in the lexicographic order. {\it Rand}  and {\it RandW} 
-        randomly choose the next configuration. {\it RandW} differs from {\it Rand} on the fact that 
+        {\it Lex} explores the search space in the lexicographic order. {\it Rand}  and {\it RandW}
+        randomly choose the next configuration. {\it RandW} differs from {\it Rand} on the fact that
         it extracts information from configurations that were partially explored.}
 	\label{fig:Search}
 	\end{center}
 	\end{figure}
 
 
-\subsubsection{A similarity approach for finding hard instances.}  
+\subsubsection{A similarity approach for finding hard instances.}
 
 The main assumption we made for detecting hard instances is that their
 {\it runtime will look similar on the configurations we processed}.
@@ -934,7 +927,7 @@ considering hard instances before soft ones. The question is: how to
 build $B_{hard^+}$?
 
 
-\subsubsection{Computation of hard instances as a subset intersection problem.} 
+\subsubsection{Computation of hard instances as a subset intersection problem.}
 
 We propose to consider $B_{hard^+}$ as the set of benchmark entries
 for which there is a maximal number of losing configurations that were
@@ -986,8 +979,8 @@ intersection that cannot evolve. Using this idea, we propose in
 Algorithm~\ref{alg4} a greedy solution for building the $B_{hard^+}$
 set.
 
-	\begin{algorithm}                    
-	\caption{\scriptsize RandW Hard instance selection (RandW-HIS)} 	\label{alg4}  
+	\begin{algorithm}
+	\caption{\scriptsize RandW Hard instance selection (RandW-HIS)} 	\label{alg4}
 	\begin{algorithmic}[1]
 	\scriptsize
 	\FOR{$\beta \in \Theta_2(t)$}
@@ -1012,11 +1005,11 @@ set.
 \section{Experimental evaluation} \label{Proof-of-concept}
 
 \subsection{Settings}
-In considering the architecture of Figure~\ref{fig:QTuning}, we simulated the behavior of 
-the active learning framework in a setting where given a tuning project pushed at date $0$,  
-{\it service.d} requested a new configuration to {\it QTunind.d} every $d$ seconds. 
-We assume that between these $d$ seconds, the active learning framework was able to launch exploration 
-jobs and get the results on $p$ configuration points. For obtaining the $p$ points, the framework 
+In considering the architecture of Figure~\ref{fig:QTuning}, we simulated the behavior of
+the active learning framework in a setting where given a tuning project pushed at date $0$,
+{\it service.d} requested a new configuration to {\it QTunind.d} every $d$ seconds.
+We assume that between these $d$ seconds, the active learning framework was able to launch exploration
+jobs and get the results on $p$ configuration points. For obtaining the $p$ points, the framework
 could have used the oracles above.
 \begin{itemize}
 \item {\it lex:} it corresponds to the {\it Lex} oracle.
@@ -1027,23 +1020,23 @@ could have used the oracles above.
 \item {\it rand\_w\_noh:} the {\it RandW} oracle; but we choose $B_{hard}$ randomly instead of using the $2$-Means clustering.
 \end{itemize}
 
-For evaluating the oracles, we assumed three tuning projects based on the data of an international SAT 
-competition~\footnote{http://satcompetition.org/edacc/SATCompetition2013/}. In this competition, various 
-solvers are evaluated on instances of the NP-hard problem SAT. The benchmark 
-instances $B$ and the configurations $\Theta$ of each tuning project are associated 
-with a sub-competition. In each sub-competition, we fixed the values $\Delta(\sigma, \bar{\theta_i}, \beta_j)$ as the 
-runtime of a SAT solver on a benchmark instance. Let us notice that all these runtime are available 
-in the competition web site. Finally, the chosen sub-competitions are: Core solvers sequential on random satisfiable+unsatisfiable instances (c-SAT+UNSAT), Core solvers sequential on satisfiable instances (c-SAT) and  Core solvers sequential on hard satisfiable+unsatisfiable instances (c-SAT+UNSAT|Hard). 
+For evaluating the oracles, we assumed three tuning projects based on the data of an international SAT
+competition~\footnote{http://satcompetition.org/edacc/SATCompetition2013/}. In this competition, various
+solvers are evaluated on instances of the NP-hard problem SAT. The benchmark
+instances $B$ and the configurations $\Theta$ of each tuning project are associated
+with a sub-competition. In each sub-competition, we fixed the values $\Delta(\sigma, \bar{\theta_i}, \beta_j)$ as the
+runtime of a SAT solver on a benchmark instance. Let us notice that all these runtime are available
+in the competition web site. Finally, the chosen sub-competitions are: Core solvers sequential on random satisfiable+unsatisfiable instances (c-SAT+UNSAT), Core solvers sequential on satisfiable instances (c-SAT) and  Core solvers sequential on hard satisfiable+unsatisfiable instances (c-SAT+UNSAT|Hard).
 
 \subsection{Experimental plan}
 
-We did $7$ series of experiments. In each, we computed the regret of the active learning framewok for each 
-of the oracles in a discrete windows of time $t_0,\dots ,t_n$. 
-For the first $3$ experiments, all oracles were evaluated assuming data of three sub-competitions. The 
-evaluation for each competition included $300$ sub-evaluations, were we changed the ordering of instances $B$ and 
-configurations $\Theta$.  The objective in these first experiments was to find the best oracle. In experiment $4$, we 
-compared variants of the {\it Randw} with different values of  $K(t)$. Finally, in experiments, 
-$5$, $6$ and $7$, we compared all the oracles when the values of $p$ are changed. The experiments plan 
+We did $7$ series of experiments. In each, we computed the regret of the active learning framewok for each
+of the oracles in a discrete windows of time $t_0,\dots ,t_n$.
+For the first $3$ experiments, all oracles were evaluated assuming data of three sub-competitions. The
+evaluation for each competition included $300$ sub-evaluations, were we changed the ordering of instances $B$ and
+configurations $\Theta$.  The objective in these first experiments was to find the best oracle. In experiment $4$, we
+compared variants of the {\it Randw} with different values of  $K(t)$. Finally, in experiments,
+$5$, $6$ and $7$, we compared all the oracles when the values of $p$ are changed. The experiments plan
 are summarized in Table~\ref{tab:plan}
 
 \begin{table}
@@ -1060,7 +1053,7 @@ are summarized in Table~\ref{tab:plan}
   \end{tabular}
   \caption{Experimental plan}
   \label{tab:plan}
-  \end{center} 
+  \end{center}
 \end{table}
 
 
@@ -1068,24 +1061,24 @@ are summarized in Table~\ref{tab:plan}
 
 \subsection{Experimental results and analysis}
 
-In Figure~\ref{fig:regret}, we present the mean regret we obtained. The first lesson we learn is that 
-on {\small Exp.1, Exp.2, Exp.3}, the best oracle is {\it rand\_desc\_sort}  and the worst is {\it lex}. 
-Indeed, this oracle leads to the minimal regret within the time. In the plots in Figure~\ref{fig:regret}, 
-one can notice that the regret starts to grow quiclky and then stabilizes. This is normal since within 
-the time, we are approaching the optimal solution. 
-These first experiments confirm two noticeable points: the interest of randomization 
-for regret minimization ({\it lex} is the worst oracle) and the interest in processing instances with hard ones 
-before soft ones instances. 
+In Figure~\ref{fig:regret}, we present the mean regret we obtained. The first lesson we learn is that
+on {\small Exp.1, Exp.2, Exp.3}, the best oracle is {\it rand\_desc\_sort}  and the worst is {\it lex}.
+Indeed, this oracle leads to the minimal regret within the time. In the plots in Figure~\ref{fig:regret},
+one can notice that the regret starts to grow quiclky and then stabilizes. This is normal since within
+the time, we are approaching the optimal solution.
+These first experiments confirm two noticeable points: the interest of randomization
+for regret minimization ({\it lex} is the worst oracle) and the interest in processing instances with hard ones
+before soft ones instances.
 
-The oracle {\it rand\_desc\_sort} was either followed by {\it rand}, or by {\it rand\_w} and its variant. 
-This means that there is an interest in using the wisdom of the loser. Since in the first experiments, 
-we set $K(t)$ to $10$, a question was then to see whether or not we could obtain better 
-results for {\it wisdom of loser oracles} in changing the $K(t)$.  The answer for this question is yes. 
-As shown in {\small Exp.4} there is an effective 
-performance variation when $K(t)$ is changed. Consequently, for further work it is interesting to invest on how to 
-decide the best value of $K(t)$. Finally, in the figures~\ref{fig:regret}(e-f), we present what we obtained in changing 
-the number of configuration points that we processed between the $d$ seconds. The results confirm the trend we observed 
-in the three first experiments. 
+The oracle {\it rand\_desc\_sort} was either followed by {\it rand}, or by {\it rand\_w} and its variant.
+This means that there is an interest in using the wisdom of the loser. Since in the first experiments,
+we set $K(t)$ to $10$, a question was then to see whether or not we could obtain better
+results for {\it wisdom of loser oracles} in changing the $K(t)$.  The answer for this question is yes.
+As shown in {\small Exp.4} there is an effective
+performance variation when $K(t)$ is changed. Consequently, for further work it is interesting to invest on how to
+decide the best value of $K(t)$. Finally, in the figures~\ref{fig:regret}(e-f), we present what we obtained in changing
+the number of configuration points that we processed between the $d$ seconds. The results confirm the trend we observed
+in the three first experiments.
 
 
 \begin{figure*}[ht]
@@ -1121,22 +1114,22 @@ in the three first experiments.
 
 \section{Conclusion} \label{Conclusion}
 
-In this paper, we introduced a new automatic tuning system for NP-hard algorithms in a cloud 
-context. The proposed system is based on an active learning framework where we continuously 
-learn the best configuration while servicing cloud requests with the best local results found. 
-We proposed a naive oracle for the learning process and several  
- improvements based on randomization, k-means clustering and the resolution of a set intersection problem. 
-We then simulate the performance of our oracles based on runtime of algorithms solving the satisfiability 
-problem. The experiments clearly demonstrated that our improved oracles are better in the practice. 
-They also reveal the dominance of some oracles. 
+In this paper, we introduced a new automatic tuning system for NP-hard algorithms in a cloud
+context. The proposed system is based on an active learning framework where we continuously
+learn the best configuration while servicing cloud requests with the best local results found.
+We proposed a naive oracle for the learning process and several
+ improvements based on randomization, k-means clustering and the resolution of a set intersection problem.
+We then simulate the performance of our oracles based on runtime of algorithms solving the satisfiability
+problem. The experiments clearly demonstrated that our improved oracles are better in the practice.
+They also reveal the dominance of some oracles.
 
-For continuing this work, we envision three main perspectives. The first one is to combine the different 
-oracles in a general active learning framework. Here, we could 
-use for example multi-armed bandit models. Our second perspective is to refine the classification of hard 
-instances such as to define better techniques for ordering configuration points. Indeed, the experiments showed  
-that the usage of sorting or the wisdom of the losers can improve the {\it Rand} oracle. Finally, we intend 
-to define {\it filling techniques} such as to predict the value of configuration points with few processing. 
-We do believe that given an instance, from the trace execution of a set of configurations on it,  we can estimate the runtime 
+For continuing this work, we envision three main perspectives. The first one is to combine the different
+oracles in a general active learning framework. Here, we could
+use for example multi-armed bandit models. Our second perspective is to refine the classification of hard
+instances such as to define better techniques for ordering configuration points. Indeed, the experiments showed
+that the usage of sorting or the wisdom of the losers can improve the {\it Rand} oracle. Finally, we intend
+to define {\it filling techniques} such as to predict the value of configuration points with few processing.
+We do believe that given an instance, from the trace execution of a set of configurations on it,  we can estimate the runtime
 it will have on new configuration.
 
 \bibliographystyle{./IEEEtran}
