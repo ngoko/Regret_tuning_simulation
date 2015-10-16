@@ -502,20 +502,17 @@ improving a system via monitoring and/or supervised learning, we consider
 that we can leverage some additional computing power to search for the best 
 parameters.
 
-Search strategies for building models are adressed by the
-active learning~\cite{DBLP:series/synthesis/2012Settles} litterature.
-Previous work studies automatic tuning under the lens of active learning
-~\cite{DBLP:conf/cluster/BalaprakashGW13}. In this work, the authors build a
-surrogate model that can predict the runtime and power consumption of various
-software conditioned by parameter values.
+Search strategies for building models are adressed by the active
+learning~\cite{DBLP:series/synthesis/2012Settles} litterature.  Previous
+work~\cite{DBLP:conf/cluster/BalaprakashGW13} uses active learning to build a
+surrogate model for runtime and power consumption prediction conditioned on
+parameter values.
 
-However, this work does not adress the question of selecting the best
-parameters for a given problem instance. In particular, when tuning the
-parameters of a heuristic solver for a NP-Hard problem, the best values may
-vary from one problem instance to another, as illustrated by the powerful SAT
-solving systems SATZilla~\cite{xu2008satzilla}. One limitation of this system
-is that it is problem specific, as it requires the use of a vector of features
-describing the specific problem instance.
+However, when tuning the parameters of a heuristic solver for a NP-Hard
+problem, the best values may vary from one problem instance to another, as
+illustrated by the powerful SAT solving systems SATZilla~\cite{xu2008satzilla}.
+Contrary to QTuning, this system is is problem specific, as it requires
+the use of a vector of features describing the specific problem instance.
 
 One line of research that fits more closely into our direction is Active
 Collaborative Filtering~\cite{DBLP:journals/corr/abs-1212-2442} (ACF) where a
