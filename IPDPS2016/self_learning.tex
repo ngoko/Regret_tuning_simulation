@@ -526,11 +526,10 @@ problem class as a whole would be preferable.
 
 One line of research that fits closely into our direction is Active
 Collaborative Filtering~\cite{DBLP:journals/corr/abs-1212-2442} (ACF) , where a
-learning system tries to find the ratings (here, the runtimes) users(here,
+learning system tries to find the ratings (in our case, the runtimes) users(
 problem instances) would give to products based on other users ratings. In ACF,
-the learning system is allowed to ask about user's ratings. However, this work
-does not focus on producing the best possible rating for a given new user
-(producing the best parameters for a given problem instance), but rather
+the learning system can ask about user's ratings. However, this work
+does not focus on producing the best rated item for a given new user, and rather
 optimizes a loss on the whole model.
 
 Finally, let us recall that one of the earlier general automatic tuning systems
