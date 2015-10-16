@@ -241,17 +241,17 @@ basicstyle=\scriptsize,
 % affiliations
 
 \author{\IEEEauthorblockN{Yanik Ngoko}
-\IEEEauthorblockA{Qarnot Computing and University of Paris 13\\
+\IEEEauthorblockA{Qarnot Computing and LIPN, University of Paris 13\\
 Paris, France\\
 yanik.ngoko@qarnot-computing.com}
 \and
 \IEEEauthorblockN{Denis Trystram, Valentin Reis}
-\IEEEauthorblockA{University Grenoble Alpes\\
+\IEEEauthorblockA{LIG, University Grenoble Alpes\\
 Grenoble, France\\
 denis.trystram@imag.fr}
 \and
 \IEEEauthorblockN{Christophe C\'erin}
-\IEEEauthorblockA{University of Paris 13\\
+\IEEEauthorblockA{LIPN, University of Paris 13\\
 Paris, France\\
 christophe.cerin@lipn.univ-paris13.fr}
 

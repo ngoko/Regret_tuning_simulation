@@ -74,7 +74,7 @@
 % setfont left to latex
 \definecolor{dialinecolor}{rgb}{0.000000, 0.000000, 0.000000}
 \pgfsetstrokecolor{dialinecolor}
-\node[anchor=west] at (36.965000\du,20.117500\du){Cloud-services};
+\node[anchor=west] at (36.965000\du,20.167500\du){Cloud-services};
 \pgfsetlinewidth{0.100000\du}
 \pgfsetdash{}{0pt}
 \pgfsetdash{}{0pt}
